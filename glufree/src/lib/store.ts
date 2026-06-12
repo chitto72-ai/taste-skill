@@ -8,9 +8,12 @@ import seed from "@/data/seed-places.json";
  * self-hosting su un singolo nodo. Per il deploy serverless sostituire
  * con un database (vedi README).
  */
-// Su Vercel/serverless il filesystem del progetto è in sola lettura: si scrive in /tmp
+// Su Vercel/Netlify/serverless il filesystem del progetto è in sola lettura: si scrive in /tmp
 // (persistenza effimera, sufficiente per la demo; per produzione vedi README → database)
-const DATA_DIR = process.env.VERCEL
+const IS_SERVERLESS = Boolean(
+  process.env.VERCEL || process.env.NETLIFY || process.env.AWS_LAMBDA_FUNCTION_NAME
+);
+const DATA_DIR = IS_SERVERLESS
   ? path.join("/tmp", "glufree-data")
   : path.join(process.cwd(), ".data");
 const SUBMISSIONS_FILE = path.join(DATA_DIR, "submissions.json");

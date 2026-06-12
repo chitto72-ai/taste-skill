@@ -1,0 +1,31 @@
+{
+  "name": "Glufree — Mappa gluten free",
+  "short_name": "Glufree",
+  "description": "La mappa interattiva dei locali dove mangiare senza glutine in sicurezza.",
+  "id": "/",
+  "start_url": "/mappa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFF7ED",
+  "theme_color": "#EA580C",
+  "lang": "it",
+  "categories": ["food", "health", "travel"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Apri la mappa",
+      "url": "/mappa",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Registra il tuo locale",
+      "url": "/registra-locale",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

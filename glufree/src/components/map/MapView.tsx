@@ -100,7 +100,7 @@ export default function MapView({
       <TileLayer
         className="glufree-tiles"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-        url="https://{s}.basemap.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png"
+        url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png"
       />
       <FitToPlaces places={places} enabled={fitResults} />
       <FlyTo target={flyTarget} />

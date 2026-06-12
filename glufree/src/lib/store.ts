@@ -8,7 +8,11 @@ import seed from "@/data/seed-places.json";
  * self-hosting su un singolo nodo. Per il deploy serverless sostituire
  * con un database (vedi README).
  */
-const DATA_DIR = path.join(process.cwd(), ".data");
+// Su Vercel/serverless il filesystem del progetto è in sola lettura: si scrive in /tmp
+// (persistenza effimera, sufficiente per la demo; per produzione vedi README → database)
+const DATA_DIR = process.env.VERCEL
+  ? path.join("/tmp", "glufree-data")
+  : path.join(process.cwd(), ".data");
 const SUBMISSIONS_FILE = path.join(DATA_DIR, "submissions.json");
 const APPROVED_FILE = path.join(DATA_DIR, "approved-places.json");
 

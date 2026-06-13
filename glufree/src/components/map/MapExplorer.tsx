@@ -46,7 +46,9 @@ const LEVEL_FILTERS = [
 ] as const;
 
 export default function MapExplorer() {
-  const [query, setQuery] = useState("");
+  // Ricerca iniziale da ?q= (link condivisi e SearchAction di Google)
+  const initialQuery = useSearchParams().get("q") ?? "";
+  const [query, setQuery] = useState(initialQuery);
   const [category, setCategory] = useState("");
   const [level, setLevel] = useState("");
   const [places, setPlaces] = useState<Place[]>([]);
@@ -56,8 +58,9 @@ export default function MapExplorer() {
   const [locating, setLocating] = useState(false);
   const [mobileView, setMobileView] = useState<"map" | "list">("map");
   const [filtersOpen, setFiltersOpen] = useState(false);
-  // La vista parte centrata sull'Italia; si adatta ai risultati solo dopo una ricerca
-  const [fitResults, setFitResults] = useState(false);
+  // La vista parte centrata sull'Italia; si adatta ai risultati dopo una ricerca
+  // (subito, se si arriva con un termine di ricerca nell'URL)
+  const [fitResults, setFitResults] = useState(Boolean(initialQuery));
   const abortRef = useRef<AbortController | null>(null);
 
   // Deep link: /mappa?locale=<id> apre direttamente la scheda del locale condiviso

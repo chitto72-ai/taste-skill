@@ -33,12 +33,38 @@ export const metadata: Metadata = {
     statusBarStyle: "default",
     title: "Glufree",
   },
+  keywords: [
+    "gluten free",
+    "senza glutine",
+    "celiachia",
+    "ristoranti gluten free",
+    "mappa gluten free",
+    "pizzeria senza glutine",
+    "AIC",
+    "dove mangiare senza glutine",
+  ],
   openGraph: {
     title: "Glufree — La mappa dei locali gluten free",
     description:
       "La mappa interattiva dei luoghi dove mangiare senza glutine in sicurezza.",
     type: "website",
     locale: "it_IT",
+    siteName: "Glufree",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Glufree — la mappa dei locali gluten free",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Glufree — La mappa dei locali gluten free",
+    description:
+      "Ristoranti, pizzerie e dolci senza glutine nel mondo, su una mappa interattiva.",
+    images: ["/og-image.png"],
   },
 };
 

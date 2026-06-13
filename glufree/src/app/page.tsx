@@ -14,6 +14,30 @@ import {
 import seed from "@/data/seed-places.json";
 import { InviteActions } from "@/components/ShareButton";
 
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://glufree-app.netlify.app";
+
+const orgJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Glufree",
+  url: BASE,
+  description:
+    "La mappa interattiva dei locali gluten free nel mondo: ristoranti, pizzerie, pasticcerie e gelaterie verificate.",
+  logo: `${BASE}/icons/icon-512.png`,
+};
+
+const siteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Glufree",
+  url: BASE,
+  potentialAction: {
+    "@type": "SearchAction",
+    target: { "@type": "EntryPoint", urlTemplate: `${BASE}/mappa?q={search_term_string}` },
+    "query-input": "required name=search_term_string",
+  },
+};
+
 const stats = [
   { value: String(seed.length) + "+", label: "Locali in mappa" },
   { value: String(new Set(seed.map((p) => p.city)).size), label: "Città nel mondo" },
@@ -65,6 +89,14 @@ const badges = [
 export default function HomePage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
+      />
       {/* ---------- Hero ---------- */}
       <section className="relative overflow-hidden">
         <div

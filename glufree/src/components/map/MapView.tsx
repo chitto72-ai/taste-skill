@@ -92,15 +92,24 @@ export default function MapView({
     <MapContainer
       center={[42.5, 12.5]}
       zoom={6}
-      minZoom={4}
+      minZoom={2}
       className="h-full w-full"
       zoomControl={false}
       attributionControl
+      // Blocca la navigazione a un'unica copia del mondo: senza questo, scorrendo
+      // oltre i bordi si finisce su una copia duplicata dove i marker non esistono.
+      maxBounds={[
+        [-85, -180],
+        [85, 180],
+      ]}
+      maxBoundsViscosity={1}
+      worldCopyJump={false}
     >
       <TileLayer
         className="glufree-tiles"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
         url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png"
+        noWrap
       />
       <FitToPlaces places={places} enabled={fitResults} />
       <FlyTo target={flyTarget} />

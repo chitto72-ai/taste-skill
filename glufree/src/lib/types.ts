@@ -21,6 +21,8 @@ export interface Place {
   lng: number;
   address: string;
   city: string;
+  /** Paese in italiano; assente o "Italia" per i locali italiani */
+  country?: string;
   rating: number;
   reviews: number;
   priceLevel: 1 | 2 | 3 | 4;
@@ -58,4 +60,6 @@ export interface OwnerSubmission {
     note: string;
     fileName?: string;
   };
+  /** Codice invito (?invito=...) con cui il ristoratore è arrivato */
+  referral?: string;
 }

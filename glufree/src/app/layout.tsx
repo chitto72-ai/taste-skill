@@ -17,6 +17,9 @@ const body = Karla({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://glufree-app.netlify.app"
+  ),
   title: {
     default: "Glufree — La mappa dei locali gluten free",
     template: "%s · Glufree",
@@ -51,6 +54,10 @@ export default function RootLayout({
   return (
     <html lang="it" className={`${display.variable} ${body.variable}`}>
       <body className="min-h-dvh flex flex-col">
+        {/* React solleva questi link nell'head: meno latenza al primo caricamento delle tile */}
+        <link rel="preconnect" href="https://a.basemaps.cartocdn.com" />
+        <link rel="preconnect" href="https://b.basemaps.cartocdn.com" />
+        <link rel="preconnect" href="https://c.basemaps.cartocdn.com" />
         <Navbar />
         <main className="flex-1 flex flex-col">{children}</main>
         <PwaRegister />

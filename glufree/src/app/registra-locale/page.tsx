@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import RegisterWizard from "@/components/RegisterWizard";
 
 export const metadata: Metadata = {
@@ -19,7 +20,9 @@ export default function RegisterPage() {
           che rende la nostra mappa affidabile: per questo è gratuita.
         </p>
       </div>
-      <RegisterWizard />
+      <Suspense>
+        <RegisterWizard />
+      </Suspense>
     </div>
   );
 }

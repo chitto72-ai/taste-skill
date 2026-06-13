@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
 
   if (q) {
     places = places.filter((p) =>
-      [p.name, p.city, p.address, p.description, p.category]
+      [p.name, p.city, p.country ?? "", p.address, p.description, p.category]
         .join(" ")
         .toLowerCase()
         .includes(q)

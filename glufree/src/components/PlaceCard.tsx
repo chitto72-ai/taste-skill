@@ -1,6 +1,7 @@
 "use client";
 
 import { MapPin, Star, Phone, Globe, Navigation } from "lucide-react";
+import ShareButton from "@/components/ShareButton";
 import type { Place } from "@/lib/types";
 import { LevelBadge, VerificationBadge } from "./VerifiedBadge";
 import { distanceKm, formatDistance } from "@/lib/geo";
@@ -80,6 +81,7 @@ export default function PlaceCard({
         <MapPin className="h-4 w-4 shrink-0 text-slate-400" aria-hidden />
         <span className="truncate">
           {place.address}, {place.city}
+          {place.country && place.country !== "Italia" ? ` · ${place.country}` : ""}
         </span>
         {distance && (
           <span className="ml-auto shrink-0 font-bold text-accent">{distance}</span>
@@ -127,6 +129,11 @@ export default function PlaceCard({
                 Sito web
               </a>
             )}
+            <ShareButton
+              title={`${place.name} · Glufree`}
+              text={`${place.name} (${place.city}): ${categoryLabel(place.category)} gluten free trovato su Glufree 🌾🚫`}
+              path={`/mappa?locale=${encodeURIComponent(place.id)}`}
+            />
           </div>
         </>
       )}

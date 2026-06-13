@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { InviteActions } from "@/components/ShareButton";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Store,
@@ -92,6 +94,7 @@ const initialState: FormState = {
 };
 
 export default function RegisterWizard() {
+  const referral = useSearchParams().get("invito");
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<FormState>(initialState);
   const [errors, setErrors] = useState<string[]>([]);
@@ -152,6 +155,7 @@ export default function RegisterWizard() {
             note: form.proofNote,
             fileName: form.proofFileName || undefined,
           },
+          referral: referral || undefined,
         }),
       });
       const data = await res.json();
@@ -190,12 +194,31 @@ export default function RegisterWizard() {
           <Map className="h-5 w-5" aria-hidden />
           Torna alla mappa
         </Link>
+        <div className="mt-10 rounded-2xl bg-muted p-6 text-left">
+          <p className="font-display text-lg font-bold text-ink">
+            Conosci altri ristoratori gluten free?
+          </p>
+          <p className="mb-4 mt-1 text-sm text-slate-600">
+            Invitali su Glufree: più locali verificati = più clienti per tutti.
+          </p>
+          <InviteActions
+            message="Anch'io ho registrato il mio locale su Glufree, la mappa dei ristoranti gluten free: registrati gratis e ottieni il badge verificato. 🌾🚫"
+            path="/registra-locale?invito=ristoratore"
+            emailSubject="Porta il tuo locale sulla mappa gluten free di Glufree"
+          />
+        </div>
       </div>
     );
   }
 
   return (
     <div className="mx-auto max-w-2xl">
+      {referral && (
+        <p className="mb-6 rounded-2xl bg-safe-light px-5 py-4 text-center text-sm font-bold text-safe animate-fade-up">
+          🎉 Qualcuno pensa che il tuo locale meriti la mappa Glufree: completa la
+          registrazione gratuita per ottenere il badge verificato.
+        </p>
+      )}
       {/* Indicatore di avanzamento */}
       <ol className="mb-8 flex items-center gap-2" aria-label="Avanzamento registrazione">
         {STEPS.map((s, i) => {

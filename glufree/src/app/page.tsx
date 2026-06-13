@@ -12,13 +12,14 @@ import {
   Star,
 } from "lucide-react";
 import seed from "@/data/seed-places.json";
+import { InviteActions } from "@/components/ShareButton";
 
 const stats = [
   { value: String(seed.length) + "+", label: "Locali in mappa" },
-  { value: String(new Set(seed.map((p) => p.city)).size), label: "Città coperte" },
+  { value: String(new Set(seed.map((p) => p.city)).size), label: "Città nel mondo" },
   {
-    value: String(seed.filter((p) => p.verification === "verified").length),
-    label: "Locali verificati",
+    value: String(new Set(seed.map((p) => (p as { country?: string }).country ?? "Italia")).size),
+    label: "Paesi",
   },
 ];
 
@@ -161,12 +162,12 @@ export default function HomePage() {
               {/* Mini card flottante */}
               <div className="absolute inset-x-4 bottom-4 rounded-2xl border border-line bg-white/95 p-3 shadow-card backdrop-blur">
                 <p className="text-[10px] font-bold uppercase tracking-wider text-primary">
-                  Pizzeria
+                  Ristorante
                 </p>
-                <p className="font-display text-sm font-bold text-ink">Farina Zero · Milano</p>
+                <p className="font-display text-sm font-bold text-ink">Mama Eat · Milano</p>
                 <p className="mt-1 flex items-center gap-1 text-xs font-semibold text-slate-500">
                   <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" aria-hidden />
-                  4.8 ·
+                  4.5 ·
                   <span className="inline-flex items-center gap-0.5 text-safe">
                     <ShieldCheck className="h-3.5 w-3.5" aria-hidden /> 100% Gluten Free
                   </span>
@@ -229,6 +230,58 @@ export default function HomePage() {
                 <p className="mt-2 leading-relaxed text-slate-600">{badge.text}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- Passaparola / inviti ---------- */}
+      <section className="bg-white py-16 lg:py-24" aria-labelledby="passaparola">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <h2
+            id="passaparola"
+            className="font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl"
+          >
+            Più siamo, <span className="text-primary">più è sicuro</span> per tutti.
+          </h2>
+          <p className="mt-4 max-w-2xl text-lg text-slate-600">
+            Glufree cresce con il passaparola: invita chi mangia senza glutine e i
+            locali che meritano di essere sulla mappa.
+          </p>
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+            <div className="rounded-3xl border border-line bg-cream p-8">
+              <span className="grid h-14 w-14 place-items-center rounded-2xl bg-primary text-white shadow-pin">
+                <Users className="h-7 w-7" aria-hidden />
+              </span>
+              <h3 className="mt-6 font-display text-xl font-bold text-ink">
+                Invita un amico celiaco
+              </h3>
+              <p className="mb-6 mt-2 leading-relaxed text-slate-600">
+                Condividi la mappa con chi è sempre in cerca di un posto sicuro
+                dove mangiare.
+              </p>
+              <InviteActions
+                message="Ho trovato Glufree: la mappa dei locali gluten free verificati, anche vicino a te! 🌾🚫"
+                path="/mappa?invito=amico"
+                emailSubject="Ti consiglio Glufree: la mappa dei locali gluten free"
+              />
+            </div>
+            <div className="rounded-3xl border border-line bg-cream p-8">
+              <span className="grid h-14 w-14 place-items-center rounded-2xl bg-safe text-white">
+                <Store className="h-7 w-7" aria-hidden />
+              </span>
+              <h3 className="mt-6 font-display text-xl font-bold text-ink">
+                Invita il tuo locale preferito
+              </h3>
+              <p className="mb-6 mt-2 leading-relaxed text-slate-600">
+                Conosci un ristorante gluten free che non è in mappa? Mandagli
+                l&apos;invito: la registrazione è gratuita.
+              </p>
+              <InviteActions
+                message="Il tuo locale merita di essere su Glufree, la mappa dei ristoranti gluten free: registrati gratis e ottieni il badge verificato. 🌾🚫"
+                path="/registra-locale?invito=cliente"
+                emailSubject="Porta il tuo locale sulla mappa gluten free di Glufree"
+              />
+            </div>
           </div>
         </div>
       </section>

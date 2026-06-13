@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
+import { useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Search,
@@ -55,8 +56,25 @@ export default function MapExplorer() {
   const [locating, setLocating] = useState(false);
   const [mobileView, setMobileView] = useState<"map" | "list">("map");
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const [fitResults, setFitResults] = useState(true);
+  // La vista parte centrata sull'Italia; si adatta ai risultati solo dopo una ricerca
+  const [fitResults, setFitResults] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
+
+  // Deep link: /mappa?locale=<id> apre direttamente la scheda del locale condiviso
+  const searchParams = useSearchParams();
+  const deepLinkHandled = useRef(false);
+  useEffect(() => {
+    if (deepLinkHandled.current || places.length === 0) return;
+    const shared = searchParams.get("locale");
+    if (!shared) {
+      deepLinkHandled.current = true;
+      return;
+    }
+    if (places.some((p) => p.id === shared)) {
+      setSelectedId(shared);
+      deepLinkHandled.current = true;
+    }
+  }, [places, searchParams]);
 
   const fetchPlaces = useCallback(async () => {
     abortRef.current?.abort();

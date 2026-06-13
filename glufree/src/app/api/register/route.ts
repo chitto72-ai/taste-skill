@@ -40,6 +40,7 @@ export async function POST(req: NextRequest) {
     business: business as OwnerSubmission["business"],
     owner: owner as OwnerSubmission["owner"],
     proof: proof as OwnerSubmission["proof"],
+    referral: typeof body.referral === "string" ? body.referral.slice(0, 64) : undefined,
   };
 
   await saveSubmission(submission);

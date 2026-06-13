@@ -1,5 +1,5 @@
 /* Service worker Glufree: cache-first per gli asset, network-first per pagine e API. */
-const CACHE = "glufree-v1";
+const CACHE = "glufree-v2";
 const PRECACHE = ["/", "/mappa", "/registra-locale", "/manifest.webmanifest"];
 
 self.addEventListener("install", (event) => {

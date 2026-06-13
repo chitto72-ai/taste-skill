@@ -41,8 +41,11 @@ npm run build && npm start
 
 ## Dati da Google Maps
 
-Senza configurazione l'app usa il **dataset demo incluso** (20 locali in 10
-città italiane, dati illustrativi). Per i dati reali:
+Senza configurazione l'app usa il **dataset incluso**: locali gluten free
+reali in decine di città nel mondo, raccolti da fonti pubbliche (siti
+ufficiali, guide per celiaci, elenchi AIC) e contrassegnati come "segnalati
+dalla community" — orari, indirizzi e offerta vanno sempre verificati con il
+locale. Per i risultati live:
 
 1. Crea una chiave su [Google Cloud Console](https://console.cloud.google.com)
    e abilita **Places API (New)**
@@ -96,7 +99,7 @@ src/
 │   ├── RegisterWizard.tsx        # Form multi-step con validazione
 │   └── VerifiedBadge.tsx         # Badge livello + verifica
 ├── lib/                          # Tipi, Google Places, store JSON, geo
-└── data/seed-places.json         # Dataset demo (dati illustrativi)
+└── data/seed-places.json         # Dataset locali (fonti pubbliche, da verificare col locale)
 ```
 
 **Persistenza**: file JSON in `.data/` (zero dipendenze, perfetto per demo e

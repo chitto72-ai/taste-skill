@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Classé La Dogana Restaurant — Lecce</title>
-  <meta name="description" content="Classé La Dogana Restaurant — ristorante di pesce a Lecce. Crudi di mare, ostriche imperiali, sushi e cucina d'autore dello chef Ivan Tronci." />
+  <meta name="description" content="Classé Restaurant a Lecce: pesce fresco e crostacei vivi selezionati da Ittica De Mar, caviale Calvisius e Ars Italica, carni d'eccellenza, sushi e la carta dei vini più ampia del Salento." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -113,19 +113,57 @@
     })();
   </script>
 
-  <!-- Site data: factual details + assets -->
+  <!-- Site data: real details, links and media from classerestaurant.it -->
   <script type="text/babel">
+    const WP = "https://www.classerestaurant.it/wp-content/uploads";
+
     window.SITE = {
-      phone: "+39 320 937 6767",
+      phone: "+39 320 9376767",
       phoneHref: "tel:+393209376767",
-      address: "Viale della Libertà 93/b, 73100 Lecce",
-      mapsHref: "https://maps.google.com/?q=Viale+della+Libert%C3%A0+93b+73100+Lecce",
-      bookingHref: "https://www.thefork.com/restaurant/classe-la-dogana-restaurant-r808116",
+      whatsappHref: "https://wa.me/+393209376767",
+      email: "ladoganalecce@gmail.com",
+      emailHref: "mailto:ladoganalecce@gmail.com",
+      address: "Viale della Libertà, 93 — 73100 Lecce",
+      mapsHref:
+        "https://www.google.com/maps/dir//La+Dogana+Lecce+%E2%80%A2+Class%C3%A9+Restaurant+-+Ristorante+di+pesce,+Viale+della+libert%C3%A0,+Lecce,+LE/@40.3573389,18.1466067,13z/data=!4m8!4m7!1m0!1m5!1m1!1s0x13442fa1087e8565:0x86388b4a49e787b6!2m2!1d18.1878062!2d40.3572808?entry=ttu",
+      bookingHref: "https://www.classerestaurant.it/prenota-un-tavolo/",
+      deliverooHref: "https://deliveroo.it/it/menu/lecce/lecce/la-dogana-pasticceria-enoteca",
+      facebookHref: "https://www.facebook.com/ladoganalecce/",
+      instagramHref: "https://www.instagram.com/classeladoganalecce/",
       officialSite: "https://www.classerestaurant.it/",
+      wineListHref: "https://app.enoweb.com/carte/ladogana/896/it/",
+      pdf: {
+        menuIta: WP + "/2026/05/Menu-Classe-ITA-.pdf",
+        menuEng: WP + "/2026/05/Menu-Classe-ENG-.pdf",
+        sushi: WP + "/2026/05/Rocktech-Menu-Classe-Sushi-12-maggio-2026-V.3.pdf",
+        sushiAsporto: WP + "/2026/05/Rocktech-Menu-Classe-Sushi-Asporto-13-maggio-2026-V.1-RGB.pdf",
+        dessertIta: WP + "/2026/05/Rocktech-Menu-Classe-DESSERT-11-maggio-26-2.pdf",
+        dessertEng: WP + "/2026/05/Rocktech-Menu-Classe-ENG-DEF-11-maggio-26-DESSERT.pdf",
+      },
+      logo: WP + "/2023/11/Logo-Classe-400.png",
       hours: [
         { days: "Lunedì – Sabato", time: "19:00 – 23:30" },
         { days: "Domenica", time: "12:30 – 15:30 · 19:00 – 23:30" },
       ],
+      vat: "Ittica De.Mar S.r.l. — P.IVA 03609820752",
+      // Official photos from classerestaurant.it
+      photos: {
+        lobsterDisplay: WP + "/2025/01/La-dogana-classe-28.jpg",
+        gourmetFish: WP + "/2025/01/La-dogana-classe-16.jpg",
+        creamyPasta: WP + "/2025/01/La-dogana-classe-17.jpg",
+        entrance: WP + "/2025/01/La-dogana-classe-18.jpg",
+        diningRoom: WP + "/2025/01/La-dogana-classe-33.jpg",
+        wineSelection: WP + "/2025/01/88786585-50f8-4d32-b64e-dcac43da3ae8.jpg",
+        champagne: WP + "/2025/01/a955c1e9-339d-4364-aaf3-10b1ae0ca04a.jpg",
+        caviarTubs: WP + "/2024/11/senza-titolo-5.jpg",
+        oysterGlove: WP + "/2024/11/senza-titolo-2.jpg",
+        salmonSashimi: WP + "/2024/12/0171-DOGANA.jpg",
+        cake: WP + "/2024/11/ALZ0512.jpg",
+        showcase: WP + "/2024/11/ALZ7854.jpg",
+        eventKrug: WP + "/2026/03/Dogana-grafiche-916-3.0-4.jpg",
+        eventDrcVineyard: WP + "/2025/12/WhatsApp-Image-2025-12-17-at-15.26.52.jpeg",
+        eventDrcTable: WP + "/2025/12/Immagine-WhatsApp-2025-12-10-ore-17.18.09_030358b3.jpg",
+      },
       videos: {
         hero: "https://videos.pexels.com/video-files/8247207/8247207-hd_1920_1080_25fps.mp4",
         cucina: "https://videos.pexels.com/video-files/5498731/5498731-hd_1920_1080_25fps.mp4",
@@ -157,11 +195,9 @@
       </svg>
     );
 
-    const GlobeIcon = ({ className = "h-7 w-7" }) => (
-      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10" />
-        <path d="M2 12h20" />
-        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+    const WineIcon = ({ className = "h-7 w-7" }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+        <path d="M6 3v6c0 2.97 2.16 5.43 5 5.91V19H8v2h8v-2h-3v-4.09c2.84-.48 5-2.94 5-5.91V3H6zm6 10c-1.86 0-3.41-1.28-3.86-3h7.72c-.45 1.72-2 3-3.86 3z" />
       </svg>
     );
 
@@ -175,6 +211,60 @@
     const PhoneIcon = ({ className = "h-5 w-5" }) => (
       <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+      </svg>
+    );
+
+    const MailIcon = ({ className = "h-5 w-5" }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="4" width="20" height="16" rx="2" />
+        <path d="m22 7-10 6L2 7" />
+      </svg>
+    );
+
+    const WhatsAppIcon = ({ className = "h-5 w-5" }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
+      </svg>
+    );
+
+    const FacebookIcon = ({ className = "h-5 w-5" }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+      </svg>
+    );
+
+    const InstagramIcon = ({ className = "h-5 w-5" }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" />
+        <circle cx="12" cy="12" r="4.5" />
+        <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" />
+      </svg>
+    );
+
+    const FishIcon = ({ className = "h-6 w-6" }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+        <path d="M16 6v8h3v8h2V2c-2.76 0-5 2.24-5 4zm-5 3H9V2H7v7H5V2H3v7c0 2.21 1.79 4 4 4v9h2v-9c2.21 0 4-1.79 4-4V2h-2v7z" />
+      </svg>
+    );
+
+    const MeatIcon = ({ className = "h-6 w-6" }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M18.5 5.5C16 3 11.5 3.5 8.5 6.5S3 14 5.5 16.5 12.5 18 15.5 15 21 8 18.5 5.5z" />
+        <path d="M9.5 9.5c1-1 2.5-1.2 3.5-.2s.8 2.5-.2 3.5-2.5 1.2-3.5.2-.8-2.5.2-3.5z" />
+      </svg>
+    );
+
+    const MusicIcon = ({ className = "h-6 w-6" }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+      </svg>
+    );
+
+    const DownloadIcon = ({ className = "h-4 w-4" }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="7 10 12 15 17 10" />
+        <line x1="12" y1="15" x2="12" y2="3" />
       </svg>
     );
 
@@ -193,14 +283,11 @@
       </svg>
     );
 
-    window.ArrowUpRight = ArrowUpRight;
-    window.PlayIcon = PlayIcon;
-    window.ClockIcon = ClockIcon;
-    window.GlobeIcon = GlobeIcon;
-    window.MapPinIcon = MapPinIcon;
-    window.PhoneIcon = PhoneIcon;
-    window.MenuIcon = MenuIcon;
-    window.CloseIcon = CloseIcon;
+    Object.assign(window, {
+      ArrowUpRight, PlayIcon, ClockIcon, WineIcon, MapPinIcon, PhoneIcon, MailIcon,
+      WhatsAppIcon, FacebookIcon, InstagramIcon, FishIcon, MeatIcon, MusicIcon,
+      DownloadIcon, MenuIcon, CloseIcon,
+    });
   </script>
 
   <!-- FadingVideo — rAF-driven crossfade, manual looping -->
@@ -368,9 +455,10 @@
   <script type="text/babel">
     const NAV_LINKS = [
       { label: "Home", href: "#/" },
-      { label: "Menù", href: "#/menu" },
       { label: "Chi Siamo", href: "#/chi-siamo" },
-      { label: "Esperienze", href: "#/esperienze" },
+      { label: "Menù", href: "#/menu" },
+      { label: "Carta dei Vini", href: "#/carta-dei-vini" },
+      { label: "Eventi", href: "#/eventi" },
       { label: "Contatti", href: "#/contatti" },
     ];
 
@@ -384,19 +472,19 @@
       const isActive = (href) => href === "#/" + (route === "/" ? "" : route.slice(1));
 
       return (
-        <nav className="fixed top-4 left-0 right-0 z-50 px-8 lg:px-16 flex items-center justify-between">
-          <a href="#/" className="liquid-glass rounded-full w-12 h-12 flex items-center justify-center">
+        <nav className="fixed top-4 left-0 right-0 z-50 px-4 md:px-8 lg:px-16 flex items-center justify-between">
+          <a href="#/" className="liquid-glass rounded-full w-12 h-12 flex items-center justify-center shrink-0">
             <span className="font-heading italic text-white text-2xl leading-none">c</span>
           </a>
 
-          <div className="hidden md:flex items-center gap-2">
+          <div className="hidden lg:flex items-center gap-2">
             <div className="liquid-glass rounded-full px-1.5 py-1.5 flex items-center">
               {NAV_LINKS.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
                   className={
-                    "px-3 py-2 text-sm font-medium font-body " +
+                    "px-3 py-2 text-sm font-medium font-body whitespace-nowrap " +
                     (isActive(link.href) ? "text-white" : "text-white/90")
                   }
                 >
@@ -415,15 +503,15 @@
 
           <button
             onClick={() => setOpen(!open)}
-            className="liquid-glass rounded-full w-12 h-12 flex items-center justify-center text-white md:hidden"
+            className="liquid-glass rounded-full w-12 h-12 flex items-center justify-center text-white lg:hidden"
             aria-label="Apri il menu di navigazione"
           >
             {open ? <CloseIcon className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
           </button>
-          <div className="w-12 h-12 invisible hidden md:block" />
+          <div className="w-12 h-12 invisible hidden lg:block" />
 
           {open && (
-            <div className="absolute top-16 right-8 md:hidden liquid-glass-strong rounded-[1.25rem] p-3 flex flex-col min-w-[200px]">
+            <div className="absolute top-16 right-4 md:right-8 lg:hidden liquid-glass-strong rounded-[1.25rem] p-3 flex flex-col min-w-[220px]">
               {NAV_LINKS.map((link) => (
                 <a
                   key={link.label}
@@ -450,33 +538,99 @@
     window.NAV_LINKS = NAV_LINKS;
   </script>
 
-  <!-- Footer -->
+  <!-- Footer + booking band (mirrors the original site's footer + prenota section) -->
   <script type="text/babel">
+    function BookingBand() {
+      const SITE = window.SITE;
+      return (
+        <section className="relative bg-black px-8 md:px-16 lg:px-20 pt-24 pb-4">
+          <Reveal>
+            <div className="liquid-glass rounded-[1.25rem] p-10 md:p-14 flex flex-col items-center text-center">
+              <BlurText
+                text="Prenota un tavolo"
+                className="font-heading italic text-white text-4xl md:text-5xl tracking-[-2px] leading-none"
+              />
+              <p className="mt-4 text-sm md:text-base text-white/90 font-body font-light max-w-xl">
+                Scrivici o chiamaci: ti ricontatteremo nel più breve tempo possibile. La
+                prenotazione si intende confermata solo dopo la conferma del locale via mail o
+                telefono.
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
+                <a
+                  href={SITE.bookingHref}
+                  target="_blank"
+                  rel="noopener"
+                  className="liquid-glass-strong rounded-full px-5 py-2.5 text-sm font-medium text-white font-body flex items-center gap-1.5"
+                >
+                  Prenota Online
+                  <ArrowUpRight className="h-5 w-5" />
+                </a>
+                <a
+                  href={SITE.phoneHref}
+                  className="liquid-glass rounded-full px-5 py-2.5 text-sm font-medium text-white font-body flex items-center gap-2"
+                >
+                  <PhoneIcon className="h-4 w-4" />
+                  {SITE.phone}
+                </a>
+                <a
+                  href={SITE.whatsappHref}
+                  target="_blank"
+                  rel="noopener"
+                  className="liquid-glass rounded-full px-5 py-2.5 text-sm font-medium text-white font-body flex items-center gap-2"
+                >
+                  <WhatsAppIcon className="h-4 w-4" />
+                  WhatsApp
+                </a>
+              </div>
+            </div>
+          </Reveal>
+        </section>
+      );
+    }
+
     function Footer() {
       const SITE = window.SITE;
       return (
-        <footer className="relative bg-black px-8 md:px-16 lg:px-20 pt-16 pb-8">
+        <footer className="relative bg-black px-8 md:px-16 lg:px-20 pt-12 pb-8">
           <Reveal>
             <div className="liquid-glass rounded-[1.25rem] p-8 md:p-10 grid grid-cols-1 md:grid-cols-3 gap-10">
               <div>
                 <div className="font-heading italic text-white text-3xl">classé</div>
-                <p className="mt-3 text-sm text-white/80 font-body font-light leading-snug max-w-[30ch]">
-                  Ristorante di pesce a Lecce, all'interno de La Dogana. Crudi di mare, sushi e
-                  cucina d'autore dello chef Ivan Tronci.
+                <p className="mt-3 text-sm text-white/80 font-body font-light leading-snug max-w-[32ch]">
+                  Eleganza, servizio impeccabile e materia prima d'eccellenza: pesce fresco e
+                  crostacei vivi selezionati grazie alla flotta di pescherecci di Ittica De Mar,
+                  fondatrice del brand.
                 </p>
+                <div className="flex items-center gap-3 mt-5">
+                  <a href={SITE.facebookHref} target="_blank" rel="noopener" aria-label="Facebook" className="liquid-glass rounded-full w-10 h-10 flex items-center justify-center text-white">
+                    <FacebookIcon className="h-4 w-4" />
+                  </a>
+                  <a href={SITE.instagramHref} target="_blank" rel="noopener" aria-label="Instagram" className="liquid-glass rounded-full w-10 h-10 flex items-center justify-center text-white">
+                    <InstagramIcon className="h-4 w-4" />
+                  </a>
+                  <a href={SITE.whatsappHref} target="_blank" rel="noopener" aria-label="WhatsApp" className="liquid-glass rounded-full w-10 h-10 flex items-center justify-center text-white">
+                    <WhatsAppIcon className="h-4 w-4" />
+                  </a>
+                </div>
               </div>
               <div>
-                <div className="text-sm font-medium text-white font-body mb-4">Esplora</div>
+                <div className="text-sm font-medium text-white font-body mb-4">Link Utili</div>
                 <div className="flex flex-col gap-2">
                   {window.NAV_LINKS.map((link) => (
                     <a key={link.label} href={link.href} className="text-sm text-white/80 font-body font-light">
                       {link.label}
                     </a>
                   ))}
+                  <a href={SITE.wineListHref} target="_blank" rel="noopener" className="text-sm text-white/80 font-body font-light">
+                    Carta dei Vini (Enoweb)
+                  </a>
+                  <a href={SITE.bookingHref} target="_blank" rel="noopener" className="text-sm text-white/80 font-body font-light">
+                    Prenota un Tavolo
+                  </a>
                 </div>
               </div>
               <div>
-                <div className="text-sm font-medium text-white font-body mb-4">Contatti</div>
+                <div className="text-sm font-medium text-white font-body mb-4">Contatti & Posizione</div>
                 <div className="flex flex-col gap-2 text-sm text-white/80 font-body font-light">
                   <a href={SITE.mapsHref} target="_blank" rel="noopener" className="flex items-center gap-2">
                     <MapPinIcon className="h-4 w-4 shrink-0" />
@@ -485,6 +639,10 @@
                   <a href={SITE.phoneHref} className="flex items-center gap-2">
                     <PhoneIcon className="h-4 w-4 shrink-0" />
                     {SITE.phone}
+                  </a>
+                  <a href={SITE.emailHref} className="flex items-center gap-2">
+                    <MailIcon className="h-4 w-4 shrink-0" />
+                    {SITE.email}
                   </a>
                   {SITE.hours.map((h) => (
                     <div key={h.days} className="flex items-center gap-2">
@@ -497,7 +655,7 @@
             </div>
           </Reveal>
           <div className="mt-6 text-center text-xs text-white/50 font-body font-light">
-            Concept di design — foto e video d'archivio (Pexels), in attesa degli scatti ufficiali ·{" "}
+            © 2026 {SITE.vat} · Concept di design non ufficiale ·{" "}
             <a href={SITE.officialSite} target="_blank" rel="noopener" className="text-white/70">
               classerestaurant.it
             </a>
@@ -507,6 +665,7 @@
     }
 
     window.Footer = Footer;
+    window.BookingBand = BookingBand;
   </script>
 
   <!-- PageHeader — image header for inner pages -->
@@ -526,7 +685,7 @@
             <BlurText
               text={title}
               align="left"
-              className="font-heading italic text-white text-6xl md:text-7xl lg:text-[6rem] leading-[0.9] tracking-[-3px]"
+              className="font-heading italic text-white text-5xl md:text-7xl lg:text-[6rem] leading-[0.9] tracking-[-3px]"
             />
             {subtitle && (
               <Reveal delay={0.3}>
@@ -567,13 +726,13 @@
                 transition={{ duration: 0.8, delay: 0.4, ease }}
                 className="liquid-glass rounded-full flex items-center gap-3 p-1"
               >
-                <span className="bg-white text-black rounded-full px-3 py-1 text-xs font-semibold font-body">Novità</span>
-                <span className="text-sm text-white/90 font-body pr-3">Terrazza Estiva — Prenotazioni Aperte 2026</span>
+                <span className="bg-white text-black rounded-full px-3 py-1 text-xs font-semibold font-body">Classé</span>
+                <span className="text-sm text-white/90 font-body pr-3">Pesce Fresco e Crostacei Vivi — Selezione Ittica De Mar</span>
               </motion.div>
 
               <div className="mt-6">
                 <BlurText
-                  text="Il Mare Incontra l'Eleganza nel Cuore di Lecce"
+                  text="Materie Prime d'Eccellenza, Piatti Unici"
                   className="text-6xl md:text-7xl lg:text-[5.5rem] font-heading italic text-white leading-[0.8] max-w-2xl justify-center tracking-[-4px]"
                 />
               </div>
@@ -584,9 +743,9 @@
                 transition={{ duration: 0.8, delay: 0.8, ease }}
                 className="mt-4 text-sm md:text-base text-white max-w-2xl font-body font-light leading-tight"
               >
-                Materie prime selezionate ogni giorno: pescato fresco dei mari italiani, crudi,
-                crostacei e caviale. Un'esperienza raffinata firmata dallo chef Ivan Tronci,
-                dalla sala elegante alla terrazza con vista.
+                Ogni giorno selezioniamo il miglior pescato per portare la freschezza dal banco
+                del pesce direttamente al piatto. Cucina di mare e di terra, caviale Calvisius e
+                Ars Italica, e la carta dei vini più ampia del Salento.
               </motion.p>
 
               <motion.div
@@ -599,7 +758,7 @@
                   href={window.SITE.phoneHref}
                   className="liquid-glass-strong rounded-full px-5 py-2.5 text-sm font-medium text-white font-body flex items-center gap-1.5"
                 >
-                  Prenota la Tua Serata
+                  Prenota un Tavolo
                   <ArrowUpRight className="h-5 w-5" />
                 </a>
                 <a href="#/menu" className="text-sm font-medium text-white font-body flex items-center gap-2">
@@ -624,10 +783,10 @@
                   </div>
                 </div>
                 <div className="liquid-glass rounded-[1.25rem] p-5 w-[220px] flex flex-col items-start text-left">
-                  <GlobeIcon className="h-7 w-7 text-white" />
+                  <WineIcon className="h-7 w-7 text-white" />
                   <div className="mt-auto pt-6">
-                    <div className="font-heading italic text-white text-4xl tracking-[-1px] leading-none">100%</div>
-                    <div className="text-xs text-white font-body font-light mt-2">Pescato dei Mari Italiani</div>
+                    <div className="font-heading italic text-white text-4xl tracking-[-1px] leading-none">20+</div>
+                    <div className="text-xs text-white font-body font-light mt-2">Tipologie di Calici di Cristallo</div>
                   </div>
                 </div>
               </motion.div>
@@ -642,8 +801,8 @@
               <div className="liquid-glass rounded-full px-3.5 py-1 text-xs font-medium text-white font-body">
                 Selezioniamo ogni giorno le migliori materie prime
               </div>
-              <div className="flex items-center gap-12 md:gap-16">
-                {["Crudi", "Ostriche", "Caviale", "Crostacei", "Champagne"].map((name) => (
+              <div className="flex items-center gap-8 md:gap-16 flex-wrap justify-center">
+                {["Crudi", "Ostriche", "Caviale", "Wagyu", "Champagne"].map((name) => (
                   <span key={name} className="font-heading italic text-white text-2xl md:text-3xl tracking-tight">
                     {name}
                   </span>
@@ -658,31 +817,75 @@
     window.Hero = Hero;
   </script>
 
-  <!-- Home — La Cucina -->
+  <!-- Home — Dal mare alla cucina (gestore) -->
+  <script type="text/babel">
+    function DalMare() {
+      const SITE = window.SITE;
+      return (
+        <section className="relative bg-black px-8 md:px-16 lg:px-20 py-24">
+          <div className="flex flex-col md:flex-row gap-12 md:items-center">
+            <Reveal className="md:w-1/2" delay={0.1}>
+              <div className="liquid-glass rounded-[1.25rem] overflow-hidden h-80 md:h-[520px]">
+                <img src={SITE.photos.lobsterDisplay} alt="Astici e aragoste fresche in vetrina" loading="lazy" className="w-full h-full object-cover" />
+              </div>
+            </Reveal>
+            <div className="md:w-1/2">
+              <Reveal>
+                <p className="text-sm font-body text-white/80 mb-4">// Dal Mare alla Cucina</p>
+              </Reveal>
+              <BlurText
+                text="Qualità e freschezza che arrivano al piatto"
+                align="left"
+                className="font-heading italic text-white text-5xl md:text-6xl tracking-[-2px] leading-[0.9]"
+              />
+              <Reveal delay={0.2}>
+                <p className="mt-6 text-sm md:text-base text-white/90 font-body font-light leading-snug max-w-[54ch]">
+                  La selezione del pescato avviene ogni giorno, perché la freschezza si senta in
+                  ogni preparazione: dal banco del pesce ai piatti che arrivano in tavola, ogni
+                  ingrediente è scelto con cura per esaltarne i sapori autentici.
+                </p>
+                <p className="mt-4 text-sm md:text-base text-white/90 font-body font-light leading-snug max-w-[54ch]">
+                  La cucina propone mare e terra celebrando le migliori materie prime, mentre la
+                  cantina custodisce la carta dei vini più ampia del Salento, con etichette
+                  italiane e francesi di altissimo livello.
+                </p>
+                <div className="liquid-glass rounded-[1.25rem] px-6 py-5 mt-8 inline-flex flex-col">
+                  <span className="font-heading italic text-white text-2xl leading-none">Simone De Mitri</span>
+                  <span className="text-xs text-white/80 font-body font-light mt-2 uppercase tracking-widest">Gestore</span>
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    window.DalMare = DalMare;
+  </script>
+
+  <!-- Home — La Cucina (video + 3 pillars, mirroring the original's three points) -->
   <script type="text/babel">
     const CUCINA_CARDS = [
       {
-        title: "Crudi di Mare",
+        title: "Pesce Fresco Ogni Giorno",
         body:
-          "Il crudo è preparato con prodotti freschissimi, esclusivamente dei mari italiani e rigorosamente abbattuti — carpacci e crostacei scelti secondo la disponibilità del giorno.",
-        tags: ["Pescato del Giorno", "Mari Italiani", "Plateau Royale", "Caviale"],
-        iconPath:
-          "M16 6v8h3v8h2V2c-2.76 0-5 2.24-5 4zm-5 3H9V2H7v7H5V2H3v7c0 2.21 1.79 4 4 4v9h2v-9c2.21 0 4-1.79 4-4V2h-2v7z",
+          "Dal mare alla cucina solo il meglio del pescato, selezionato con cura grazie alla flotta di pescherecci di Ittica De Mar. Crudi rigorosamente abbattuti.",
+        tags: ["Pescheria", "Crostacei Vivi", "Crudi", "Ostriche"],
+        Icon: "FishIcon",
       },
       {
-        title: "Cantina & Calici",
+        title: "Carni dal Mondo",
         body:
-          "Oltre venti tipologie di calici in cristallo e una carta costruita per accompagnare ogni piatto. Il sommelier guida l'abbinamento, dal bianco fermo alla grande bollicina.",
-        tags: ["20+ Cristalli", "Etichette Rare", "Champagne", "Sommelier"],
-        iconPath:
-          "M6 3v6c0 2.97 2.16 5.43 5 5.91V19H8v2h8v-2h-3v-4.09c2.84-.48 5-2.94 5-5.91V3H6zm6 10c-1.86 0-3.41-1.28-3.86-3h7.72c-.45 1.72-2 3-3.86 3z",
+          "Carni d'eccellenza da tutto il mondo — wagyu di Australia e Giappone, Simmental, Rubia Gallega e podolica — valorizzate per esaltarne ogni sfumatura.",
+        tags: ["Wagyu", "Rubia Gallega", "Simmental", "Griglia"],
+        Icon: "MeatIcon",
       },
       {
-        title: "Sala & Piano",
+        title: "Carta dei Vini Completa",
         body:
-          "Spazi eleganti e personalizzabili, una terrazza con vista e una sala insonorizzata con pianoforte Steinway & Sons per momenti di musica dal vivo.",
-        tags: ["Steinway & Sons", "Sala Insonorizzata", "Terrazza", "Eventi Privati"],
-        iconPath: "M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z",
+          "Una selezione straordinaria di bollicine italiane e francesi e vini da tutto il mondo: a ogni gusto, il suo abbinamento perfetto.",
+        tags: ["Champagne", "Etichette Rare", "Salento", "Sommelier"],
+        Icon: "WineIcon",
       },
     ];
 
@@ -707,7 +910,7 @@
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 className="text-sm font-body text-white/80 mb-6"
               >
-                // La Cucina
+                // Piatti, Vini e Non Solo
               </motion.p>
               <motion.h2
                 initial={entrance}
@@ -716,52 +919,53 @@
                 transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
                 className="font-heading italic text-white text-6xl md:text-7xl lg:text-[6rem] leading-[0.9] tracking-[-3px]"
               >
-                Tradizione
+                Abbinamenti
                 <br />
-                evoluta
+                perfetti
               </motion.h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
-              {CUCINA_CARDS.map((card, i) => (
-                <motion.div
-                  key={card.title}
-                  initial={entrance}
-                  whileInView={settled}
-                  viewport={{ once: true, amount: 0.3 }}
-                  transition={{ duration: 0.8, delay: 0.2 + i * 0.15, ease: "easeOut" }}
-                  className="liquid-glass rounded-[1.25rem] p-6 min-h-[360px] flex flex-col"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="liquid-glass rounded-[0.75rem] w-11 h-11 flex items-center justify-center shrink-0">
-                      <svg className="h-6 w-6 text-white" viewBox="0 0 24 24" fill="currentColor">
-                        <path d={card.iconPath} />
-                      </svg>
+              {CUCINA_CARDS.map((card, i) => {
+                const Icon = window[card.Icon];
+                return (
+                  <motion.div
+                    key={card.title}
+                    initial={entrance}
+                    whileInView={settled}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.8, delay: 0.2 + i * 0.15, ease: "easeOut" }}
+                    className="liquid-glass rounded-[1.25rem] p-6 min-h-[360px] flex flex-col"
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="liquid-glass rounded-[0.75rem] w-11 h-11 flex items-center justify-center shrink-0 text-white">
+                        <Icon className="h-6 w-6" />
+                      </div>
+                      <div className="flex flex-wrap justify-end gap-1.5 max-w-[70%]">
+                        {card.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="liquid-glass rounded-full px-3 py-1 text-[11px] text-white/90 font-body whitespace-nowrap"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                    <div className="flex flex-wrap justify-end gap-1.5 max-w-[70%]">
-                      {card.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="liquid-glass rounded-full px-3 py-1 text-[11px] text-white/90 font-body whitespace-nowrap"
-                        >
-                          {tag}
-                        </span>
-                      ))}
+
+                    <div className="flex-1" />
+
+                    <div className="mt-6">
+                      <h3 className="font-heading italic text-white text-3xl md:text-4xl tracking-[-1px] leading-none">
+                        {card.title}
+                      </h3>
+                      <p className="mt-3 text-sm text-white/90 font-body font-light leading-snug max-w-[32ch]">
+                        {card.body}
+                      </p>
                     </div>
-                  </div>
-
-                  <div className="flex-1" />
-
-                  <div className="mt-6">
-                    <h3 className="font-heading italic text-white text-3xl md:text-4xl tracking-[-1px] leading-none">
-                      {card.title}
-                    </h3>
-                    <p className="mt-3 text-sm text-white/90 font-body font-light leading-snug max-w-[32ch]">
-                      {card.body}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -771,75 +975,123 @@
     window.Cucina = Cucina;
   </script>
 
-  <!-- Home — Esperienze teaser + CTA band -->
+  <!-- Home — Atmosfera + Asporto -->
   <script type="text/babel">
-    function HomeTeaser() {
+    function Atmosfera() {
       const SITE = window.SITE;
-      const items = [
-        { title: "Il Menù", text: "Crudi, primi di mare, sushi e dolci al piatto.", href: "#/menu", img: SITE.img(10895800, 1200) },
-        { title: "Chi Siamo", text: "La storia di Classé e dello chef Ivan Tronci.", href: "#/chi-siamo", img: SITE.img(26729398, 1200) },
-        { title: "Esperienze", text: "Terrazza, sala piano ed eventi privati.", href: "#/esperienze", img: SITE.img(11457392, 1200) },
+      const features = [
+        "Servizio attento e su misura",
+        "Atmosfera elegante per eventi unici",
+        "I formaggi più iconici",
+        "L'eccellenza dei salumi iberici",
+        "Pesce freschissimo, direttamente dalla pescheria",
+        "Un viaggio tra le migliori carni del mondo",
       ];
 
       return (
         <section className="relative bg-black px-8 md:px-16 lg:px-20 py-24">
-          <Reveal>
-            <p className="text-sm font-body text-white/80 mb-6">// Scopri Classé</p>
-          </Reveal>
-          <BlurText
-            text="Un viaggio in tre atti"
-            align="left"
-            className="font-heading italic text-white text-5xl md:text-6xl lg:text-7xl leading-[0.9] tracking-[-3px]"
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-14">
-            {items.map((item, i) => (
-              <Reveal key={item.title} delay={0.15 + i * 0.15}>
-                <a href={item.href} className="liquid-glass rounded-[1.25rem] flex flex-col overflow-hidden group">
-                  <div className="h-56 overflow-hidden">
-                    <img src={item.img} alt={item.title} loading="lazy" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="p-6 flex items-end justify-between gap-4">
-                    <div>
-                      <h3 className="font-heading italic text-white text-3xl tracking-[-1px] leading-none">{item.title}</h3>
-                      <p className="mt-3 text-sm text-white/90 font-body font-light leading-snug">{item.text}</p>
-                    </div>
-                    <span className="liquid-glass rounded-full w-11 h-11 flex items-center justify-center text-white shrink-0">
-                      <ArrowUpRight className="h-5 w-5" />
-                    </span>
-                  </div>
-                </a>
+          <div className="flex flex-col md:flex-row-reverse gap-12 md:items-center">
+            <Reveal className="md:w-1/2" delay={0.1}>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="liquid-glass rounded-[1.25rem] overflow-hidden h-44 md:h-60">
+                  <img src={SITE.photos.diningRoom} alt="Sala del ristorante" loading="lazy" className="w-full h-full object-cover" />
+                </div>
+                <div className="liquid-glass rounded-[1.25rem] overflow-hidden h-44 md:h-60">
+                  <img src={SITE.photos.entrance} alt="Ingresso del ristorante" loading="lazy" className="w-full h-full object-cover" />
+                </div>
+                <div className="liquid-glass rounded-[1.25rem] overflow-hidden h-44 md:h-60">
+                  <img src={SITE.photos.showcase} alt="Vetrina del locale" loading="lazy" className="w-full h-full object-cover" />
+                </div>
+                <div className="liquid-glass rounded-[1.25rem] overflow-hidden h-44 md:h-60">
+                  <img src={SITE.photos.champagne} alt="Selezione di champagne" loading="lazy" className="w-full h-full object-cover" />
+                </div>
+              </div>
+            </Reveal>
+            <div className="md:w-1/2">
+              <Reveal>
+                <p className="text-sm font-body text-white/80 mb-4">// Seafood Restaurant Lecce</p>
               </Reveal>
-            ))}
-          </div>
-
-          <Reveal delay={0.2} className="mt-20">
-            <div className="liquid-glass rounded-[1.25rem] p-10 md:p-14 flex flex-col items-center text-center">
               <BlurText
-                text="La tua serata inizia qui"
-                className="font-heading italic text-white text-4xl md:text-5xl tracking-[-2px] leading-none"
+                text="Atmosfera unica, dettagli esclusivi"
+                align="left"
+                className="font-heading italic text-white text-5xl md:text-6xl tracking-[-2px] leading-[0.9]"
               />
-              <p className="mt-4 text-sm md:text-base text-white/90 font-body font-light max-w-xl">
-                Prenota un tavolo in sala, in terrazza o nella sala piano. Per eventi privati e
-                degustazioni su misura, il nostro team è a disposizione.
-              </p>
-              <div className="flex items-center gap-6 mt-8">
-                <a
-                  href={SITE.phoneHref}
-                  className="liquid-glass-strong rounded-full px-5 py-2.5 text-sm font-medium text-white font-body flex items-center gap-1.5"
-                >
-                  Chiama {SITE.phone}
-                  <ArrowUpRight className="h-5 w-5" />
-                </a>
-                <a
-                  href={SITE.bookingHref}
-                  target="_blank"
-                  rel="noopener"
-                  className="text-sm font-medium text-white font-body flex items-center gap-2"
-                >
-                  Prenota Online
-                  <PlayIcon className="h-4 w-4" />
-                </a>
+              <Reveal delay={0.2}>
+                <p className="mt-6 text-sm md:text-base text-white/90 font-body font-light leading-snug max-w-[54ch]">
+                  Ogni dettaglio è pensato per un'esperienza indimenticabile: spazi eleganti e
+                  personalizzabili, una terrazza con vista, una sala insonorizzata e un
+                  pianoforte Steinway & Sons per la musica dal vivo. A completare, un servizio
+                  impeccabile e oltre 20 tipologie di calici di cristallo — la scelta perfetta
+                  per cene intime, eventi aziendali e serate d'eccellenza.
+                </p>
+                <div className="flex flex-wrap gap-1.5 mt-6">
+                  {features.map((f) => (
+                    <span key={f} className="liquid-glass rounded-full px-3 py-1 text-[11px] text-white/90 font-body whitespace-nowrap">
+                      {f}
+                    </span>
+                  ))}
+                </div>
+                <div className="flex items-center gap-6 mt-8">
+                  <a
+                    href={SITE.phoneHref}
+                    className="liquid-glass-strong rounded-full px-5 py-2.5 text-sm font-medium text-white font-body flex items-center gap-1.5"
+                  >
+                    Prenota un Tavolo
+                    <ArrowUpRight className="h-5 w-5" />
+                  </a>
+                  <a href="#/eventi" className="text-sm font-medium text-white font-body flex items-center gap-2">
+                    Scopri gli Eventi
+                    <PlayIcon className="h-4 w-4" />
+                  </a>
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    function Asporto() {
+      const SITE = window.SITE;
+      return (
+        <section className="relative bg-black px-8 md:px-16 lg:px-20 py-12">
+          <Reveal>
+            <div className="liquid-glass rounded-[1.25rem] p-10 md:p-14 flex flex-col md:flex-row md:items-center gap-10">
+              <div className="md:w-1/2">
+                <p className="text-sm font-body text-white/80 mb-4">// Ordina Ora</p>
+                <h2 className="font-heading italic text-white text-4xl md:text-5xl tracking-[-2px] leading-none">
+                  I nostri sapori, dove vuoi tu
+                </h2>
+                <p className="mt-4 text-sm md:text-base text-white/90 font-body font-light leading-snug max-w-[50ch]">
+                  Una selezione di proposte di mare firmate Classé, disponibili anche d'asporto
+                  e in delivery tramite Deliveroo: la qualità della materia prima e il gusto
+                  contemporaneo arrivano direttamente a casa tua.
+                </p>
+                <div className="flex flex-wrap items-center gap-4 mt-7">
+                  <a
+                    href={SITE.pdf.sushiAsporto}
+                    target="_blank"
+                    rel="noopener"
+                    className="liquid-glass-strong rounded-full px-5 py-2.5 text-sm font-medium text-white font-body flex items-center gap-1.5"
+                  >
+                    Sushi d'Asporto
+                    <DownloadIcon className="h-4 w-4" />
+                  </a>
+                  <a
+                    href={SITE.deliverooHref}
+                    target="_blank"
+                    rel="noopener"
+                    className="liquid-glass rounded-full px-5 py-2.5 text-sm font-medium text-white font-body flex items-center gap-1.5"
+                  >
+                    Ordina su Deliveroo
+                    <ArrowUpRight className="h-4 w-4" />
+                  </a>
+                </div>
+              </div>
+              <div className="md:w-1/2">
+                <div className="liquid-glass rounded-[1.25rem] overflow-hidden h-64 md:h-80">
+                  <img src={SITE.photos.salmonSashimi} alt="Sashimi di salmone" loading="lazy" className="w-full h-full object-cover" />
+                </div>
               </div>
             </div>
           </Reveal>
@@ -851,8 +1103,10 @@
       return (
         <div>
           <Hero />
+          <DalMare />
           <Cucina />
-          <HomeTeaser />
+          <Atmosfera />
+          <Asporto />
         </div>
       );
     }
@@ -860,88 +1114,232 @@
     window.HomePage = HomePage;
   </script>
 
-  <!-- Menù page -->
+  <!-- Menù page — full real menu -->
   <script type="text/babel">
-    const MENU_SECTIONS = [
+    const MENU = [
       {
+        id: "crudi",
         name: "Crudi di Mare",
         kicker: "// Il Banco del Crudo",
-        image: 10895800,
+        photo: "oysterGlove",
         intro:
-          "Esclusivamente pescato dei mari italiani, rigorosamente abbattuto. La selezione cambia ogni giorno secondo il mercato.",
-        tags: ["Pescato del Giorno", "Abbattuto", "Su Ghiaccio"],
+          "Tutti i crudi sono preparati con pescato dei mari italiani e rigorosamente abbattuti. Come da tradizione pugliese, i frutti di mare sono serviti al naturale, senza alcun condimento.",
+        tags: ["Pescato del Giorno", "Abbattuto", "Senza Condimento"],
         dishes: [
-          { name: "Crudité di Mare Classé", desc: "Gran selezione del giorno: carpacci, crostacei e frutti di mare" },
-          { name: "Ostriche Imperiali", desc: "Servite su ghiaccio, limone e scalogno in mignonette" },
-          { name: "Plateau Royale", desc: "Ostriche, scampi, gambero rosso e tartufi di mare" },
-          { name: "Gambero Viola di Gallipoli", desc: "Al naturale, con olio extravergine e fior di sale" },
-          { name: "Tartare di Tonno Rosso", desc: "Taglio al coltello, agrumi del Salento" },
-          { name: "Caviale & Bollicine", desc: "Selezione di caviale con accompagnamento classico" },
+          { name: "Imperial Plateau Gran Cru", desc: "Ideale per 2 — caviale, scampi giganti, gamberoni rossi, ostriche, pescato locale sfilettato, seppia", price: "" },
+          { name: "Plateau", desc: "Scampi, gamberi rossi o viola, ostriche special", price: "28" },
+          { name: "Plateau di Crostacei", desc: "Scampi e gamberi rossi", price: "23" },
+          { name: "Carpacci Misti", desc: "Tonno, pesce spada e pescato del giorno", price: "16" },
+          { name: "Pescato Locale", desc: "Carpaccio, sashimi o sfilettato", price: "7,5 /etto" },
+          { name: "Gamberoni Locali", desc: "Rossi o viola", price: "11 /etto" },
         ],
       },
       {
-        name: "Antipasti",
+        id: "caviale",
+        name: "Caviale & Salmone",
+        kicker: "// Caviar Selection",
+        photo: "caviarTubs",
+        intro:
+          "Selezione di caviale italiano Calvisius® e Ars Italica, servito con pane croccante e burro salato di Normandia.",
+        tags: ["Calvisius", "Ars Italica", "Burro di Normandia"],
+        dishes: [
+          { name: "Calvisius Royal", desc: "10 gr", price: "38" },
+          { name: "Calvisius Elite", desc: "10 gr", price: "62" },
+          { name: "Oscietra Royal", desc: "10 gr", price: "75" },
+          { name: "Ars Italica Classic", desc: "10 gr", price: "32" },
+          { name: "Ars Italica Imperial", desc: "10 gr", price: "65" },
+          { name: "Salmone Affumicato Upstream", desc: "125 gr — pane croccante e burro di Normandia", price: "39" },
+          { name: "Old Catalina Reserva", desc: "110 gr", price: "38" },
+        ],
+      },
+      {
+        id: "ostriche",
+        name: "Ostriche",
+        kicker: "// Oyster Selection",
+        photo: "oysterGlove",
+        intro:
+          "Selezione di ostriche special e fraîches possibili da abbinare con tabasco: consigliamo di gustarle al naturale.",
+        tags: ["Francia", "Irlanda", "Italia"],
+        dishes: [
+          { name: "Ostriche d'Irlanda", desc: "Al pezzo", price: "6 /pz" },
+          { name: "Ostriche di Normandia (Francia)", desc: "Al pezzo", price: "6 /pz" },
+          { name: "Ostriche Special di Francia", desc: "Al pezzo", price: "7 /pz" },
+          { name: "Ostriche di Sardegna", desc: "Al pezzo", price: "6,5 /pz" },
+          { name: "Ostriche dell'Emilia-Romagna", desc: "Al pezzo", price: "7,5 /pz" },
+          { name: "Ostriche Sacca di Goro", desc: "Al pezzo", price: "4 /pz" },
+          { name: "Ostriche Imperiali di Puglia", desc: "Al pezzo", price: "4,5 /pz" },
+        ],
+      },
+      {
+        id: "antipasti-mare",
+        name: "Antipasti di Mare",
         kicker: "// L'Apertura",
-        image: 30507463,
+        photo: "gourmetFish",
         intro: "Piccoli piatti d'autore per iniziare: tecnica, contrasti e materia prima assoluta.",
-        tags: ["Creativi", "Di Mare", "Espressi"],
+        tags: ["King Crab", "Vongole Veraci", "Frittura"],
         dishes: [
-          { name: "Macaron al Salmone", desc: "Il benvenuto salato della cucina" },
-          { name: "Papadum con Mousse di Mango", desc: "Croccante speziato, dolcezza esotica e gambero marinato" },
-          { name: "Polpo Arrosto", desc: "Crema di patate affumicata e olio al prezzemolo" },
-          { name: "Capasanta Scottata", desc: "Beurre blanc, caviale e erbe fini" },
+          { name: "Degustazione di Antipasti", desc: "Ideale per 2 — 6 portate", price: "36" },
+          { name: "King Crab in Pasta Kataifi", desc: "Granchio reale, mayo al lime", price: "35" },
+          { name: "Insalata di Mare", desc: "Gambero del Mediterraneo, calamaro verace", price: "25" },
+          { name: "Vongole alla Marinara", desc: "Vongole veraci in zuppa, pomodoro", price: "28" },
+          { name: "Baccalà Mantecato", desc: "Crostone, crema d'arancia, gel", price: "16" },
+          { name: "Frittura di Pescato del Giorno", desc: "In base al pescato (scorfano, triglia...)", price: "19" },
+          { name: "Frittura Mista", desc: "Baccalà, calamaro, seppia", price: "18" },
         ],
       },
       {
+        id: "crudi-fusion",
+        name: "Crudi Fusion",
+        kicker: "// Contaminazioni",
+        photo: "salmonSashimi",
+        intro: "Il banco del crudo incontra suggestioni orientali.",
+        tags: ["Ponzu", "Sashimi", "Porcupine"],
+        dishes: [
+          { name: "Tonno e Ponzu", desc: "Tonno, salsa ponzu", price: "15" },
+          { name: "Scampi Porcupine", desc: "Scampi sgusciati", price: "18" },
+          { name: "Sashimi di Ricciola", desc: "Con salsa", price: "15" },
+        ],
+      },
+      {
+        id: "antipasti-terra",
+        name: "Antipasti di Terra",
+        kicker: "// Salumi & Formaggi",
+        photo: "diningRoom",
+        intro:
+          "L'eccellenza dei salumi iberici e i formaggi più iconici, serviti come da tradizione.",
+        tags: ["Iberici", "Cecina", "Formaggi"],
+        dishes: [
+          { name: "Prosciutto Iberico", desc: "Servito con rucola", price: "22" },
+          { name: "Cecina de Rubia", desc: "Servita con misticanza", price: "25" },
+          { name: "Tagliere di Salumi", desc: "Chorizo, salsichón, cecina", price: "26" },
+          { name: "Degustazione di Formaggi", desc: "Serviti con mostarda — 4 pz 15 / 8 pz 28", price: "15 / 28" },
+        ],
+      },
+      {
+        id: "wagyu",
+        name: "Wagyu",
+        kicker: "// La Selezione Wagyu",
+        photo: "creamyPasta",
+        intro: "Wagyu d'Australia e Giappone, in tre interpretazioni: flambato, grigliato o in carpaccio.",
+        tags: ["Australia", "Giappone", "Cube Roll"],
+        dishes: [
+          { name: "Cube Roll Wagyu — Australia", desc: "Flambato, grigliato o carpaccio", price: "24 /etto" },
+          { name: "Cube Roll Wagyu — Giappone", desc: "Flambato, grigliato o carpaccio", price: "28 /etto" },
+          { name: "Bao Wagyu Burger", desc: "Panino bao, wagyu, maionese allo yuzu", price: "19" },
+          { name: "Tartare di Wagyu", desc: "Sale, pepe e lime", price: "28" },
+        ],
+      },
+      {
+        id: "primi",
         name: "Primi",
         kicker: "// La Pasta",
-        image: 32966723,
-        intro: "Grani selezionati e fondi di mare: i primi che raccontano il Salento.",
-        tags: ["Fatti in Casa", "Mare", "Signature"],
+        photo: "creamyPasta",
+        intro: "Grani selezionati, riso San Massimo e fondi di mare: i primi che raccontano il Mediterraneo.",
+        tags: ["San Massimo", "Crostacei", "Signature"],
         dishes: [
-          { name: "Spaghetto alla Tartare di Tonno", desc: "Il piatto simbolo della casa, a crudo sul filo del calore" },
-          { name: "Linguine all'Astice", desc: "Pomodoro fresco, basilico e bisque" },
-          { name: "Risotto al Gambero Viola", desc: "Bisque ridotta, lime e polvere di capperi" },
-          { name: "Paccheri allo Scoglio", desc: "Frutti di mare dei mari italiani, pomodorino giallo" },
+          { name: "Tagliolino al Caviale Siberiano", desc: "10 gr di caviale 32 / 20 gr 46", price: "32 / 46" },
+          { name: "Mezzo Pacchero al Granchio Reale", desc: "Pomodorino, prezzemolo", price: "36" },
+          { name: "Spaghetto al Gambero Viola", desc: "Crudo e cotto, friggitello, aglio, olio e pepe", price: "23" },
+          { name: "Linguina Mediterranea", desc: "Calamaro, gambero e scampo locali", price: "26" },
+          { name: "Risotto San Massimo all'Astice Blu", desc: "Zafferano — minimo 2 persone", price: "29" },
+          { name: "Calamarata", desc: "Polpo verace, salsa di rape", price: "23" },
+          { name: "Pennone Benedetto", desc: "Triglia cruda e cotta, datterino", price: "23" },
+          { name: "Risotto Wagyu", desc: "Ragù di wagyu d'Australia, timo, rosmarino — minimo 2", price: "26" },
+          { name: "Gnocco Veg", desc: "Crema di datterini e peperoni, battuto di capperi", price: "18" },
         ],
       },
       {
-        name: "Secondi",
-        kicker: "// Dal Mare e dalla Terra",
-        image: 36430075,
-        intro: "Il pescato del giorno lavorato con rispetto, e un omaggio alla tradizione di terra.",
-        tags: ["Pescato del Giorno", "Griglia", "Tradizione"],
+        id: "secondi-mare",
+        name: "Secondi di Mare",
+        kicker: "// Dal Mare",
+        photo: "gourmetFish",
+        intro: "Il pescato lavorato con rispetto, dal king crab al tonno rosso certificato.",
+        tags: ["King Crab", "Tonno Rosso", "Sauté"],
         dishes: [
-          { name: "Pescato del Giorno", desc: "Alla griglia, all'acqua pazza o in crosta di sale" },
-          { name: "Astice alla Catalana", desc: "Verdure croccanti e citronette agli agrumi" },
-          { name: "Frittura di Paranza", desc: "Leggera e croccante, maionese agli agrumi" },
-          { name: "Agnello in Due Cotture", desc: "L'omaggio alla tradizione di terra del Salento" },
+          { name: "King Crab alla Mediterranea", desc: "Granchio reale, pomodorini", price: "58" },
+          { name: "Sauté de Mar", desc: "Ideale per 2 — frutti di mare misti, ostriche, calamari", price: "48" },
+          { name: "Ventresca di Tonno Rosso", desc: "Tonno rosso certificato, insalatina", price: "25" },
+          { name: "Baccalà", desc: "Merluzzo nordico, curcuma", price: "22" },
         ],
       },
       {
-        name: "Sushi & Fusion",
+        id: "pescheria",
+        name: "Dalla Pescheria",
+        kicker: "// Al Peso",
+        photo: "lobsterDisplay",
+        intro:
+          "Crostacei vivi e pescato del giorno al peso, preparati a scelta: alla catalana, burro e caviale, arrosto, alla griglia o fritto.",
+        tags: ["Alla Catalana", "Burro e Caviale", "Griglia"],
+        dishes: [
+          { name: "King Crab", desc: "Al peso", price: "24 /etto" },
+          { name: "Aragosta", desc: "Al peso", price: "16 /etto" },
+          { name: "Astice Blu", desc: "Al peso", price: "12 /etto" },
+          { name: "Gamberi Rossi", desc: "Al peso", price: "10,5 /etto" },
+          { name: "Scampi", desc: "Al peso", price: "9,5 /etto" },
+          { name: "Pescato Locale", desc: "Al peso", price: "7,5 /etto" },
+          { name: "Purè di Fave", desc: "Contorno", price: "12" },
+          { name: "Cicorielle Selvatiche", desc: "Contorno", price: "8" },
+          { name: "Patate", desc: "Contorno", price: "8" },
+        ],
+      },
+      {
+        id: "secondi-terra",
+        name: "Secondi di Terra & Griglia",
+        kicker: "// Dalla Terra",
+        photo: "diningRoom",
+        intro: "Filetti d'autore e una selezione alla griglia: Simmental, Rubia Gallega e Wagyu, al peso.",
+        tags: ["Podolica", "Fiorentina", "Costata"],
+        dishes: [
+          { name: "Filetto di Podolica", desc: "Riduzione di vino rosso", price: "26" },
+          { name: "Filetto di Wagyu", desc: "Con purè di patate", price: "46" },
+          { name: "Vellutata di Zucca", desc: "Con Roquefort", price: "21" },
+          { name: "Simmental", desc: "Costata 9 /etto · Fiorentina 10 /etto", price: "9–10 /etto" },
+          { name: "Rubia Gallega", desc: "Costata 12 /etto · Fiorentina 13 /etto", price: "12–13 /etto" },
+          { name: "Wagyu Selection", desc: "Costata 15 /etto · Fiorentina 16 /etto", price: "15–16 /etto" },
+        ],
+      },
+      {
+        id: "sushi",
+        name: "Sushi",
         kicker: "// Il Banco Sushi",
-        image: 28559528,
-        intro: "Il pescato mediterraneo incontra la tecnica giapponese: nigiri, uramaki e sashimi su misura.",
-        tags: ["Mediterraneo", "Tecnica Giapponese", "Omakase"],
+        photo: "salmonSashimi",
+        intro:
+          "Il pescato del banco incontra la tecnica giapponese: nigiri, nigiri scottati e una grande carta di uramaki.",
+        tags: ["Nigiri", "Uramaki", "Flambé"],
         dishes: [
-          { name: "Nigiri del Mediterraneo", desc: "Selezione del giorno dal banco del crudo" },
-          { name: "Uramaki al Gambero Rosso", desc: "Stracciatella e zeste di limone" },
-          { name: "Sashimi di Tonno e Ricciola", desc: "Taglio spesso, soia artigianale" },
-          { name: "Special Roll Classé", desc: "La firma fusion dello chef Ivan Tronci" },
+          { name: "Edamame", desc: "Fagioli di soia", price: "6" },
+          { name: "Insalata Goma Wakame", desc: "Alga goma wakame", price: "6" },
+          { name: "Nigiri Salmone", desc: "Riso bianco, salmone crudo", price: "12" },
+          { name: "Nigiri Tonno", desc: "Riso bianco, tonno rosso o pinna gialla crudo", price: "15" },
+          { name: "Nigiri Otoro", desc: "Riso bianco, ventresca di tonno rosso locale crudo", price: "20" },
+          { name: "Nigiri Gambero Viola", desc: "Riso bianco, gambero viola", price: "25" },
+          { name: "Nigiri Scampo", desc: "Riso bianco, polpa di scampo crudo", price: "20" },
+          { name: "Nigiri Mix", desc: "Salmone, tonno, gambero viola, pesce bianco", price: "19" },
+          { name: "Flambé Maguro", desc: "Tonno scottato, salsa aburi — 5 pz", price: "16" },
+          { name: "Flambé Otoro", desc: "Ventresca di tonno scottata, salsa aburi — 5 pz", price: "20" },
+          { name: "Hotate", desc: "Capasanta scottata, salsa aburi — 5 pz", price: "16" },
+          { name: "Demar Roll", desc: "Ricciola hamachi, gambero viola, goma wakame", price: "22" },
+          { name: "Siberian Caviar Roll", desc: "Ricciola hamachi, scampo, caviale, mango, salsa di sesamo", price: "24" },
+          { name: "Kamikaze Roll", desc: "Tonno, mango, philadelphia, ikura marinate, sesamo", price: "18" },
+          { name: "California Crunch", desc: "Salmone crudo, avocado, teriyaki, tenkasu, okonomiyaki", price: "15" },
+          { name: "Spicy Tuna", desc: "Tonno crudo, cetrioli, mango, chips di cipolla, salsa piccante", price: "16" },
+          { name: "Salmon Tornado Roll", desc: "Riso nero, salmone, tartare, pistacchio, nachos", price: "19" },
         ],
       },
       {
-        name: "Dolci",
+        id: "dessert",
+        name: "Dessert",
         kicker: "// Il Finale",
-        image: 35546720,
-        intro: "Pasticceria espressa al piatto: il finale dolce, costruito come un piatto di cucina.",
-        tags: ["Al Piatto", "Espressi", "Artigianali"],
+        photo: "cake",
+        intro: "La pasticceria della casa: il finale dolce, tra classici e creazioni al piatto.",
+        tags: ["Pasticceria", "Al Piatto", "Artigianali"],
         dishes: [
-          { name: "Sfera al Cioccolato", desc: "Cuore caldo e gelato artigianale" },
-          { name: "Tiramisù Classé", desc: "L'interpretazione contemporanea della casa" },
-          { name: "Dessert al Piatto del Giorno", desc: "La creazione espressa della pasticceria" },
-          { name: "Piccola Pasticceria", desc: "Con caffè, distillati o vino dolce" },
+          { name: "Spumone", desc: "Il classico salentino", price: "9" },
+          { name: "Tortino di Cioccolato", desc: "Dal cuore morbido", price: "9" },
+          { name: "Tiramisù", desc: "La ricetta della casa", price: "9" },
+          { name: "Crème Brûlée", desc: "Alla vaniglia", price: "9" },
+          { name: "Torrone Bianco", desc: "Mandorle e miele", price: "10" },
+          { name: "Cantucci", desc: "Con vino dolce", price: "8" },
         ],
       },
     ];
@@ -951,17 +1349,25 @@
       const entrance = { filter: "blur(10px)", opacity: 0, y: 20 };
       const settled = { filter: "blur(0px)", opacity: 1, y: 0 };
       const reversed = index % 2 === 1;
+      const SITE = window.SITE;
 
       return (
-        <div className={"flex flex-col gap-8 md:gap-12 md:items-stretch " + (reversed ? "md:flex-row-reverse" : "md:flex-row")}>
-          <Reveal className="md:w-2/5" amount={0.15}>
-            <div className="liquid-glass rounded-[1.25rem] overflow-hidden h-72 md:h-full md:min-h-[420px]">
+        <div id={section.id} className={"flex flex-col gap-8 md:gap-12 md:items-start " + (reversed ? "md:flex-row-reverse" : "md:flex-row")}>
+          <Reveal className="md:w-2/5 md:sticky md:top-24" amount={0.1}>
+            <div className="liquid-glass rounded-[1.25rem] overflow-hidden h-72 md:h-[420px]">
               <img
-                src={window.SITE.img(section.image, 1200)}
+                src={SITE.photos[section.photo]}
                 alt={section.name}
                 loading="lazy"
                 className="w-full h-full object-cover"
               />
+            </div>
+            <div className="flex flex-wrap gap-1.5 mt-4">
+              {section.tags.map((tag) => (
+                <span key={tag} className="liquid-glass rounded-full px-3 py-1 text-[11px] text-white/90 font-body whitespace-nowrap">
+                  {tag}
+                </span>
+              ))}
             </div>
           </Reveal>
 
@@ -975,16 +1381,9 @@
               className="font-heading italic text-white text-5xl md:text-6xl tracking-[-2px] leading-[0.9]"
             />
             <Reveal delay={0.2}>
-              <p className="mt-4 text-sm text-white/90 font-body font-light leading-snug max-w-[48ch]">
+              <p className="mt-4 text-sm text-white/90 font-body font-light leading-snug max-w-[52ch]">
                 {section.intro}
               </p>
-              <div className="flex flex-wrap gap-1.5 mt-4">
-                {section.tags.map((tag) => (
-                  <span key={tag} className="liquid-glass rounded-full px-3 py-1 text-[11px] text-white/90 font-body whitespace-nowrap">
-                    {tag}
-                  </span>
-                ))}
-              </div>
             </Reveal>
 
             <div className="mt-8 flex flex-col gap-3">
@@ -993,18 +1392,25 @@
                   key={dish.name}
                   initial={entrance}
                   whileInView={settled}
-                  viewport={{ once: true, amount: 0.4 }}
-                  transition={{ duration: 0.8, delay: 0.1 + i * 0.1, ease: "easeOut" }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.8, delay: 0.05 + (i % 6) * 0.08, ease: "easeOut" }}
                   className="liquid-glass rounded-[1.25rem] px-5 py-4 flex items-baseline justify-between gap-6"
                 >
                   <div>
                     <div className="font-heading italic text-white text-xl md:text-2xl tracking-[-0.5px] leading-none">
                       {dish.name}
                     </div>
-                    <div className="mt-1.5 text-xs md:text-sm text-white/80 font-body font-light leading-snug">
-                      {dish.desc}
-                    </div>
+                    {dish.desc && (
+                      <div className="mt-1.5 text-xs md:text-sm text-white/80 font-body font-light leading-snug">
+                        {dish.desc}
+                      </div>
+                    )}
                   </div>
+                  {dish.price && (
+                    <div className="font-heading italic text-white text-xl md:text-2xl tracking-[-0.5px] leading-none whitespace-nowrap">
+                      €{dish.price}
+                    </div>
+                  )}
                 </motion.div>
               ))}
             </div>
@@ -1018,42 +1424,69 @@
       return (
         <div>
           <PageHeader
-            image={SITE.img(10895800)}
+            image={SITE.photos.gourmetFish}
             kicker="// La Carta"
             title="Il Menù"
-            subtitle="Il menù varia ogni giorno secondo il pescato e il mercato. Crudi, primi di mare, sushi e dolci al piatto — qui una selezione rappresentativa."
+            subtitle="Crudi, caviale, ostriche, antipasti di mare e di terra, wagyu, primi, secondi, pescheria al peso, sushi e dessert. La disponibilità varia ogni giorno secondo il pescato."
           />
 
-          <section className="relative bg-black px-8 md:px-16 lg:px-20 py-24 flex flex-col gap-24 md:gap-32">
-            {MENU_SECTIONS.map((section, i) => (
-              <MenuSection key={section.name} section={section} index={i} />
-            ))}
-
+          <section className="relative bg-black px-8 md:px-16 lg:px-20 pt-12 pb-24">
             <Reveal>
+              <div className="flex flex-wrap gap-2 justify-center">
+                {MENU.map((s) => (
+                  <a
+                    key={s.id}
+                    href={"#/menu"}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const el = document.getElementById(s.id);
+                      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }}
+                    className="liquid-glass rounded-full px-4 py-2 text-xs font-medium text-white/90 font-body whitespace-nowrap"
+                  >
+                    {s.name}
+                  </a>
+                ))}
+              </div>
+            </Reveal>
+
+            <div className="flex flex-col gap-24 md:gap-32 mt-20">
+              {MENU.map((section, i) => (
+                <MenuSection key={section.id} section={section} index={i} />
+              ))}
+            </div>
+
+            <Reveal className="mt-24">
               <div className="liquid-glass rounded-[1.25rem] p-10 md:p-12 flex flex-col items-center text-center">
                 <BlurText
-                  text="La Carta dei Vini"
+                  text="I menù ufficiali"
                   className="font-heading italic text-white text-4xl md:text-5xl tracking-[-2px] leading-none"
                 />
                 <p className="mt-4 text-sm md:text-base text-white/90 font-body font-light max-w-xl">
-                  Etichette italiane e champagne, con bottiglie a partire da €48 e oltre venti
-                  tipologie di calici in cristallo. Il sommelier costruisce l'abbinamento su ogni
-                  portata.
+                  Consulta e scarica i menù completi in PDF, in italiano e in inglese. Alle mezze
+                  porzioni viene applicato il 30%. Secondo le condizioni meteo, alcuni prodotti
+                  possono non essere disponibili freschi, ma congelati.
                 </p>
-                <div className="flex flex-wrap justify-center gap-1.5 mt-6">
-                  {["Bianchi del Salento", "Bollicine", "Champagne", "Rosati", "Distillati"].map((tag) => (
-                    <span key={tag} className="liquid-glass rounded-full px-3 py-1 text-[11px] text-white/90 font-body whitespace-nowrap">
-                      {tag}
-                    </span>
+                <div className="flex flex-wrap items-center justify-center gap-3 mt-8">
+                  {[
+                    { label: "Menù Ristorante (ITA)", href: SITE.pdf.menuIta },
+                    { label: "Restaurant Menu (ENG)", href: SITE.pdf.menuEng },
+                    { label: "Menù Sushi", href: SITE.pdf.sushi },
+                    { label: "Menù Dessert (ITA)", href: SITE.pdf.dessertIta },
+                    { label: "Dessert Menu (ENG)", href: SITE.pdf.dessertEng },
+                  ].map((m) => (
+                    <a
+                      key={m.label}
+                      href={m.href}
+                      target="_blank"
+                      rel="noopener"
+                      className="liquid-glass-strong rounded-full px-5 py-2.5 text-sm font-medium text-white font-body flex items-center gap-1.5"
+                    >
+                      {m.label}
+                      <DownloadIcon className="h-4 w-4" />
+                    </a>
                   ))}
                 </div>
-                <a
-                  href={SITE.phoneHref}
-                  className="liquid-glass-strong rounded-full px-5 py-2.5 mt-8 text-sm font-medium text-white font-body flex items-center gap-1.5"
-                >
-                  Prenota una Degustazione
-                  <ArrowUpRight className="h-5 w-5" />
-                </a>
               </div>
             </Reveal>
           </section>
@@ -1068,19 +1501,25 @@
   <script type="text/babel">
     function ChiSiamoPage() {
       const SITE = window.SITE;
-      const numbers = [
-        { value: "4.8/5", label: "La valutazione media dei nostri ospiti" },
-        { value: "20+", label: "Tipologie di calici in cristallo" },
-        { value: "7/7", label: "Ogni sera a cena, domenica anche a pranzo" },
+      const gallery = [
+        { src: SITE.photos.salmonSashimi, alt: "Sashimi di salmone fresco" },
+        { src: SITE.photos.caviarTubs, alt: "Vasche di caviale su ghiaccio" },
+        { src: SITE.photos.oysterGlove, alt: "Ostrica fresca appena aperta" },
+        { src: SITE.photos.gourmetFish, alt: "Piatto di pesce gourmet" },
+        { src: SITE.photos.creamyPasta, alt: "Pasta con pesce e salsa cremosa" },
+        { src: SITE.photos.wineSelection, alt: "Selezione di vini" },
+        { src: SITE.photos.champagne, alt: "Champagne e spumanti" },
+        { src: SITE.photos.cake, alt: "Torta decorata della pasticceria" },
+        { src: SITE.photos.entrance, alt: "Ingresso del ristorante" },
       ];
 
       return (
         <div>
           <PageHeader
-            image={SITE.img(26729398)}
+            image={SITE.photos.diningRoom}
             kicker="// Chi Siamo"
-            title="L'anima di Classé"
-            subtitle="Un ristorante di pesce nel cuore di Lecce, all'interno de La Dogana: eleganza, materia prima assoluta e una cucina che unisce Salento e mondo."
+            title="Dal mare alla tua tavola"
+            subtitle="Classé, qualità senza compromessi: una cucina che valorizza le migliori materie prime, selezionate con cura ogni giorno."
           />
 
           <section className="relative bg-black px-8 md:px-16 lg:px-20 py-24">
@@ -1090,27 +1529,27 @@
                   <p className="text-sm font-body text-white/80 mb-4">// La Filosofia</p>
                 </Reveal>
                 <BlurText
-                  text="La materia prima è la nostra firma"
+                  text="Qualità senza compromessi"
                   align="left"
                   className="font-heading italic text-white text-5xl md:text-6xl tracking-[-2px] leading-[0.9]"
                 />
                 <Reveal delay={0.2}>
-                  <p className="mt-6 text-sm md:text-base text-white/90 font-body font-light leading-snug max-w-[52ch]">
-                    Ogni mattina selezioniamo il meglio del mercato: pescato fresco dei mari
-                    italiani, crostacei, ostriche e una raffinata selezione di caviale. Il crudo
-                    è rigorosamente abbattuto e la proposta cambia con la disponibilità del
-                    giorno — perché la qualità non si programma, si insegue.
+                  <p className="mt-6 text-sm md:text-base text-white/90 font-body font-light leading-snug max-w-[54ch]">
+                    Il cuore di Classé è una cucina costruita sulla materia prima: dal banco del
+                    pescato fresco e dei crostacei vivi alla raffinata selezione di caviale
+                    Calvisius® e Ars Italica, ogni ingrediente è scelto per offrire
+                    un'esperienza autentica.
                   </p>
-                  <p className="mt-4 text-sm md:text-base text-white/90 font-body font-light leading-snug max-w-[52ch]">
-                    Intorno al piatto, tutto è curato nel dettaglio: oltre venti tipologie di
-                    calici in cristallo, un servizio attento e discreto, spazi eleganti che si
-                    adattano a ogni occasione.
+                  <p className="mt-4 text-sm md:text-base text-white/90 font-body font-light leading-snug max-w-[54ch]">
+                    Le proposte di mare e di terra guardano alla grande tradizione culinaria
+                    italiana e internazionale, esaltando i sapori con tecniche moderne e
+                    abbinamenti ricercati.
                   </p>
                 </Reveal>
               </div>
               <Reveal className="md:w-1/2" delay={0.15}>
                 <div className="liquid-glass rounded-[1.25rem] overflow-hidden h-80 md:h-[480px]">
-                  <img src={SITE.img(11906266, 1200)} alt="La sala di Classé" loading="lazy" className="w-full h-full object-cover" />
+                  <img src={SITE.photos.lobsterDisplay} alt="Astici e aragoste nel display del ristorante" loading="lazy" className="w-full h-full object-cover" />
                 </div>
               </Reveal>
             </div>
@@ -1118,44 +1557,55 @@
             <div className="flex flex-col md:flex-row-reverse gap-12 md:items-center mt-28">
               <div className="md:w-1/2">
                 <Reveal>
-                  <p className="text-sm font-body text-white/80 mb-4">// Lo Chef</p>
+                  <p className="text-sm font-body text-white/80 mb-4">// Classé & Ittica De Mar</p>
                 </Reveal>
                 <BlurText
-                  text="Ivan Tronci"
+                  text="Materie prime che raccontano il Mediterraneo"
                   align="left"
                   className="font-heading italic text-white text-5xl md:text-6xl tracking-[-2px] leading-[0.9]"
                 />
                 <Reveal delay={0.2}>
-                  <p className="mt-6 text-sm md:text-base text-white/90 font-body font-light leading-snug max-w-[52ch]">
-                    Alla guida della cucina di Classé, lo chef Ivan Tronci firma piatti che
-                    intrecciano la tradizione pugliese con tecnica contemporanea e suggestioni
-                    fusion: dallo spaghetto alla tartare di tonno al banco sushi mediterraneo.
+                  <p className="mt-6 text-sm md:text-base text-white/90 font-body font-light leading-snug max-w-[54ch]">
+                    Il brand Classé nasce da Ittica De Mar: la flotta di pescherecci di famiglia
+                    garantisce ogni giorno pesce freschissimo e crostacei vivi, direttamente
+                    dalla pescheria alla cucina del ristorante.
                   </p>
-                  <div className="flex flex-wrap gap-1.5 mt-6">
-                    {["Cucina di Mare", "Sushi Mediterraneo", "Tradizione Pugliese", "Pasticceria al Piatto"].map((tag) => (
-                      <span key={tag} className="liquid-glass rounded-full px-3 py-1 text-[11px] text-white/90 font-body whitespace-nowrap">
-                        {tag}
-                      </span>
-                    ))}
+                  <p className="mt-4 text-sm md:text-base text-white/90 font-body font-light leading-snug max-w-[54ch]">
+                    Classé trova la sua casa ideale all'interno de La Dogana, una location
+                    poliedrica e raffinata di Lecce: l'equilibrio tra sapori unici e ambienti
+                    accoglienti rende speciale ogni cena e ogni evento.
+                  </p>
+                  <div className="liquid-glass rounded-[1.25rem] px-6 py-5 mt-8 inline-flex flex-col">
+                    <span className="font-heading italic text-white text-2xl leading-none">Simone De Mitri</span>
+                    <span className="text-xs text-white/80 font-body font-light mt-2 uppercase tracking-widest">Gestore</span>
                   </div>
                 </Reveal>
               </div>
               <Reveal className="md:w-1/2" delay={0.15}>
                 <div className="liquid-glass rounded-[1.25rem] overflow-hidden h-80 md:h-[480px]">
-                  <img src={SITE.img(36430088, 1200)} alt="Lo chef al passe" loading="lazy" className="w-full h-full object-cover" />
+                  <img src={SITE.photos.showcase} alt="Vetrina del locale con luci decorative" loading="lazy" className="w-full h-full object-cover" />
                 </div>
               </Reveal>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-28">
-              {numbers.map((n, i) => (
-                <Reveal key={n.value} delay={0.1 + i * 0.15}>
-                  <div className="liquid-glass rounded-[1.25rem] p-8 flex flex-col items-start">
-                    <div className="font-heading italic text-white text-5xl tracking-[-1px] leading-none">{n.value}</div>
-                    <div className="text-xs text-white font-body font-light mt-3">{n.label}</div>
-                  </div>
-                </Reveal>
-              ))}
+            <div className="mt-28">
+              <Reveal>
+                <p className="text-sm font-body text-white/80 mb-4">// La Galleria</p>
+              </Reveal>
+              <BlurText
+                text="Dentro Classé"
+                align="left"
+                className="font-heading italic text-white text-5xl md:text-6xl tracking-[-2px] leading-[0.9]"
+              />
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-10">
+                {gallery.map((g, i) => (
+                  <Reveal key={g.src} delay={0.05 + (i % 3) * 0.12} amount={0.1}>
+                    <div className="liquid-glass rounded-[1.25rem] overflow-hidden h-48 md:h-64">
+                      <img src={g.src} alt={g.alt} loading="lazy" className="w-full h-full object-cover" />
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
             </div>
           </section>
         </div>
@@ -1165,80 +1615,178 @@
     window.ChiSiamoPage = ChiSiamoPage;
   </script>
 
-  <!-- Esperienze page -->
+  <!-- Carta dei Vini page -->
   <script type="text/babel">
-    const EXPERIENCES = [
+    function CartaViniPage() {
+      const SITE = window.SITE;
+      const highlights = [
+        {
+          title: "Il Salento nel Calice",
+          body: "La carta dei vini più ampia del Salento: etichette italiane e francesi di altissimo livello, selezionate per accompagnare mare e terra.",
+          tags: ["Italia", "Francia", "Etichette Rare"],
+        },
+        {
+          title: "Bollicine & Champagne",
+          body: "Una selezione straordinaria di bollicine italiane e francesi, dalle grandi Maison ai piccoli vigneron.",
+          tags: ["Champagne", "Franciacorta", "Vigneron"],
+        },
+        {
+          title: "Il Servizio",
+          body: "Oltre 20 tipologie di calici di cristallo e un servizio del vino curato in ogni dettaglio: a ogni gusto, il suo abbinamento perfetto.",
+          tags: ["20+ Cristalli", "Sommelier", "Abbinamenti"],
+        },
+      ];
+
+      return (
+        <div>
+          <PageHeader
+            image={SITE.photos.wineSelection}
+            kicker="// La Cantina"
+            title="Carta dei Vini"
+            subtitle="La selezione più ampia del Salento: etichette italiane, francesi e dal mondo, con le bollicine più raffinate."
+          />
+
+          <section className="relative bg-black px-8 md:px-16 lg:px-20 py-24">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {highlights.map((h, i) => (
+                <Reveal key={h.title} delay={0.1 + i * 0.15}>
+                  <div className="liquid-glass rounded-[1.25rem] p-8 min-h-[300px] flex flex-col">
+                    <div className="liquid-glass rounded-[0.75rem] w-11 h-11 flex items-center justify-center text-white">
+                      <WineIcon className="h-6 w-6" />
+                    </div>
+                    <div className="flex-1" />
+                    <h3 className="font-heading italic text-white text-3xl tracking-[-1px] leading-none mt-6">{h.title}</h3>
+                    <p className="mt-3 text-sm text-white/90 font-body font-light leading-snug">{h.body}</p>
+                    <div className="flex flex-wrap gap-1.5 mt-4">
+                      {h.tags.map((tag) => (
+                        <span key={tag} className="liquid-glass rounded-full px-3 py-1 text-[11px] text-white/90 font-body whitespace-nowrap">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+
+            <div className="flex flex-col md:flex-row gap-12 md:items-center mt-24">
+              <Reveal className="md:w-1/2" delay={0.1}>
+                <div className="liquid-glass rounded-[1.25rem] overflow-hidden h-80 md:h-[460px]">
+                  <img src={SITE.photos.champagne} alt="Selezione di champagne e spumanti" loading="lazy" className="w-full h-full object-cover" />
+                </div>
+              </Reveal>
+              <div className="md:w-1/2">
+                <Reveal>
+                  <p className="text-sm font-body text-white/80 mb-4">// Consulta la Carta</p>
+                </Reveal>
+                <BlurText
+                  text="Sfoglia la carta completa"
+                  align="left"
+                  className="font-heading italic text-white text-5xl md:text-6xl tracking-[-2px] leading-[0.9]"
+                />
+                <Reveal delay={0.2}>
+                  <p className="mt-6 text-sm md:text-base text-white/90 font-body font-light leading-snug max-w-[50ch]">
+                    La carta dei vini è sempre aggiornata e consultabile online: sfogliala per
+                    scoprire etichette, annate e formati disponibili in cantina.
+                  </p>
+                  <div className="flex flex-wrap items-center gap-4 mt-8">
+                    <a
+                      href={SITE.wineListHref}
+                      target="_blank"
+                      rel="noopener"
+                      className="liquid-glass-strong rounded-full px-5 py-2.5 text-sm font-medium text-white font-body flex items-center gap-1.5"
+                    >
+                      Apri la Carta dei Vini
+                      <ArrowUpRight className="h-5 w-5" />
+                    </a>
+                    <a href="#/eventi" className="text-sm font-medium text-white font-body flex items-center gap-2">
+                      Degustazioni & Eventi
+                      <PlayIcon className="h-4 w-4" />
+                    </a>
+                  </div>
+                </Reveal>
+              </div>
+            </div>
+          </section>
+        </div>
+      );
+    }
+
+    window.CartaViniPage = CartaViniPage;
+  </script>
+
+  <!-- Eventi page -->
+  <script type="text/babel">
+    const EVENTS = [
       {
-        title: "Terrazza con Vista",
-        kicker: "// All'Aperto",
-        image: 12490291,
-        tags: ["Stagione Estiva", "Tramonto", "Aperitivo"],
+        date: "24 Aprile 2026 · ore 21:00",
+        title: "Degustazione Krug",
         body:
-          "Nelle sere d'estate la cena si sposta all'aperto: la terrazza con vista accoglie aperitivi al tramonto, crudi su ghiaccio e bollicine al calar della luce.",
+          "Una serata esclusiva dedicata a una delle Maison più iconiche dello Champagne: un percorso di degustazione d'eccezione accompagnato dalla cucina di Classé.",
+        price: "€900",
+        photo: "eventKrug",
+        tags: ["Champagne", "Maison Krug", "Posti Limitati"],
       },
       {
-        title: "Sala Piano",
-        kicker: "// Musica dal Vivo",
-        image: 11457392,
-        tags: ["Steinway & Sons", "Insonorizzata", "Live"],
+        date: "27 Febbraio 2026",
+        title: "Domaine de la Romanée-Conti #2",
         body:
-          "Una sala insonorizzata con pianoforte Steinway & Sons: cene accompagnate da musica dal vivo, per serate che restano nella memoria.",
+          "Il leggendario Domaine de la Romanée-Conti a Lecce: un viaggio sensoriale tra i più grandi interpreti di Vosne-Romanée, culla dei Pinot Noir più ricercati al mondo.",
+        price: "€850",
+        photo: "eventDrcVineyard",
+        tags: ["Borgogna", "Pinot Noir", "Verticale"],
       },
       {
-        title: "Eventi Privati",
-        kicker: "// Su Misura",
-        image: 34429974,
-        tags: ["Spazi Personalizzabili", "Cerimonie", "Business"],
+        date: "5 Febbraio 2026",
+        title: "Domaine de la Romanée-Conti",
         body:
-          "Spazi eleganti e completamente personalizzabili per cerimonie, eventi aziendali e cene private — con menù dedicati costruiti insieme alla cucina.",
-      },
-      {
-        title: "Cantina & Degustazioni",
-        kicker: "// Il Vino",
-        image: 8856502,
-        tags: ["Sommelier", "Verticali", "Champagne"],
-        body:
-          "Percorsi di degustazione guidati dal sommelier: verticali, champagne e abbinamenti su misura, serviti in oltre venti tipologie di calici in cristallo.",
+          "La prima serata dedicata al Domaine de la Romanée-Conti: i grandi cru di Borgogna raccontati calice dopo calice, in abbinamento a un menù dedicato.",
+        price: "€850",
+        photo: "eventDrcTable",
+        tags: ["Borgogna", "Grand Cru", "Menù Dedicato"],
       },
     ];
 
-    function EsperienzePage() {
+    function EventiPage() {
       const SITE = window.SITE;
       return (
         <div>
           <PageHeader
-            image={SITE.img(12490291)}
-            kicker="// Esperienze"
-            title="Oltre la tavola"
-            subtitle="Terrazza, musica dal vivo, eventi privati e degustazioni: ogni serata da Classé può diventare un'occasione su misura."
+            image={SITE.photos.champagne}
+            kicker="// Eventi"
+            title="Serate d'eccellenza"
+            subtitle="Degustazioni con le più grandi Maison, verticali leggendarie e serate a tema: il calendario di Classé."
           />
 
           <section className="relative bg-black px-8 md:px-16 lg:px-20 py-24 flex flex-col gap-20">
-            {EXPERIENCES.map((exp, i) => (
+            {EVENTS.map((ev, i) => (
               <div
-                key={exp.title}
+                key={ev.title}
                 className={"flex flex-col gap-8 md:gap-12 md:items-center " + (i % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row")}
               >
                 <Reveal className="md:w-1/2" amount={0.15}>
                   <div className="liquid-glass rounded-[1.25rem] overflow-hidden h-72 md:h-[420px]">
-                    <img src={SITE.img(exp.image, 1400)} alt={exp.title} loading="lazy" className="w-full h-full object-cover" />
+                    <img src={SITE.photos[ev.photo]} alt={ev.title} loading="lazy" className="w-full h-full object-cover" />
                   </div>
                 </Reveal>
                 <div className="md:w-1/2">
                   <Reveal>
-                    <p className="text-sm font-body text-white/80 mb-4">{exp.kicker}</p>
+                    <div className="liquid-glass rounded-full inline-flex items-center gap-3 p-1 mb-5">
+                      <span className="bg-white text-black rounded-full px-3 py-1 text-xs font-semibold font-body">{ev.price}</span>
+                      <span className="text-sm text-white/90 font-body pr-3">{ev.date}</span>
+                    </div>
                   </Reveal>
                   <BlurText
-                    text={exp.title}
+                    text={ev.title}
                     align="left"
-                    className="font-heading italic text-white text-5xl md:text-6xl tracking-[-2px] leading-[0.9]"
+                    className="font-heading italic text-white text-4xl md:text-6xl tracking-[-2px] leading-[0.9]"
                   />
                   <Reveal delay={0.2}>
                     <p className="mt-5 text-sm md:text-base text-white/90 font-body font-light leading-snug max-w-[48ch]">
-                      {exp.body}
+                      {ev.body}
                     </p>
                     <div className="flex flex-wrap gap-1.5 mt-5">
-                      {exp.tags.map((tag) => (
+                      {ev.tags.map((tag) => (
                         <span key={tag} className="liquid-glass rounded-full px-3 py-1 text-[11px] text-white/90 font-body whitespace-nowrap">
                           {tag}
                         </span>
@@ -1248,19 +1796,52 @@
                       href={SITE.phoneHref}
                       className="liquid-glass-strong rounded-full px-5 py-2.5 mt-7 inline-flex items-center gap-1.5 text-sm font-medium text-white font-body"
                     >
-                      Richiedi Informazioni
+                      Riserva il Tuo Posto
                       <ArrowUpRight className="h-5 w-5" />
                     </a>
                   </Reveal>
                 </div>
               </div>
             ))}
+
+            <Reveal>
+              <div className="liquid-glass rounded-[1.25rem] p-10 md:p-14 flex flex-col items-center text-center">
+                <div className="liquid-glass rounded-[0.75rem] w-11 h-11 flex items-center justify-center text-white mb-6">
+                  <MusicIcon className="h-6 w-6" />
+                </div>
+                <BlurText
+                  text="Eventi privati su misura"
+                  className="font-heading italic text-white text-4xl md:text-5xl tracking-[-2px] leading-none"
+                />
+                <p className="mt-4 text-sm md:text-base text-white/90 font-body font-light max-w-xl">
+                  Spazi eleganti e personalizzabili, terrazza con vista, sala insonorizzata con
+                  pianoforte Steinway & Sons: per cerimonie, eventi aziendali e cene private
+                  costruiamo la serata insieme a te.
+                </p>
+                <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
+                  <a
+                    href={SITE.phoneHref}
+                    className="liquid-glass-strong rounded-full px-5 py-2.5 text-sm font-medium text-white font-body flex items-center gap-1.5"
+                  >
+                    Richiedi un Preventivo
+                    <ArrowUpRight className="h-5 w-5" />
+                  </a>
+                  <a
+                    href={SITE.emailHref}
+                    className="liquid-glass rounded-full px-5 py-2.5 text-sm font-medium text-white font-body flex items-center gap-2"
+                  >
+                    <MailIcon className="h-4 w-4" />
+                    {SITE.email}
+                  </a>
+                </div>
+              </div>
+            </Reveal>
           </section>
         </div>
       );
     }
 
-    window.EsperienzePage = EsperienzePage;
+    window.EventiPage = EventiPage;
   </script>
 
   <!-- Contatti page -->
@@ -1271,19 +1852,19 @@
       return (
         <div>
           <PageHeader
-            image={SITE.img(8856502)}
-            kicker="// Contatti"
+            image={SITE.photos.entrance}
+            kicker="// Contatti & Posizione"
             title="Vieni a trovarci"
-            subtitle="Nel cuore di Lecce, all'interno de La Dogana. Prenota per telefono o online — per eventi e gruppi, scrivici."
+            subtitle="In Viale della Libertà 93, a Lecce. Prenota per telefono, su WhatsApp o online."
           />
 
           <section className="relative bg-black px-8 md:px-16 lg:px-20 py-24">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <Reveal delay={0.1}>
-                <div className="liquid-glass rounded-[1.25rem] p-8 flex flex-col min-h-[260px]">
+                <div className="liquid-glass rounded-[1.25rem] p-8 flex flex-col min-h-[280px]">
                   <MapPinIcon className="h-7 w-7 text-white" />
                   <div className="flex-1" />
-                  <h3 className="font-heading italic text-white text-3xl tracking-[-1px] leading-none mt-6">Dove Siamo</h3>
+                  <h3 className="font-heading italic text-white text-3xl tracking-[-1px] leading-none mt-6">Posizione</h3>
                   <p className="mt-3 text-sm text-white/90 font-body font-light leading-snug">{SITE.address}</p>
                   <a
                     href={SITE.mapsHref}
@@ -1291,17 +1872,17 @@
                     rel="noopener"
                     className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-white font-body"
                   >
-                    Apri in Google Maps
+                    Indicazioni Stradali
                     <ArrowUpRight className="h-4 w-4" />
                   </a>
                 </div>
               </Reveal>
 
               <Reveal delay={0.25}>
-                <div className="liquid-glass rounded-[1.25rem] p-8 flex flex-col min-h-[260px]">
+                <div className="liquid-glass rounded-[1.25rem] p-8 flex flex-col min-h-[280px]">
                   <ClockIcon className="h-7 w-7 text-white" />
                   <div className="flex-1" />
-                  <h3 className="font-heading italic text-white text-3xl tracking-[-1px] leading-none mt-6">Orari</h3>
+                  <h3 className="font-heading italic text-white text-3xl tracking-[-1px] leading-none mt-6">Orari di Apertura</h3>
                   <div className="mt-3 flex flex-col gap-1.5 text-sm text-white/90 font-body font-light leading-snug">
                     {SITE.hours.map((h) => (
                       <div key={h.days}>
@@ -1313,43 +1894,94 @@
               </Reveal>
 
               <Reveal delay={0.4}>
-                <div className="liquid-glass rounded-[1.25rem] p-8 flex flex-col min-h-[260px]">
+                <div className="liquid-glass rounded-[1.25rem] p-8 flex flex-col min-h-[280px]">
                   <PhoneIcon className="h-7 w-7 text-white" />
                   <div className="flex-1" />
                   <h3 className="font-heading italic text-white text-3xl tracking-[-1px] leading-none mt-6">Prenotazioni</h3>
                   <a href={SITE.phoneHref} className="mt-3 text-sm text-white font-body font-light">
                     {SITE.phone}
                   </a>
-                  <a
-                    href={SITE.bookingHref}
-                    target="_blank"
-                    rel="noopener"
-                    className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-white font-body"
-                  >
-                    Prenota Online
-                    <ArrowUpRight className="h-4 w-4" />
+                  <a href={SITE.emailHref} className="mt-1 text-sm text-white/90 font-body font-light">
+                    {SITE.email}
                   </a>
+                  <div className="flex flex-wrap gap-3 mt-4">
+                    <a
+                      href={SITE.bookingHref}
+                      target="_blank"
+                      rel="noopener"
+                      className="inline-flex items-center gap-1.5 text-sm font-medium text-white font-body"
+                    >
+                      Prenota Online
+                      <ArrowUpRight className="h-4 w-4" />
+                    </a>
+                    <a
+                      href={SITE.whatsappHref}
+                      target="_blank"
+                      rel="noopener"
+                      className="inline-flex items-center gap-1.5 text-sm font-medium text-white font-body"
+                    >
+                      WhatsApp
+                      <WhatsAppIcon className="h-4 w-4" />
+                    </a>
+                  </div>
                 </div>
               </Reveal>
             </div>
 
             <Reveal delay={0.2} className="mt-16">
+              <div className="liquid-glass rounded-[1.25rem] overflow-hidden">
+                <iframe
+                  title="Mappa — Classé La Dogana Restaurant, Lecce"
+                  src="https://www.google.com/maps?q=La+Dogana+Lecce+Class%C3%A9+Restaurant,+Viale+della+libert%C3%A0+93,+Lecce&output=embed"
+                  className="w-full h-[380px] grayscale contrast-125 opacity-90"
+                  loading="lazy"
+                  allowFullScreen
+                />
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.2} className="mt-16">
               <div className="liquid-glass rounded-[1.25rem] p-10 md:p-14 flex flex-col items-center text-center">
                 <BlurText
-                  text="Ti aspettiamo a Lecce"
+                  text="Resta aggiornato"
                   className="font-heading italic text-white text-4xl md:text-5xl tracking-[-2px] leading-none"
                 />
                 <p className="mt-4 text-sm md:text-base text-white/90 font-body font-light max-w-xl">
-                  Per tavoli oltre le otto persone, eventi privati o richieste speciali,
-                  chiamaci: costruiremo la serata insieme a te.
+                  Iscriviti alla newsletter per ricevere news, eventi e degustazioni in
+                  anteprima, oppure seguici sui social.
                 </p>
-                <a
-                  href={SITE.phoneHref}
-                  className="liquid-glass-strong rounded-full px-5 py-2.5 mt-8 text-sm font-medium text-white font-body flex items-center gap-1.5"
+                <form
+                  className="flex flex-col sm:flex-row items-stretch gap-3 mt-8 w-full max-w-md"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    const email = new FormData(e.target).get("email");
+                    window.location.href =
+                      "mailto:" + window.SITE.email + "?subject=Iscrizione%20newsletter&body=" + encodeURIComponent(email || "");
+                  }}
                 >
-                  Chiama {SITE.phone}
-                  <ArrowUpRight className="h-5 w-5" />
-                </a>
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    placeholder="La tua email"
+                    className="liquid-glass rounded-full px-5 py-2.5 text-sm text-white font-body font-light bg-transparent placeholder-white/50 flex-1 outline-none"
+                  />
+                  <button
+                    type="submit"
+                    className="bg-white text-black rounded-full px-5 py-2.5 text-sm font-medium font-body flex items-center justify-center gap-1.5 whitespace-nowrap"
+                  >
+                    Iscriviti
+                    <ArrowUpRight className="h-4 w-4" />
+                  </button>
+                </form>
+                <div className="flex items-center gap-3 mt-8">
+                  <a href={SITE.facebookHref} target="_blank" rel="noopener" aria-label="Facebook" className="liquid-glass rounded-full w-11 h-11 flex items-center justify-center text-white">
+                    <FacebookIcon className="h-5 w-5" />
+                  </a>
+                  <a href={SITE.instagramHref} target="_blank" rel="noopener" aria-label="Instagram" className="liquid-glass rounded-full w-11 h-11 flex items-center justify-center text-white">
+                    <InstagramIcon className="h-5 w-5" />
+                  </a>
+                </div>
               </div>
             </Reveal>
           </section>
@@ -1364,9 +1996,10 @@
   <script type="text/babel">
     const ROUTES = {
       "/": window.HomePage,
-      "/menu": window.MenuPage,
       "/chi-siamo": window.ChiSiamoPage,
-      "/esperienze": window.EsperienzePage,
+      "/menu": window.MenuPage,
+      "/carta-dei-vini": window.CartaViniPage,
+      "/eventi": window.EventiPage,
       "/contatti": window.ContattiPage,
     };
 
@@ -1394,6 +2027,7 @@
         <main className="bg-black">
           <Navbar route={route} />
           <Page key={route} />
+          <BookingBand />
           <Footer />
         </main>
       );

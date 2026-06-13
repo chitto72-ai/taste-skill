@@ -1,8 +1,8 @@
 # Classé Restaurant — Liquid-Glass Website Concept
 
-Full multi-page website concept for [Classé La Dogana Restaurant](https://www.classerestaurant.it/) (fine-dining seafood, Lecce, Italy), built as a single self-contained `index.html` with hash routing — no build step.
+Full multi-page website concept for [Classé La Dogana Restaurant](https://www.classerestaurant.it/) (Lecce, Italy), built as a single self-contained `index.html` with hash routing — no build step. Content mirrors the official site.
 
-Pages: **Home** (video hero + La Cucina + teasers), **Menù** (six animated menu sections + wine card), **Chi Siamo** (philosophy + chef Ivan Tronci), **Esperienze** (terrace, Steinway piano room, private events, tastings), **Contatti** (address, hours, booking).
+Pages (matching the original site's navigation): **Home** (video hero, "Dal mare alla cucina", pillars, "Atmosfera unica", asporto/Deliveroo), **Chi Siamo** (philosophy, Ittica De Mar, gallery), **Menù** (13 animated sections with the real menu and prices + official PDF links), **Carta dei Vini** (cellar highlights + Enoweb link), **Eventi** (real tasting events + private events), **Contatti & Posizione** (address, hours, phone, WhatsApp, map, newsletter). Every page ends with the "Prenota un tavolo" band and full footer.
 
 ## Run
 
@@ -26,4 +26,4 @@ React 18.3.1 UMD · Babel Standalone 7.29.0 · Framer Motion 11.11.17 UMD · Tai
 
 ## Assets & content
 
-All videos and photos are hotlinked free stock media from [Pexels](https://www.pexels.com) (Pexels license) chosen to match the restaurant's subjects (oysters, seafood pasta, sushi, elegant interiors, grand piano, terrace), as the official site's media was not accessible. All copy is original, written around publicly available facts about the restaurant: address (Viale della Libertà 93/b, Lecce), phone, hours, chef Ivan Tronci, signature dishes (crudité di mare, ostriche imperiali, spaghetti alla tartare di tonno), 20+ crystal glass types, Steinway & Sons piano room, terrace, private events. The menu page is a representative selection, not the official menu.
+Photos are hotlinked from the restaurant's own official website (classerestaurant.it); the two background videos are free stock from [Pexels](https://www.pexels.com) (Pexels license), since the original site uses static imagery. Menu items and prices, opening hours, address, contacts, social links, delivery links and tasting events were sourced from the official site and its published PDF menus; descriptive copy is written for this concept. Menu PDFs and the Enoweb wine list link out to the official documents — verify prices against those before any production use.

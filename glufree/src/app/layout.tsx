@@ -3,6 +3,7 @@ import { Playfair_Display, Karla } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import PwaRegister from "@/components/PwaRegister";
+import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
 
 const display = Playfair_Display({
   subsets: ["latin"],
@@ -84,8 +85,10 @@ export default function RootLayout({
         <link rel="preconnect" href="https://a.basemaps.cartocdn.com" />
         <link rel="preconnect" href="https://b.basemaps.cartocdn.com" />
         <link rel="preconnect" href="https://c.basemaps.cartocdn.com" />
-        <Navbar />
-        <main className="flex-1 flex flex-col">{children}</main>
+        <LanguageProvider>
+          <Navbar />
+          <main className="flex-1 flex flex-col">{children}</main>
+        </LanguageProvider>
         <PwaRegister />
       </body>
     </html>

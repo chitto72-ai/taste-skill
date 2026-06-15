@@ -15,35 +15,38 @@ import {
 } from "lucide-react";
 import type { Place } from "@/lib/types";
 import PlaceCard from "@/components/PlaceCard";
+import { useTranslation } from "@/lib/i18n/LanguageProvider";
+import type { Dict } from "@/lib/i18n/dictionaries";
 
 const MapView = dynamic(() => import("./MapView"), {
   ssr: false,
   loading: () => (
     <div className="grid h-full w-full place-items-center bg-muted">
-      <div className="flex flex-col items-center gap-3 text-slate-500">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" aria-hidden />
-        <p className="text-sm font-semibold">Carico la mappa…</p>
-      </div>
+      <Loader2 className="h-8 w-8 animate-spin text-primary" aria-hidden />
     </div>
   ),
 });
 
-const CATEGORY_FILTERS = [
-  { value: "", label: "Tutti" },
-  { value: "ristorante", label: "Ristoranti" },
-  { value: "pizzeria", label: "Pizzerie" },
-  { value: "pasticceria", label: "Pasticcerie" },
-  { value: "gelateria", label: "Gelaterie" },
-  { value: "panetteria", label: "Panetterie" },
-  { value: "bar", label: "Bar & Caffè" },
-] as const;
+function categoryFilters(t: Dict) {
+  return [
+    { value: "", label: t.categoriesFilter.all },
+    { value: "ristorante", label: t.categoriesFilter.ristorante },
+    { value: "pizzeria", label: t.categoriesFilter.pizzeria },
+    { value: "pasticceria", label: t.categoriesFilter.pasticceria },
+    { value: "gelateria", label: t.categoriesFilter.gelateria },
+    { value: "panetteria", label: t.categoriesFilter.panetteria },
+    { value: "bar", label: t.categoriesFilter.bar },
+  ];
+}
 
-const LEVEL_FILTERS = [
-  { value: "", label: "Ogni livello" },
-  { value: "dedicated", label: "100% Gluten Free" },
-  { value: "certified", label: "Certificato AIC" },
-  { value: "options", label: "Menu GF dedicato" },
-] as const;
+function levelFilters(t: Dict) {
+  return [
+    { value: "", label: t.levelsFilter.any },
+    { value: "dedicated", label: t.levelsFilter.dedicated },
+    { value: "certified", label: t.levelsFilter.certified },
+    { value: "options", label: t.levelsFilter.options },
+  ];
+}
 
 export default function MapExplorer() {
   // Ricerca iniziale da ?q= (link condivisi e SearchAction di Google)
@@ -54,6 +57,7 @@ export default function MapExplorer() {
   const [places, setPlaces] = useState<Place[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const { t } = useTranslation();
   const [userPosition, setUserPosition] = useState<[number, number] | null>(null);
   const [locating, setLocating] = useState(false);
   const [mobileView, setMobileView] = useState<"map" | "list">("map");
@@ -143,7 +147,7 @@ export default function MapExplorer() {
       {/* ---------- Pannello lista (desktop) ---------- */}
       <aside
         className="hidden w-[400px] shrink-0 flex-col border-r border-line bg-cream lg:flex"
-        aria-label="Elenco dei locali"
+        aria-label={t.map.listAria}
       >
         <div className="border-b border-line p-4">
           <SearchControls
@@ -209,7 +213,7 @@ export default function MapExplorer() {
         <button
           type="button"
           onClick={locateMe}
-          aria-label="Trova locali vicino a me"
+          aria-label={t.map.locateAria}
           className="absolute bottom-24 right-4 z-[1000] grid h-12 w-12 cursor-pointer place-items-center rounded-2xl bg-white text-accent shadow-card transition-transform duration-200 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent lg:bottom-6"
         >
           {locating ? (
@@ -234,7 +238,7 @@ export default function MapExplorer() {
                 <button
                   type="button"
                   onClick={() => setSelectedId(null)}
-                  aria-label="Chiudi la scheda del locale"
+                  aria-label={t.map.closeCardAria}
                   className="absolute -right-2 -top-2 z-10 grid h-9 w-9 cursor-pointer place-items-center rounded-full bg-ink text-white shadow-card transition-transform duration-200 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                 >
                   <X className="h-4 w-4" aria-hidden />
@@ -253,11 +257,11 @@ export default function MapExplorer() {
         >
           {mobileView === "map" ? (
             <>
-              <List className="h-4 w-4" aria-hidden /> Vedi elenco
+              <List className="h-4 w-4" aria-hidden /> {t.map.seeList}
             </>
           ) : (
             <>
-              <MapIcon className="h-4 w-4" aria-hidden /> Vedi mappa
+              <MapIcon className="h-4 w-4" aria-hidden /> {t.map.seeMap}
             </>
           )}
         </button>
@@ -272,7 +276,7 @@ export default function MapExplorer() {
               transition={{ duration: 0.3, ease: "easeOut" }}
               className="thin-scroll absolute inset-0 z-[990] space-y-3 overflow-y-auto bg-cream p-4 pt-32 pb-24 lg:hidden"
               role="list"
-              aria-label="Elenco dei locali"
+              aria-label={t.map.listAria}
             >
               <ResultsHeader loading={loading} count={places.length} />
               {places.map((place) => (
@@ -297,17 +301,18 @@ export default function MapExplorer() {
 /* ---------- Sottocomponenti ---------- */
 
 function ResultsHeader({ loading, count }: { loading: boolean; count: number }) {
+  const { t } = useTranslation();
   return (
     <p className="text-sm font-semibold text-slate-500" aria-live="polite">
       {loading ? (
         <span className="inline-flex items-center gap-2">
           <Loader2 className="h-4 w-4 animate-spin text-primary" aria-hidden />
-          Cerco i locali gluten free…
+          {t.map.searching}
         </span>
       ) : (
         <>
           <span className="font-display text-lg font-bold text-ink">{count}</span>{" "}
-          {count === 1 ? "locale trovato" : "locali trovati"}
+          {count === 1 ? t.map.resultOne : t.map.resultMany}
         </>
       )}
     </p>
@@ -315,18 +320,17 @@ function ResultsHeader({ loading, count }: { loading: boolean; count: number }) 
 }
 
 function EmptyState({ onReset }: { onReset: () => void }) {
+  const { t } = useTranslation();
   return (
     <div className="rounded-2xl border border-dashed border-line bg-white p-8 text-center">
-      <p className="font-display text-lg font-bold text-ink">Nessun locale trovato</p>
-      <p className="mt-1 text-sm text-slate-500">
-        Prova ad allargare la ricerca o a rimuovere qualche filtro.
-      </p>
+      <p className="font-display text-lg font-bold text-ink">{t.map.emptyTitle}</p>
+      <p className="mt-1 text-sm text-slate-500">{t.map.emptyText}</p>
       <button
         type="button"
         onClick={onReset}
         className="mt-4 inline-flex min-h-11 cursor-pointer items-center rounded-xl bg-primary px-4 py-2 text-sm font-bold text-white transition-colors duration-200 hover:bg-primary-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
       >
-        Azzera i filtri
+        {t.map.emptyReset}
       </button>
     </div>
   );
@@ -359,13 +363,14 @@ function SearchControls({
   activeFilters = 0,
   onFiltersChanged,
 }: SearchControlsProps) {
+  const { t } = useTranslation();
   return (
     <div className="space-y-3">
       <div className="flex gap-2">
         <label className="relative flex-1">
-          <span className="sr-only">Cerca per città, locale o piatto</span>
+          <span className="sr-only">{t.map.searchPlaceholder}</span>
           <Search
-            className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400"
+            className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400 rtl:left-auto rtl:right-3.5"
             aria-hidden
           />
           <input
@@ -376,8 +381,8 @@ function SearchControls({
               setQuery(e.target.value);
               onFiltersChanged?.();
             }}
-            placeholder="Città, locale o piatto…"
-            className="h-12 w-full rounded-2xl border border-line bg-white pl-11 pr-4 text-base shadow-card placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
+            placeholder={t.map.searchPlaceholder}
+            className="h-12 w-full rounded-2xl border border-line bg-white pl-11 pr-4 text-base shadow-card placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 rtl:pl-4 rtl:pr-11"
           />
         </label>
         {compact && setFiltersOpen && (
@@ -385,7 +390,7 @@ function SearchControls({
             type="button"
             onClick={() => setFiltersOpen(!filtersOpen)}
             aria-expanded={filtersOpen}
-            aria-label={`Filtri${activeFilters > 0 ? `, ${activeFilters} attivi` : ""}`}
+            aria-label={`${t.map.filtersAria}${activeFilters > 0 ? `, ${activeFilters} ${t.map.filtersActiveAria}` : ""}`}
             className="relative grid h-12 w-12 shrink-0 cursor-pointer place-items-center rounded-2xl border border-line bg-white text-ink shadow-card transition-colors duration-200 hover:bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
             <SlidersHorizontal className="h-5 w-5" aria-hidden />
@@ -401,8 +406,8 @@ function SearchControls({
       {(!compact || filtersOpen) && (
         <div className={compact ? "rounded-2xl border border-line bg-white p-3 shadow-card" : ""}>
           <FilterChips
-            label="Categoria"
-            options={CATEGORY_FILTERS}
+            label={t.map.filtersCategory}
+            options={categoryFilters(t)}
             value={category}
             onChange={(v) => {
               setCategory(v);
@@ -410,8 +415,8 @@ function SearchControls({
             }}
           />
           <FilterChips
-            label="Sicurezza gluten free"
-            options={LEVEL_FILTERS}
+            label={t.map.filtersLevel}
+            options={levelFilters(t)}
             value={level}
             onChange={(v) => {
               setLevel(v);

@@ -27,6 +27,11 @@ html {
   }
 }
 
+/* RTL (arabo): la mappa Leaflet resta LTR, ma il testo dell'app va a destra */
+[dir="rtl"] .leaflet-container {
+  direction: ltr;
+}
+
 body {
   @apply bg-cream text-ink font-body antialiased;
 }

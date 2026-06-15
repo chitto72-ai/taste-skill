@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import {
   Map,
@@ -13,6 +15,7 @@ import {
 } from "lucide-react";
 import seed from "@/data/seed-places.json";
 import { InviteActions } from "@/components/ShareButton";
+import { useTranslation } from "@/lib/i18n/LanguageProvider";
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://glufree-app.netlify.app";
 
@@ -22,7 +25,7 @@ const orgJsonLd = {
   name: "Glufree",
   url: BASE,
   description:
-    "La mappa interattiva dei locali gluten free nel mondo: ristoranti, pizzerie, pasticcerie e gelaterie verificate.",
+    "The interactive map of gluten-free venues worldwide: restaurants, pizzerias, patisseries and ice cream shops, verified.",
   logo: `${BASE}/icons/icon-512.png`,
 };
 
@@ -38,55 +41,48 @@ const siteJsonLd = {
   },
 };
 
-const stats = [
-  { value: String(seed.length) + "+", label: "Locali in mappa" },
-  { value: String(new Set(seed.map((p) => p.city)).size), label: "Città nel mondo" },
-  {
-    value: String(new Set(seed.map((p) => (p as { country?: string }).country ?? "Italia")).size),
-    label: "Paesi",
-  },
-];
-
-const steps = [
-  {
-    icon: Search,
-    title: "Cerca",
-    text: "Scrivi una città, un piatto o il nome di un locale. Oppure usa la tua posizione per scoprire cosa c'è vicino a te.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Scegli in sicurezza",
-    text: "Ogni locale mostra il livello gluten free: cucina 100% dedicata, certificazione AIC o menu senza glutine dedicato.",
-  },
-  {
-    icon: Navigation,
-    title: "Vai a colpo sicuro",
-    text: "Indicazioni stradali, telefono e sito web a portata di tap. Niente più telefonate di verifica prima di uscire.",
-  },
-];
-
-const badges = [
-  {
-    icon: ShieldCheck,
-    color: "text-safe bg-safe-light",
-    title: "100% Gluten Free",
-    text: "Cucina e laboratorio interamente senza glutine: rischio contaminazione azzerato.",
-  },
-  {
-    icon: BadgeCheck,
-    color: "text-accent bg-blue-50",
-    title: "Certificato AIC",
-    text: "Locale inserito nel programma Alimentazione Fuori Casa dell'Associazione Italiana Celiachia.",
-  },
-  {
-    icon: Users,
-    color: "text-primary-dark bg-orange-100",
-    title: "Verificato Glufree",
-    text: "Il titolare ha inviato la documentazione (P.IVA + certificazioni) e il nostro team l'ha controllata.",
-  },
-];
+const placeCount = seed.length;
+const cityCount = new Set(seed.map((p) => p.city)).size;
+const countryCount = new Set(
+  seed.map((p) => (p as { country?: string }).country ?? "Italia")
+).size;
 
 export default function HomePage() {
+  const { t } = useTranslation();
+
+  const stats = [
+    { value: `${placeCount}+`, label: t.home.statPlaces },
+    { value: String(cityCount), label: t.home.statCities },
+    { value: String(countryCount), label: t.home.statCountries },
+  ];
+
+  const steps = [
+    { icon: Search, title: t.home.step1Title, text: t.home.step1Text },
+    { icon: ShieldCheck, title: t.home.step2Title, text: t.home.step2Text },
+    { icon: Navigation, title: t.home.step3Title, text: t.home.step3Text },
+  ];
+
+  const badges = [
+    {
+      icon: ShieldCheck,
+      color: "text-safe bg-safe-light",
+      title: t.home.badgeDedicatedTitle,
+      text: t.home.badgeDedicatedText,
+    },
+    {
+      icon: BadgeCheck,
+      color: "text-accent bg-blue-50",
+      title: t.home.badgeCertifiedTitle,
+      text: t.home.badgeCertifiedText,
+    },
+    {
+      icon: Users,
+      color: "text-primary-dark bg-orange-100",
+      title: t.home.badgeVerifiedTitle,
+      text: t.home.badgeVerifiedText,
+    },
+  ];
+
   return (
     <>
       <script
@@ -111,12 +107,12 @@ export default function HomePage() {
           <div className="animate-fade-up">
             <p className="inline-flex items-center gap-2 rounded-full bg-safe-light px-4 py-1.5 text-sm font-bold text-safe">
               <ShieldCheck className="h-4 w-4" aria-hidden />
-              Mangiare fuori senza pensieri
+              {t.home.heroBadge}
             </p>
             <h1 className="mt-6 font-display text-4xl font-extrabold leading-tight tracking-tight text-ink sm:text-5xl lg:text-6xl">
-              Tutti i locali{" "}
+              {t.home.heroTitleA}{" "}
               <span className="relative whitespace-nowrap text-primary">
-                gluten free
+                {t.home.heroTitleHighlight}
                 <svg
                   className="absolute -bottom-1 left-0 w-full"
                   viewBox="0 0 200 9"
@@ -131,12 +127,10 @@ export default function HomePage() {
                   />
                 </svg>
               </span>
-              , su una sola mappa.
+              {t.home.heroTitleB}
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-600">
-              Ristoranti, pizzerie, pasticcerie e gelaterie senza glutine, con
-              livello di sicurezza chiaro e locali verificati uno a uno. I dati
-              di Google Maps, il design e le verifiche di Glufree.
+              {t.home.heroLead}
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
@@ -144,14 +138,14 @@ export default function HomePage() {
                 className="inline-flex min-h-12 items-center gap-2 rounded-2xl bg-primary px-6 py-3 text-base font-bold text-white shadow-pin transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               >
                 <Map className="h-5 w-5" aria-hidden />
-                Apri la mappa
+                {t.home.ctaOpenMap}
               </Link>
               <Link
                 href="/registra-locale"
                 className="inline-flex min-h-12 items-center gap-2 rounded-2xl border-2 border-ink bg-white px-6 py-3 text-base font-bold text-ink transition-all duration-200 hover:-translate-y-0.5 hover:bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               >
                 <Store className="h-5 w-5" aria-hidden />
-                Aggiungi il tuo locale
+                {t.home.ctaAddPlace}
               </Link>
             </div>
 
@@ -161,9 +155,7 @@ export default function HomePage() {
                   <dt className="order-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
                     {s.label}
                   </dt>
-                  <dd className="font-display text-3xl font-extrabold text-primary">
-                    {s.value}
-                  </dd>
+                  <dd className="font-display text-3xl font-extrabold text-primary">{s.value}</dd>
                 </div>
               ))}
             </dl>
@@ -194,14 +186,14 @@ export default function HomePage() {
               {/* Mini card flottante */}
               <div className="absolute inset-x-4 bottom-4 rounded-2xl border border-line bg-white/95 p-3 shadow-card backdrop-blur">
                 <p className="text-[10px] font-bold uppercase tracking-wider text-primary">
-                  Ristorante
+                  {t.categories.ristorante}
                 </p>
                 <p className="font-display text-sm font-bold text-ink">Mama Eat · Milano</p>
                 <p className="mt-1 flex items-center gap-1 text-xs font-semibold text-slate-500">
                   <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" aria-hidden />
                   4.5 ·
                   <span className="inline-flex items-center gap-0.5 text-safe">
-                    <ShieldCheck className="h-3.5 w-3.5" aria-hidden /> 100% Gluten Free
+                    <ShieldCheck className="h-3.5 w-3.5" aria-hidden /> {t.badges.dedicated}
                   </span>
                 </p>
               </div>
@@ -217,7 +209,7 @@ export default function HomePage() {
             id="come-funziona"
             className="font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl"
           >
-            Dalla ricerca alla tavola, <span className="text-primary">senza ansia</span>.
+            {t.home.howTitleA} <span className="text-primary">{t.home.howTitleHighlight}</span>.
           </h2>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {steps.map((step, i) => (
@@ -225,7 +217,7 @@ export default function HomePage() {
                 key={step.title}
                 className="group relative rounded-3xl border border-line bg-cream p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-card"
               >
-                <span className="absolute right-6 top-6 font-display text-5xl font-extrabold text-primary/10">
+                <span className="absolute end-6 top-6 font-display text-5xl font-extrabold text-primary/10">
                   {i + 1}
                 </span>
                 <span className="grid h-14 w-14 place-items-center rounded-2xl bg-primary text-white shadow-pin">
@@ -246,12 +238,10 @@ export default function HomePage() {
             id="badge-sicurezza"
             className="font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl"
           >
-            Sai sempre <span className="text-safe">quanto è sicuro</span> un locale.
+            {t.home.safetyTitleA} <span className="text-safe">{t.home.safetyTitleHighlight}</span>{" "}
+            {t.home.safetyTitleB}
           </h2>
-          <p className="mt-4 max-w-2xl text-lg text-slate-600">
-            Niente recensioni vaghe: ogni locale ha un badge chiaro che indica il
-            livello di protezione per chi è celiaco o sensibile al glutine.
-          </p>
+          <p className="mt-4 max-w-2xl text-lg text-slate-600">{t.home.safetyLead}</p>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {badges.map((badge) => (
               <div key={badge.title} className="rounded-3xl border border-line bg-white p-8 shadow-card">
@@ -273,28 +263,23 @@ export default function HomePage() {
             id="passaparola"
             className="font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl"
           >
-            Più siamo, <span className="text-primary">più è sicuro</span> per tutti.
+            {t.home.wordTitleA} <span className="text-primary">{t.home.wordTitleHighlight}</span>{" "}
+            {t.home.wordTitleB}
           </h2>
-          <p className="mt-4 max-w-2xl text-lg text-slate-600">
-            Glufree cresce con il passaparola: invita chi mangia senza glutine e i
-            locali che meritano di essere sulla mappa.
-          </p>
+          <p className="mt-4 max-w-2xl text-lg text-slate-600">{t.home.wordLead}</p>
           <div className="mt-12 grid gap-6 md:grid-cols-2">
             <div className="rounded-3xl border border-line bg-cream p-8">
               <span className="grid h-14 w-14 place-items-center rounded-2xl bg-primary text-white shadow-pin">
                 <Users className="h-7 w-7" aria-hidden />
               </span>
               <h3 className="mt-6 font-display text-xl font-bold text-ink">
-                Invita un amico celiaco
+                {t.home.inviteFriendTitle}
               </h3>
-              <p className="mb-6 mt-2 leading-relaxed text-slate-600">
-                Condividi la mappa con chi è sempre in cerca di un posto sicuro
-                dove mangiare.
-              </p>
+              <p className="mb-6 mt-2 leading-relaxed text-slate-600">{t.home.inviteFriendText}</p>
               <InviteActions
-                message="Ho trovato Glufree: la mappa dei locali gluten free verificati, anche vicino a te! 🌾🚫"
+                message={t.invite.friendMsg}
                 path="/mappa?invito=amico"
-                emailSubject="Ti consiglio Glufree: la mappa dei locali gluten free"
+                emailSubject={t.invite.friendSubject}
               />
             </div>
             <div className="rounded-3xl border border-line bg-cream p-8">
@@ -302,16 +287,13 @@ export default function HomePage() {
                 <Store className="h-7 w-7" aria-hidden />
               </span>
               <h3 className="mt-6 font-display text-xl font-bold text-ink">
-                Invita il tuo locale preferito
+                {t.home.inviteOwnerTitle}
               </h3>
-              <p className="mb-6 mt-2 leading-relaxed text-slate-600">
-                Conosci un ristorante gluten free che non è in mappa? Mandagli
-                l&apos;invito: la registrazione è gratuita.
-              </p>
+              <p className="mb-6 mt-2 leading-relaxed text-slate-600">{t.home.inviteOwnerText}</p>
               <InviteActions
-                message="Il tuo locale merita di essere su Glufree, la mappa dei ristoranti gluten free: registrati gratis e ottieni il badge verificato. 🌾🚫"
+                message={t.invite.ownerMsg}
                 path="/registra-locale?invito=cliente"
-                emailSubject="Porta il tuo locale sulla mappa gluten free di Glufree"
+                emailSubject={t.invite.ownerSubject}
               />
             </div>
           </div>
@@ -324,27 +306,26 @@ export default function HomePage() {
           <div className="max-w-2xl">
             <p className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-sm font-bold text-orange-300">
               <Store className="h-4 w-4" aria-hidden />
-              Per i ristoratori
+              {t.home.ctaOwnerBadge}
             </p>
             <h2
               id="cta-ristoratori"
               className="mt-6 font-display text-3xl font-extrabold tracking-tight text-white sm:text-4xl"
             >
-              Hai un locale gluten free? Fatti trovare da chi ti sta cercando.
+              {t.home.ctaOwnerTitle}
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-slate-300">
-              Registra il tuo locale, invia la documentazione (Partita IVA e
-              certificazione gluten free) e ottieni il badge{" "}
-              <span className="font-bold text-emerald-400">Verificato Glufree</span>:
-              in mappa, gratis, davanti a migliaia di persone celiache.
+              {t.home.ctaOwnerLeadA}{" "}
+              <span className="font-bold text-emerald-400">{t.home.ctaOwnerVerifiedWord}</span>
+              {t.home.ctaOwnerLeadB}
             </p>
           </div>
           <Link
             href="/registra-locale"
             className="inline-flex min-h-12 shrink-0 items-center gap-2 rounded-2xl bg-primary px-8 py-4 text-base font-bold text-white shadow-pin transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-light focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
           >
-            Inizia la verifica
-            <ArrowRight className="h-5 w-5" aria-hidden />
+            {t.home.ctaOwnerButton}
+            <ArrowRight className="h-5 w-5 rtl:rotate-180" aria-hidden />
           </Link>
         </div>
       </section>
@@ -356,9 +337,7 @@ export default function HomePage() {
             <MapPin className="h-5 w-5 text-primary" aria-hidden />
             Glufree
           </p>
-          <p className="text-sm text-slate-500">
-            Verifica sempre direttamente con il locale in caso di celiachia severa.
-          </p>
+          <p className="text-sm text-slate-500">{t.home.footerDisclaimer}</p>
         </div>
       </footer>
     </>

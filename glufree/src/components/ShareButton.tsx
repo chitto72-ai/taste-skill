@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Share2, Check, Copy } from "lucide-react";
+import { useTranslation } from "@/lib/i18n/LanguageProvider";
 
 interface ShareButtonProps {
   title: string;
@@ -17,9 +18,10 @@ export default function ShareButton({
   title,
   text,
   path,
-  label = "Condividi",
+  label,
   className = "",
 }: ShareButtonProps) {
+  const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
 
   async function share(e: React.MouseEvent) {
@@ -53,12 +55,12 @@ export default function ShareButton({
       {copied ? (
         <>
           <Check className="h-4 w-4 text-safe" aria-hidden />
-          Link copiato!
+          {t.share.linkCopied}
         </>
       ) : (
         <>
           <Share2 className="h-4 w-4" aria-hidden />
-          {label}
+          {label ?? t.share.share}
         </>
       )}
     </button>
@@ -75,6 +77,7 @@ export function InviteActions({
   path: string;
   emailSubject: string;
 }) {
+  const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
 
   function fullUrl() {
@@ -126,12 +129,12 @@ export function InviteActions({
         {copied ? (
           <>
             <Check className="h-4 w-4 text-safe" aria-hidden />
-            Copiato!
+            {t.share.copied}
           </>
         ) : (
           <>
             <Copy className="h-4 w-4" aria-hidden />
-            Copia link
+            {t.share.copyLink}
           </>
         )}
       </button>

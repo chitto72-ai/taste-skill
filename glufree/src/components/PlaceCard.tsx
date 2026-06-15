@@ -5,19 +5,7 @@ import ShareButton from "@/components/ShareButton";
 import type { Place } from "@/lib/types";
 import { LevelBadge, VerificationBadge } from "./VerifiedBadge";
 import { distanceKm, formatDistance } from "@/lib/geo";
-
-const CATEGORY_LABELS: Record<Place["category"], string> = {
-  ristorante: "Ristorante",
-  pizzeria: "Pizzeria",
-  pasticceria: "Pasticceria",
-  gelateria: "Gelateria",
-  bar: "Bar & Caffè",
-  panetteria: "Panetteria",
-};
-
-export function categoryLabel(category: Place["category"]): string {
-  return CATEGORY_LABELS[category];
-}
+import { useTranslation } from "@/lib/i18n/LanguageProvider";
 
 interface PlaceCardProps {
   place: Place;
@@ -34,6 +22,7 @@ export default function PlaceCard({
   onClick,
   detailed = false,
 }: PlaceCardProps) {
+  const { t } = useTranslation();
   const distance = userPosition
     ? formatDistance(distanceKm(userPosition[0], userPosition[1], place.lat, place.lng))
     : null;
@@ -57,10 +46,10 @@ export default function PlaceCard({
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="text-xs font-bold uppercase tracking-wider text-primary">
-            {categoryLabel(place.category)}
+            {t.categories[place.category]}
             {place.source === "google" && (
               <span className="ml-2 font-semibold normal-case tracking-normal text-slate-400">
-                via Google Maps
+                {t.card.viaGoogle}
               </span>
             )}
           </p>
@@ -105,7 +94,7 @@ export default function PlaceCard({
               onClick={(e) => e.stopPropagation()}
             >
               <Navigation className="h-4 w-4" aria-hidden />
-              Indicazioni
+              {t.card.directions}
             </a>
             {place.phone && (
               <a
@@ -114,7 +103,7 @@ export default function PlaceCard({
                 onClick={(e) => e.stopPropagation()}
               >
                 <Phone className="h-4 w-4" aria-hidden />
-                Chiama
+                {t.card.call}
               </a>
             )}
             {place.website && (
@@ -126,12 +115,12 @@ export default function PlaceCard({
                 onClick={(e) => e.stopPropagation()}
               >
                 <Globe className="h-4 w-4" aria-hidden />
-                Sito web
+                {t.card.website}
               </a>
             )}
             <ShareButton
               title={`${place.name} · Glufree`}
-              text={`${place.name} (${place.city}): ${categoryLabel(place.category)} gluten free trovato su Glufree 🌾🚫`}
+              text={t.share.shareText(place.name, place.city, t.categories[place.category])}
               path={`/mappa?locale=${encodeURIComponent(place.id)}`}
             />
           </div>

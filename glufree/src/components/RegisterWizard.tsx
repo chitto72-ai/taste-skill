@@ -18,46 +18,23 @@ import {
   Map,
 } from "lucide-react";
 import type { GlutenFreeLevel, PlaceCategory } from "@/lib/types";
+import { useTranslation } from "@/lib/i18n/LanguageProvider";
 
-const CATEGORIES: { value: PlaceCategory; label: string }[] = [
-  { value: "ristorante", label: "Ristorante" },
-  { value: "pizzeria", label: "Pizzeria" },
-  { value: "pasticceria", label: "Pasticceria" },
-  { value: "gelateria", label: "Gelateria" },
-  { value: "bar", label: "Bar & Caffè" },
-  { value: "panetteria", label: "Panetteria" },
+const CATEGORY_VALUES: PlaceCategory[] = [
+  "ristorante",
+  "pizzeria",
+  "pasticceria",
+  "gelateria",
+  "bar",
+  "panetteria",
 ];
 
-const LEVELS: { value: GlutenFreeLevel; label: string; help: string }[] = [
-  {
-    value: "dedicated",
-    label: "100% Gluten Free",
-    help: "Tutta la cucina/il laboratorio è senza glutine.",
-  },
-  {
-    value: "certified",
-    label: "Certificato AIC",
-    help: "Aderisci al programma Alimentazione Fuori Casa di AIC.",
-  },
-  {
-    value: "options",
-    label: "Menu GF dedicato",
-    help: "Hai un menu senza glutine con procedure anti-contaminazione.",
-  },
-];
+const LEVEL_VALUES: GlutenFreeLevel[] = ["dedicated", "certified", "options"];
 
-const PROOFS = [
-  { value: "aic", label: "Attestato AIC (Alimentazione Fuori Casa)" },
-  { value: "menu", label: "Menu gluten free + procedure anti-contaminazione" },
-  { value: "training", label: "Attestato corso di formazione sul senza glutine" },
-  { value: "other", label: "Altra documentazione" },
-] as const;
+const PROOF_VALUES = ["aic", "menu", "training", "other"] as const;
+type ProofType = (typeof PROOF_VALUES)[number];
 
-const STEPS = [
-  { icon: Store, label: "Il locale" },
-  { icon: User, label: "Il titolare" },
-  { icon: FileCheck, label: "Verifica" },
-] as const;
+const STEP_ICONS = [Store, User, FileCheck] as const;
 
 interface FormState {
   name: string;
@@ -71,7 +48,7 @@ interface FormState {
   fullName: string;
   email: string;
   vatNumber: string;
-  proofType: (typeof PROOFS)[number]["value"];
+  proofType: ProofType;
   proofNote: string;
   proofFileName: string;
 }
@@ -94,6 +71,7 @@ const initialState: FormState = {
 };
 
 export default function RegisterWizard() {
+  const { t } = useTranslation();
   const referral = useSearchParams().get("invito");
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<FormState>(initialState);
@@ -101,22 +79,40 @@ export default function RegisterWizard() {
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
 
+  const r = t.register;
+
+  const categories: { value: PlaceCategory; label: string }[] = CATEGORY_VALUES.map((value) => ({
+    value,
+    label: t.categories[value],
+  }));
+  const levels: { value: GlutenFreeLevel; label: string; help: string }[] = [
+    { value: "dedicated", label: r.levelDedicated, help: r.levelDedicatedHelp },
+    { value: "certified", label: r.levelCertified, help: r.levelCertifiedHelp },
+    { value: "options", label: r.levelOptions, help: r.levelOptionsHelp },
+  ];
+  const proofs: { value: ProofType; label: string }[] = [
+    { value: "aic", label: r.proofAic },
+    { value: "menu", label: r.proofMenu },
+    { value: "training", label: r.proofTraining },
+    { value: "other", label: r.proofOther },
+  ];
+  const steps = [r.stepBusiness, r.stepOwner, r.stepProof];
+
   const update = <K extends keyof FormState>(key: K, value: FormState[K]) =>
     setForm((f) => ({ ...f, [key]: value }));
 
   function validateStep(current: number): string[] {
     const errs: string[] = [];
     if (current === 0) {
-      if (!form.name.trim()) errs.push("Inserisci il nome del locale.");
-      if (!form.address.trim()) errs.push("Inserisci l'indirizzo.");
-      if (!form.city.trim()) errs.push("Inserisci la città.");
-      if (!form.phone.trim()) errs.push("Inserisci un numero di telefono.");
+      if (!form.name.trim()) errs.push(r.errName);
+      if (!form.address.trim()) errs.push(r.errAddress);
+      if (!form.city.trim()) errs.push(r.errCity);
+      if (!form.phone.trim()) errs.push(r.errPhone);
     }
     if (current === 1) {
-      if (!form.fullName.trim()) errs.push("Inserisci nome e cognome del titolare.");
-      if (!form.email.includes("@")) errs.push("Inserisci un'email valida.");
-      if (!/^[0-9]{11}$/.test(form.vatNumber))
-        errs.push("La Partita IVA deve essere di 11 cifre.");
+      if (!form.fullName.trim()) errs.push(r.errFullName);
+      if (!form.email.includes("@")) errs.push(r.errEmail);
+      if (!/^[0-9]{11}$/.test(form.vatNumber)) errs.push(r.errVat);
     }
     return errs;
   }
@@ -160,12 +156,12 @@ export default function RegisterWizard() {
       });
       const data = await res.json();
       if (!res.ok) {
-        setErrors(data.errors ?? ["Si è verificato un errore. Riprova."]);
+        setErrors(data.errors ?? [r.errGeneric]);
         return;
       }
       setDone(true);
     } catch {
-      setErrors(["Connessione non riuscita. Controlla la rete e riprova."]);
+      setErrors([r.errNetwork]);
     } finally {
       setSubmitting(false);
     }
@@ -177,34 +173,24 @@ export default function RegisterWizard() {
         <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-safe-light text-safe">
           <PartyPopper className="h-8 w-8" aria-hidden />
         </span>
-        <h2 className="mt-6 font-display text-2xl font-extrabold text-ink">
-          Richiesta inviata!
-        </h2>
+        <h2 className="mt-6 font-display text-2xl font-extrabold text-ink">{r.doneTitle}</h2>
         <p className="mt-3 leading-relaxed text-slate-600">
-          Grazie <strong>{form.fullName}</strong>. Controlleremo la documentazione
-          di <strong>{form.name}</strong> entro 3 giorni lavorativi: riceverai
-          l&apos;esito a <strong>{form.email}</strong>. Appena approvato, il locale
-          apparirà in mappa con il badge{" "}
-          <span className="font-bold text-safe">Verificato Glufree</span>.
+          {r.doneBody(form.fullName, form.name, form.email)}
         </p>
         <Link
           href="/mappa"
           className="mt-8 inline-flex min-h-12 items-center gap-2 rounded-2xl bg-primary px-6 py-3 font-bold text-white transition-colors duration-200 hover:bg-primary-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
         >
           <Map className="h-5 w-5" aria-hidden />
-          Torna alla mappa
+          {r.doneBackToMap}
         </Link>
-        <div className="mt-10 rounded-2xl bg-muted p-6 text-left">
-          <p className="font-display text-lg font-bold text-ink">
-            Conosci altri ristoratori gluten free?
-          </p>
-          <p className="mb-4 mt-1 text-sm text-slate-600">
-            Invitali su Glufree: più locali verificati = più clienti per tutti.
-          </p>
+        <div className="mt-10 rounded-2xl bg-muted p-6 text-start">
+          <p className="font-display text-lg font-bold text-ink">{r.doneInviteTitle}</p>
+          <p className="mb-4 mt-1 text-sm text-slate-600">{r.doneInviteText}</p>
           <InviteActions
-            message="Anch'io ho registrato il mio locale su Glufree, la mappa dei ristoranti gluten free: registrati gratis e ottieni il badge verificato. 🌾🚫"
+            message={r.doneInviteMsg}
             path="/registra-locale?invito=ristoratore"
-            emailSubject="Porta il tuo locale sulla mappa gluten free di Glufree"
+            emailSubject={t.invite.ownerSubject}
           />
         </div>
       </div>
@@ -215,16 +201,16 @@ export default function RegisterWizard() {
     <div className="mx-auto max-w-2xl">
       {referral && (
         <p className="mb-6 rounded-2xl bg-safe-light px-5 py-4 text-center text-sm font-bold text-safe animate-fade-up">
-          🎉 Qualcuno pensa che il tuo locale meriti la mappa Glufree: completa la
-          registrazione gratuita per ottenere il badge verificato.
+          {r.referralBanner}
         </p>
       )}
       {/* Indicatore di avanzamento */}
-      <ol className="mb-8 flex items-center gap-2" aria-label="Avanzamento registrazione">
-        {STEPS.map((s, i) => {
+      <ol className="mb-8 flex items-center gap-2" aria-label={r.progressAria}>
+        {steps.map((label, i) => {
           const state = i < step ? "done" : i === step ? "current" : "todo";
+          const Icon = STEP_ICONS[i];
           return (
-            <li key={s.label} className="flex flex-1 items-center gap-2">
+            <li key={label} className="flex flex-1 items-center gap-2">
               <span
                 aria-current={state === "current" ? "step" : undefined}
                 className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl transition-colors duration-300 ${
@@ -235,16 +221,16 @@ export default function RegisterWizard() {
                       : "bg-muted text-slate-400"
                 }`}
               >
-                <s.icon className="h-5 w-5" aria-hidden />
+                <Icon className="h-5 w-5" aria-hidden />
               </span>
               <span
                 className={`hidden text-sm font-bold sm:block ${
                   state === "todo" ? "text-slate-400" : "text-ink"
                 }`}
               >
-                {s.label}
+                {label}
               </span>
-              {i < STEPS.length - 1 && (
+              {i < steps.length - 1 && (
                 <span
                   className={`h-0.5 flex-1 rounded transition-colors duration-300 ${
                     i < step ? "bg-safe" : "bg-line"
@@ -282,23 +268,23 @@ export default function RegisterWizard() {
           {step === 0 && (
             <fieldset className="space-y-5">
               <legend className="font-display text-2xl font-extrabold text-ink">
-                Raccontaci del tuo locale
+                {r.step0Legend}
               </legend>
 
-              <Field label="Nome del locale *" htmlFor="name">
+              <Field label={r.name} htmlFor="name">
                 <input
                   id="name"
                   className={inputCls}
                   value={form.name}
                   onChange={(e) => update("name", e.target.value)}
-                  placeholder="Es. Pizzeria Senza Glutine"
+                  placeholder={r.namePh}
                   autoComplete="organization"
                 />
               </Field>
 
-              <Field label="Categoria *" htmlFor="category">
-                <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Categoria">
-                  {CATEGORIES.map((c) => (
+              <Field label={r.category} htmlFor="category">
+                <div className="flex flex-wrap gap-2" role="radiogroup" aria-label={r.category}>
+                  {categories.map((c) => (
                     <button
                       key={c.value}
                       type="button"
@@ -318,41 +304,41 @@ export default function RegisterWizard() {
               </Field>
 
               <div className="grid gap-5 sm:grid-cols-2">
-                <Field label="Indirizzo *" htmlFor="address">
+                <Field label={r.address} htmlFor="address">
                   <input
                     id="address"
                     className={inputCls}
                     value={form.address}
                     onChange={(e) => update("address", e.target.value)}
-                    placeholder="Via Roma 1"
+                    placeholder={r.addressPh}
                     autoComplete="street-address"
                   />
                 </Field>
-                <Field label="Città *" htmlFor="city">
+                <Field label={r.city} htmlFor="city">
                   <input
                     id="city"
                     className={inputCls}
                     value={form.city}
                     onChange={(e) => update("city", e.target.value)}
-                    placeholder="Milano"
+                    placeholder={r.cityPh}
                     autoComplete="address-level2"
                   />
                 </Field>
               </div>
 
               <div className="grid gap-5 sm:grid-cols-2">
-                <Field label="Telefono *" htmlFor="phone">
+                <Field label={r.phone} htmlFor="phone">
                   <input
                     id="phone"
                     type="tel"
                     className={inputCls}
                     value={form.phone}
                     onChange={(e) => update("phone", e.target.value)}
-                    placeholder="+39 02 1234567"
+                    placeholder={r.phonePh}
                     autoComplete="tel"
                   />
                 </Field>
-                <Field label="Sito web" htmlFor="website" optional>
+                <Field label={r.website} htmlFor="website" optional>
                   <input
                     id="website"
                     type="url"
@@ -365,13 +351,9 @@ export default function RegisterWizard() {
                 </Field>
               </div>
 
-              <Field
-                label="Livello gluten free *"
-                htmlFor="level"
-                hint="Sii onesto: verificheremo la documentazione."
-              >
+              <Field label={r.levelLabel} htmlFor="level" hint={r.levelHint}>
                 <div className="space-y-2">
-                  {LEVELS.map((l) => (
+                  {levels.map((l) => (
                     <label
                       key={l.value}
                       className={`flex cursor-pointer items-start gap-3 rounded-2xl border p-4 transition-colors duration-200 ${
@@ -396,14 +378,14 @@ export default function RegisterWizard() {
                 </div>
               </Field>
 
-              <Field label="Descrizione" htmlFor="description" optional>
+              <Field label={r.description} htmlFor="description" optional>
                 <textarea
                   id="description"
                   rows={3}
                   className={inputCls}
                   value={form.description}
                   onChange={(e) => update("description", e.target.value)}
-                  placeholder="Cosa rende speciale il tuo locale?"
+                  placeholder={r.descriptionPh}
                 />
               </Field>
             </fieldset>
@@ -412,40 +394,34 @@ export default function RegisterWizard() {
           {step === 1 && (
             <fieldset className="space-y-5">
               <legend className="font-display text-2xl font-extrabold text-ink">
-                Chi è il titolare?
+                {r.step1Legend}
               </legend>
-              <p className="text-sm text-slate-500">
-                Questi dati servono solo per la verifica e non saranno pubblicati.
-              </p>
+              <p className="text-sm text-slate-500">{r.step1Note}</p>
 
-              <Field label="Nome e cognome *" htmlFor="fullName">
+              <Field label={r.fullName} htmlFor="fullName">
                 <input
                   id="fullName"
                   className={inputCls}
                   value={form.fullName}
                   onChange={(e) => update("fullName", e.target.value)}
-                  placeholder="Mario Rossi"
+                  placeholder={r.fullNamePh}
                   autoComplete="name"
                 />
               </Field>
 
-              <Field label="Email *" htmlFor="email" hint="Riceverai qui l'esito della verifica.">
+              <Field label={r.email} htmlFor="email" hint={r.emailHint}>
                 <input
                   id="email"
                   type="email"
                   className={inputCls}
                   value={form.email}
                   onChange={(e) => update("email", e.target.value)}
-                  placeholder="mario@esempio.it"
+                  placeholder={r.emailPh}
                   autoComplete="email"
                 />
               </Field>
 
-              <Field
-                label="Partita IVA *"
-                htmlFor="vat"
-                hint="11 cifre. La incrociamo con i registri pubblici delle imprese."
-              >
+              <Field label={r.vat} htmlFor="vat" hint={r.vatHint}>
                 <input
                   id="vat"
                   inputMode="numeric"
@@ -462,15 +438,12 @@ export default function RegisterWizard() {
           {step === 2 && (
             <fieldset className="space-y-5">
               <legend className="font-display text-2xl font-extrabold text-ink">
-                Dimostra che sei gluten free
+                {r.step2Legend}
               </legend>
-              <p className="text-sm text-slate-500">
-                Scegli il documento che certifica la tua offerta senza glutine: è
-                ciò che rende Glufree affidabile per chi è celiaco.
-              </p>
+              <p className="text-sm text-slate-500">{r.step2Note}</p>
 
-              <div className="space-y-2" role="radiogroup" aria-label="Tipo di documentazione">
-                {PROOFS.map((p) => (
+              <div className="space-y-2" role="radiogroup" aria-label={r.step2Legend}>
+                {proofs.map((p) => (
                   <label
                     key={p.value}
                     className={`flex cursor-pointer items-center gap-3 rounded-2xl border p-4 transition-colors duration-200 ${
@@ -491,19 +464,14 @@ export default function RegisterWizard() {
                 ))}
               </div>
 
-              <Field
-                label="Carica il documento"
-                htmlFor="proofFile"
-                hint="PDF o immagine. In questa demo viene registrato solo il nome del file."
-                optional
-              >
+              <Field label={r.uploadLabel} htmlFor="proofFile" hint={r.uploadHint} optional>
                 <label
                   htmlFor="proofFile"
                   className="flex min-h-24 cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-line bg-muted p-6 text-center transition-colors duration-200 hover:border-primary/50"
                 >
                   <Upload className="h-6 w-6 text-primary" aria-hidden />
                   <span className="text-sm font-bold text-ink">
-                    {form.proofFileName || "Trascina qui o tocca per scegliere"}
+                    {form.proofFileName || r.uploadCta}
                   </span>
                   <input
                     id="proofFile"
@@ -515,23 +483,21 @@ export default function RegisterWizard() {
                 </label>
               </Field>
 
-              <Field label="Note per il team di verifica" htmlFor="proofNote" optional>
+              <Field label={r.notesLabel} htmlFor="proofNote" optional>
                 <textarea
                   id="proofNote"
                   rows={3}
                   className={inputCls}
                   value={form.proofNote}
                   onChange={(e) => update("proofNote", e.target.value)}
-                  placeholder="Es. certificato AIC n. 1234, rinnovato a gennaio."
+                  placeholder={r.notesPh}
                 />
               </Field>
 
               <div className="flex items-start gap-3 rounded-2xl bg-safe-light/60 p-4 text-sm text-safe">
                 <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0" aria-hidden />
                 <p>
-                  Il nostro team controlla Partita IVA e documentazione entro 3
-                  giorni lavorativi. Solo i locali approvati ottengono il badge{" "}
-                  <strong>Verificato Glufree</strong> e compaiono in mappa.
+                  {r.reassuranceA} <strong>{r.reassuranceWord}</strong> {r.reassuranceB}
                 </p>
               </div>
             </fieldset>
@@ -547,18 +513,18 @@ export default function RegisterWizard() {
           disabled={step === 0 || submitting}
           className="inline-flex min-h-12 cursor-pointer items-center gap-2 rounded-2xl px-5 py-3 font-bold text-ink transition-colors duration-200 hover:bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-40"
         >
-          <ArrowLeft className="h-5 w-5" aria-hidden />
-          Indietro
+          <ArrowLeft className="h-5 w-5 rtl:rotate-180" aria-hidden />
+          {r.back}
         </button>
 
-        {step < STEPS.length - 1 ? (
+        {step < steps.length - 1 ? (
           <button
             type="button"
             onClick={next}
             className="inline-flex min-h-12 cursor-pointer items-center gap-2 rounded-2xl bg-primary px-6 py-3 font-bold text-white shadow-pin transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
-            Continua
-            <ArrowRight className="h-5 w-5" aria-hidden />
+            {r.continue}
+            <ArrowRight className="h-5 w-5 rtl:rotate-180" aria-hidden />
           </button>
         ) : (
           <button
@@ -570,17 +536,30 @@ export default function RegisterWizard() {
             {submitting ? (
               <>
                 <Loader2 className="h-5 w-5 animate-spin" aria-hidden />
-                Invio in corso…
+                {r.submitting}
               </>
             ) : (
               <>
                 <ShieldCheck className="h-5 w-5" aria-hidden />
-                Invia per la verifica
+                {r.submit}
               </>
             )}
           </button>
         )}
       </div>
+    </div>
+  );
+}
+
+/** Intestazione tradotta della pagina di registrazione. */
+export function RegisterIntro() {
+  const { t } = useTranslation();
+  return (
+    <div className="mx-auto mb-10 max-w-2xl text-center">
+      <h1 className="font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
+        {t.register.pageTitleA} <span className="text-primary">Glufree</span>
+      </h1>
+      <p className="mt-4 text-lg text-slate-600">{t.register.pageLead}</p>
     </div>
   );
 }
@@ -601,12 +580,13 @@ function Field({
   optional?: boolean;
   children: React.ReactNode;
 }) {
+  const { t } = useTranslation();
   return (
     <div>
       <label htmlFor={htmlFor} className="mb-1.5 block text-sm font-bold text-ink">
         {label}
         {optional && (
-          <span className="ml-2 text-xs font-semibold text-slate-400">facoltativo</span>
+          <span className="ms-2 text-xs font-semibold text-slate-400">{t.register.optional}</span>
         )}
       </label>
       {children}

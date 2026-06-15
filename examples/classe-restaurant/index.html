@@ -113,6 +113,34 @@
     })();
   </script>
 
+  <!-- i18n dictionary + engine -->
+  <script src="i18n.js"></script>
+  <script>
+    (function () {
+      var KEY = "classe_lang";
+      var saved = null;
+      try { saved = localStorage.getItem(KEY); } catch (e) {}
+      var codes = (window.LANGS || [{ code: "it" }]).map(function (l) { return l.code; });
+      window.__LANG = (saved && codes.indexOf(saved) !== -1) ? saved : "it";
+      window.tr = function (s) {
+        if (window.__LANG === "it" || s == null) return s;
+        var d = window.DICT && window.DICT[window.__LANG];
+        return (d && d[s]) || s;
+      };
+      window.__applyLangAttrs = function (lang) {
+        var entry = (window.LANGS || []).filter(function (l) { return l.code === lang; })[0];
+        document.documentElement.setAttribute("lang", lang);
+        document.documentElement.setAttribute("dir", entry ? entry.dir : "ltr");
+      };
+      window.__setLang = function (lang) {
+        window.__LANG = lang;
+        try { localStorage.setItem(KEY, lang); } catch (e) {}
+        window.__applyLangAttrs(lang);
+      };
+      window.__applyLangAttrs(window.__LANG);
+    })();
+  </script>
+
   <!-- Site data: real details, links and media from classerestaurant.it -->
   <script type="text/babel">
     const WP = "https://www.classerestaurant.it/wp-content/uploads";
@@ -400,7 +428,7 @@
         return () => observer.disconnect();
       }, []);
 
-      const words = text.split(" ");
+      const words = window.tr(text).split(" ");
 
       return (
         <p
@@ -459,6 +487,66 @@
     window.Reveal = Reveal;
   </script>
 
+  <!-- Language selector -->
+  <script type="text/babel">
+    function LanguageSelector({ lang, setLang, align = "right" }) {
+      const [open, setOpen] = React.useState(false);
+      const ref = React.useRef(null);
+
+      React.useEffect(() => {
+        const onDoc = (e) => {
+          if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+        };
+        document.addEventListener("mousedown", onDoc);
+        return () => document.removeEventListener("mousedown", onDoc);
+      }, []);
+
+      const langs = window.LANGS || [];
+      const current = langs.find((l) => l.code === lang) || langs[0];
+
+      return (
+        <div ref={ref} className="relative">
+          <button
+            onClick={() => setOpen(!open)}
+            className="liquid-glass rounded-full h-12 px-4 flex items-center gap-2 text-white text-sm font-medium font-body"
+            aria-label="Lingua / Language"
+          >
+            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M2 12h20" />
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+            </svg>
+            {current ? current.short : "IT"}
+          </button>
+          {open && (
+            <div
+              className={
+                "absolute mt-2 liquid-glass-strong rounded-[1.25rem] p-2 flex flex-col min-w-[160px] z-50 " +
+                (align === "left" ? "left-0" : "right-0")
+              }
+            >
+              {langs.map((l) => (
+                <button
+                  key={l.code}
+                  onClick={() => { setLang(l.code); setOpen(false); }}
+                  dir={l.dir}
+                  className={
+                    "px-3 py-2 text-sm font-body rounded-full text-start " +
+                    (l.code === lang ? "text-white bg-white/10" : "text-white/80")
+                  }
+                >
+                  {l.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    window.LanguageSelector = LanguageSelector;
+  </script>
+
   <!-- Navbar -->
   <script type="text/babel">
     const NAV_LINKS = [
@@ -470,7 +558,7 @@
       { label: "Contatti", href: "#/contatti" },
     ];
 
-    function Navbar({ route }) {
+    function Navbar({ route, lang, setLang }) {
       const [open, setOpen] = React.useState(false);
 
       React.useEffect(() => {
@@ -496,7 +584,7 @@
                     (isActive(link.href) ? "text-white" : "text-white/90")
                   }
                 >
-                  {link.label}
+                  {window.tr(link.label)}
                 </a>
               ))}
             </div>
@@ -504,18 +592,22 @@
               href={window.SITE.phoneHref}
               className="bg-white text-black rounded-full px-4 py-2.5 text-sm font-medium font-body flex items-center gap-1.5 whitespace-nowrap"
             >
-              Prenota un Tavolo
+              {window.tr("Prenota un Tavolo")}
               <ArrowUpRight className="h-4 w-4" />
             </a>
+            <LanguageSelector lang={lang} setLang={setLang} align="right" />
           </div>
 
-          <button
-            onClick={() => setOpen(!open)}
-            className="liquid-glass rounded-full w-12 h-12 flex items-center justify-center text-white lg:hidden"
-            aria-label="Apri il menu di navigazione"
-          >
-            {open ? <CloseIcon className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
-          </button>
+          <div className="flex items-center gap-2 lg:hidden">
+            <LanguageSelector lang={lang} setLang={setLang} align="right" />
+            <button
+              onClick={() => setOpen(!open)}
+              className="liquid-glass rounded-full w-12 h-12 flex items-center justify-center text-white"
+              aria-label={window.tr("Apri il menu di navigazione")}
+            >
+              {open ? <CloseIcon className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
+            </button>
+          </div>
           <div className="w-12 h-12 invisible hidden lg:block" />
 
           {open && (
@@ -526,14 +618,14 @@
                   href={link.href}
                   className="px-4 py-2.5 text-sm font-medium text-white/90 font-body"
                 >
-                  {link.label}
+                  {window.tr(link.label)}
                 </a>
               ))}
               <a
                 href={window.SITE.phoneHref}
                 className="bg-white text-black rounded-full px-4 py-2.5 mt-2 text-sm font-medium font-body flex items-center justify-center gap-1.5 whitespace-nowrap"
               >
-                Prenota un Tavolo
+                {window.tr("Prenota un Tavolo")}
                 <ArrowUpRight className="h-4 w-4" />
               </a>
             </div>
@@ -559,9 +651,7 @@
                 className="font-heading italic text-white text-4xl md:text-5xl tracking-[-2px] leading-none"
               />
               <p className="mt-4 text-sm md:text-base text-white/90 font-body font-light max-w-xl">
-                Scrivici o chiamaci: ti ricontatteremo nel più breve tempo possibile. La
-                prenotazione si intende confermata solo dopo la conferma del locale via mail o
-                telefono.
+                {window.tr("Scrivici o chiamaci: ti ricontatteremo nel più breve tempo possibile. La prenotazione si intende confermata solo dopo la conferma del locale via mail o telefono.")}
               </p>
               <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
                 <a
@@ -570,7 +660,7 @@
                   rel="noopener"
                   className="liquid-glass-strong rounded-full px-5 py-2.5 text-sm font-medium text-white font-body flex items-center gap-1.5"
                 >
-                  Prenota Online
+                  {window.tr("Prenota Online")}
                   <ArrowUpRight className="h-5 w-5" />
                 </a>
                 <a
@@ -605,9 +695,7 @@
               <div>
                 <div className="font-heading italic text-white text-3xl">classé</div>
                 <p className="mt-3 text-sm text-white/80 font-body font-light leading-snug max-w-[32ch]">
-                  Eleganza, servizio impeccabile e materia prima d'eccellenza: pesce fresco e
-                  crostacei vivi selezionati grazie alla flotta di pescherecci di Ittica De Mar,
-                  fondatrice del brand.
+                  {window.tr("Eleganza, servizio impeccabile e materia prima d'eccellenza: pesce fresco e crostacei vivi selezionati grazie alla flotta di pescherecci di Ittica De Mar, fondatrice del brand.")}
                 </p>
                 <div className="flex items-center gap-3 mt-5">
                   <a href={SITE.facebookHref} target="_blank" rel="noopener" aria-label="Facebook" className="liquid-glass rounded-full w-10 h-10 flex items-center justify-center text-white">
@@ -622,23 +710,23 @@
                 </div>
               </div>
               <div>
-                <div className="text-sm font-medium text-white font-body mb-4">Link Utili</div>
+                <div className="text-sm font-medium text-white font-body mb-4">{window.tr("Link Utili")}</div>
                 <div className="flex flex-col gap-2">
                   {window.NAV_LINKS.map((link) => (
                     <a key={link.label} href={link.href} className="text-sm text-white/80 font-body font-light">
-                      {link.label}
+                      {window.tr(link.label)}
                     </a>
                   ))}
                   <a href={SITE.wineListHref} target="_blank" rel="noopener" className="text-sm text-white/80 font-body font-light">
-                    Carta dei Vini (Enoweb)
+                    {window.tr("Carta dei Vini (Enoweb)")}
                   </a>
                   <a href={SITE.bookingHref} target="_blank" rel="noopener" className="text-sm text-white/80 font-body font-light">
-                    Prenota un Tavolo
+                    {window.tr("Prenota un Tavolo")}
                   </a>
                 </div>
               </div>
               <div>
-                <div className="text-sm font-medium text-white font-body mb-4">Contatti & Posizione</div>
+                <div className="text-sm font-medium text-white font-body mb-4">{window.tr("Contatti & Posizione")}</div>
                 <div className="flex flex-col gap-2 text-sm text-white/80 font-body font-light">
                   <a href={SITE.mapsHref} target="_blank" rel="noopener" className="flex items-center gap-2">
                     <MapPinIcon className="h-4 w-4 shrink-0" />
@@ -655,7 +743,7 @@
                   {SITE.hours.map((h) => (
                     <div key={h.days} className="flex items-center gap-2">
                       <ClockIcon className="h-4 w-4 shrink-0" />
-                      {h.days}: {h.time}
+                      {window.tr(h.days)}: {h.time}
                     </div>
                   ))}
                 </div>
@@ -663,7 +751,7 @@
             </div>
           </Reveal>
           <div className="mt-6 text-center text-xs text-white/50 font-body font-light">
-            © 2026 {SITE.vat} · Concept di design non ufficiale ·{" "}
+            © 2026 {SITE.vat} · {window.tr("Concept di design non ufficiale ·")}{" "}
             <a href={SITE.officialSite} target="_blank" rel="noopener" className="text-white/70">
               classerestaurant.it
             </a>
@@ -688,7 +776,7 @@
           />
           <div className="relative z-10 px-8 md:px-16 lg:px-20 pt-40 pb-16 flex flex-col items-start min-h-[55vh] justify-end">
             <Reveal>
-              <p className="text-sm font-body text-white/80 mb-6">{kicker}</p>
+              <p className="text-sm font-body text-white/80 mb-6">{window.tr(kicker)}</p>
             </Reveal>
             <BlurText
               text={title}
@@ -698,7 +786,7 @@
             {subtitle && (
               <Reveal delay={0.3}>
                 <p className="mt-6 text-sm md:text-base text-white max-w-2xl font-body font-light leading-tight liquid-glass rounded-[1.25rem] px-5 py-3">
-                  {subtitle}
+                  {window.tr(subtitle)}
                 </p>
               </Reveal>
             )}
@@ -735,7 +823,7 @@
                 className="liquid-glass rounded-full flex items-center gap-3 p-1"
               >
                 <span className="bg-white text-black rounded-full px-3 py-1 text-xs font-semibold font-body">Classé</span>
-                <span className="text-sm text-white/90 font-body pr-3">Pesce Fresco e Crostacei Vivi — Selezione Ittica De Mar</span>
+                <span className="text-sm text-white/90 font-body pr-3">{window.tr("Pesce Fresco e Crostacei Vivi — Selezione Ittica De Mar")}</span>
               </motion.div>
 
               <div className="mt-6">
@@ -751,9 +839,7 @@
                 transition={{ duration: 0.8, delay: 0.8, ease }}
                 className="mt-4 text-sm md:text-base text-white max-w-2xl font-body font-light leading-tight"
               >
-                Ogni giorno selezioniamo il miglior pescato per portare la freschezza dal banco
-                del pesce direttamente al piatto. Cucina di mare e di terra, caviale Calvisius e
-                Ars Italica, e la carta dei vini più ampia del Salento.
+                {window.tr("Ogni giorno selezioniamo il miglior pescato per portare la freschezza dal banco del pesce direttamente al piatto. Cucina di mare e di terra, caviale Calvisius e Ars Italica, e la carta dei vini più ampia del Salento.")}
               </motion.p>
 
               <motion.div
@@ -766,11 +852,11 @@
                   href={window.SITE.phoneHref}
                   className="liquid-glass-strong rounded-full px-5 py-2.5 text-sm font-medium text-white font-body flex items-center gap-1.5"
                 >
-                  Prenota un Tavolo
+                  {window.tr("Prenota un Tavolo")}
                   <ArrowUpRight className="h-5 w-5" />
                 </a>
                 <a href="#/menu" className="text-sm font-medium text-white font-body flex items-center gap-2">
-                  Scopri il Menù
+                  {window.tr("Scopri il Menù")}
                   <PlayIcon className="h-4 w-4" />
                 </a>
               </motion.div>
@@ -786,7 +872,7 @@
                   <div className="mt-auto pt-6">
                     <div className="font-heading italic text-white text-4xl tracking-[-1px] leading-none">7/7</div>
                     <div className="text-xs text-white font-body font-light mt-2">
-                      Ogni Sera a Cena, Domenica Anche a Pranzo
+                      {window.tr("Ogni Sera a Cena, Domenica Anche a Pranzo")}
                     </div>
                   </div>
                 </div>
@@ -794,7 +880,7 @@
                   <WineIcon className="h-7 w-7 text-white" />
                   <div className="mt-auto pt-6">
                     <div className="font-heading italic text-white text-4xl tracking-[-1px] leading-none">20+</div>
-                    <div className="text-xs text-white font-body font-light mt-2">Tipologie di Calici di Cristallo</div>
+                    <div className="text-xs text-white font-body font-light mt-2">{window.tr("Tipologie di Calici di Cristallo")}</div>
                   </div>
                 </div>
               </motion.div>
@@ -807,12 +893,12 @@
               className="flex flex-col items-center gap-4 pb-8"
             >
               <div className="liquid-glass rounded-full px-3.5 py-1 text-xs font-medium text-white font-body">
-                Selezioniamo ogni giorno le migliori materie prime
+                {window.tr("Selezioniamo ogni giorno le migliori materie prime")}
               </div>
               <div className="flex items-center gap-8 md:gap-16 flex-wrap justify-center">
                 {["Crudi", "Ostriche", "Caviale", "Wagyu", "Champagne"].map((name) => (
                   <span key={name} className="font-heading italic text-white text-2xl md:text-3xl tracking-tight">
-                    {name}
+                    {window.tr(name)}
                   </span>
                 ))}
               </div>
@@ -839,7 +925,7 @@
             </Reveal>
             <div className="md:w-1/2">
               <Reveal>
-                <p className="text-sm font-body text-white/80 mb-4">// Dal Mare alla Cucina</p>
+                <p className="text-sm font-body text-white/80 mb-4">{window.tr("// Dal Mare alla Cucina")}</p>
               </Reveal>
               <BlurText
                 text="Qualità e freschezza che arrivano al piatto"
@@ -848,18 +934,14 @@
               />
               <Reveal delay={0.2}>
                 <p className="mt-6 text-sm md:text-base text-white/90 font-body font-light leading-snug max-w-[54ch]">
-                  La selezione del pescato avviene ogni giorno, perché la freschezza si senta in
-                  ogni preparazione: dal banco del pesce ai piatti che arrivano in tavola, ogni
-                  ingrediente è scelto con cura per esaltarne i sapori autentici.
+                  {window.tr("La selezione del pescato avviene ogni giorno, perché la freschezza si senta in ogni preparazione: dal banco del pesce ai piatti che arrivano in tavola, ogni ingrediente è scelto con cura per esaltarne i sapori autentici.")}
                 </p>
                 <p className="mt-4 text-sm md:text-base text-white/90 font-body font-light leading-snug max-w-[54ch]">
-                  La cucina propone mare e terra celebrando le migliori materie prime, mentre la
-                  cantina custodisce la carta dei vini più ampia del Salento, con etichette
-                  italiane e francesi di altissimo livello.
+                  {window.tr("La cucina propone mare e terra celebrando le migliori materie prime, mentre la cantina custodisce la carta dei vini più ampia del Salento, con etichette italiane e francesi di altissimo livello.")}
                 </p>
                 <div className="liquid-glass rounded-[1.25rem] px-6 py-5 mt-8 inline-flex flex-col">
                   <span className="font-heading italic text-white text-2xl leading-none">Simone De Mitri</span>
-                  <span className="text-xs text-white/80 font-body font-light mt-2 uppercase tracking-widest">Gestore</span>
+                  <span className="text-xs text-white/80 font-body font-light mt-2 uppercase tracking-widest">{window.tr("Gestore")}</span>
                 </div>
               </Reveal>
             </div>
@@ -918,7 +1000,7 @@
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 className="text-sm font-body text-white/80 mb-6"
               >
-                // Piatti, Vini e Non Solo
+                {window.tr("// Piatti, Vini e Non Solo")}
               </motion.p>
               <motion.h2
                 initial={entrance}
@@ -927,9 +1009,9 @@
                 transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
                 className="font-heading italic text-white text-6xl md:text-7xl lg:text-[6rem] leading-[0.9] tracking-[-3px]"
               >
-                Abbinamenti
+                {window.tr("Abbinamenti")}
                 <br />
-                perfetti
+                {window.tr("perfetti")}
               </motion.h2>
             </div>
 
@@ -955,7 +1037,7 @@
                             key={tag}
                             className="liquid-glass rounded-full px-3 py-1 text-[11px] text-white/90 font-body whitespace-nowrap"
                           >
-                            {tag}
+                            {window.tr(tag)}
                           </span>
                         ))}
                       </div>
@@ -965,10 +1047,10 @@
 
                     <div className="mt-6">
                       <h3 className="font-heading italic text-white text-3xl md:text-4xl tracking-[-1px] leading-none">
-                        {card.title}
+                        {window.tr(card.title)}
                       </h3>
                       <p className="mt-3 text-sm text-white/90 font-body font-light leading-snug max-w-[32ch]">
-                        {card.body}
+                        {window.tr(card.body)}
                       </p>
                     </div>
                   </motion.div>
@@ -1026,16 +1108,12 @@
               />
               <Reveal delay={0.2}>
                 <p className="mt-6 text-sm md:text-base text-white/90 font-body font-light leading-snug max-w-[54ch]">
-                  Ogni dettaglio è pensato per un'esperienza indimenticabile: spazi eleganti e
-                  personalizzabili, una terrazza con vista, una sala insonorizzata e un
-                  pianoforte Steinway & Sons per la musica dal vivo. A completare, un servizio
-                  impeccabile e oltre 20 tipologie di calici di cristallo — la scelta perfetta
-                  per cene intime, eventi aziendali e serate d'eccellenza.
+                  {window.tr("Ogni dettaglio è pensato per un'esperienza indimenticabile: spazi eleganti e personalizzabili, una terrazza con vista, una sala insonorizzata e un pianoforte Steinway & Sons per la musica dal vivo. A completare, un servizio impeccabile e oltre 20 tipologie di calici di cristallo — la scelta perfetta per cene intime, eventi aziendali e serate d'eccellenza.")}
                 </p>
                 <div className="flex flex-wrap gap-1.5 mt-6">
                   {features.map((f) => (
                     <span key={f} className="liquid-glass rounded-full px-3 py-1 text-[11px] text-white/90 font-body whitespace-nowrap">
-                      {f}
+                      {window.tr(f)}
                     </span>
                   ))}
                 </div>
@@ -1044,11 +1122,11 @@
                     href={SITE.phoneHref}
                     className="liquid-glass-strong rounded-full px-5 py-2.5 text-sm font-medium text-white font-body flex items-center gap-1.5"
                   >
-                    Prenota un Tavolo
+                    {window.tr("Prenota un Tavolo")}
                     <ArrowUpRight className="h-5 w-5" />
                   </a>
                   <a href="#/eventi" className="text-sm font-medium text-white font-body flex items-center gap-2">
-                    Scopri gli Eventi
+                    {window.tr("Scopri gli Eventi")}
                     <PlayIcon className="h-4 w-4" />
                   </a>
                 </div>
@@ -1066,14 +1144,12 @@
           <Reveal>
             <div className="liquid-glass rounded-[1.25rem] p-10 md:p-14 flex flex-col md:flex-row md:items-center gap-10">
               <div className="md:w-1/2">
-                <p className="text-sm font-body text-white/80 mb-4">// Ordina Ora</p>
+                <p className="text-sm font-body text-white/80 mb-4">{window.tr("// Ordina Ora")}</p>
                 <h2 className="font-heading italic text-white text-4xl md:text-5xl tracking-[-2px] leading-none">
-                  I nostri sapori, dove vuoi tu
+                  {window.tr("I nostri sapori, dove vuoi tu")}
                 </h2>
                 <p className="mt-4 text-sm md:text-base text-white/90 font-body font-light leading-snug max-w-[50ch]">
-                  Una selezione di proposte di mare firmate Classé, disponibili anche d'asporto
-                  e in delivery tramite Deliveroo: la qualità della materia prima e il gusto
-                  contemporaneo arrivano direttamente a casa tua.
+                  {window.tr("Una selezione di proposte di mare firmate Classé, disponibili anche d'asporto e in delivery tramite Deliveroo: la qualità della materia prima e il gusto contemporaneo arrivano direttamente a casa tua.")}
                 </p>
                 <div className="flex flex-wrap items-center gap-4 mt-7">
                   <a
@@ -1082,7 +1158,7 @@
                     rel="noopener"
                     className="liquid-glass-strong rounded-full px-5 py-2.5 text-sm font-medium text-white font-body flex items-center gap-1.5"
                   >
-                    Sushi d'Asporto
+                    {window.tr("Sushi d'Asporto")}
                     <DownloadIcon className="h-4 w-4" />
                   </a>
                   <a
@@ -1091,7 +1167,7 @@
                     rel="noopener"
                     className="liquid-glass rounded-full px-5 py-2.5 text-sm font-medium text-white font-body flex items-center gap-1.5"
                   >
-                    Ordina su Deliveroo
+                    {window.tr("Ordina su Deliveroo")}
                     <ArrowUpRight className="h-4 w-4" />
                   </a>
                 </div>
@@ -1373,7 +1449,7 @@
             <div className="flex flex-wrap gap-1.5 mt-4">
               {section.tags.map((tag) => (
                 <span key={tag} className="liquid-glass rounded-full px-3 py-1 text-[11px] text-white/90 font-body whitespace-nowrap">
-                  {tag}
+                  {window.tr(tag)}
                 </span>
               ))}
             </div>
@@ -1381,7 +1457,7 @@
 
           <div className="md:w-3/5 flex flex-col">
             <Reveal>
-              <p className="text-sm font-body text-white/80 mb-4">{section.kicker}</p>
+              <p className="text-sm font-body text-white/80 mb-4">{window.tr(section.kicker)}</p>
             </Reveal>
             <BlurText
               text={section.name}
@@ -1390,7 +1466,7 @@
             />
             <Reveal delay={0.2}>
               <p className="mt-4 text-sm text-white/90 font-body font-light leading-snug max-w-[52ch]">
-                {section.intro}
+                {window.tr(section.intro)}
               </p>
             </Reveal>
 
@@ -1410,7 +1486,7 @@
                     </div>
                     {dish.desc && (
                       <div className="mt-1.5 text-xs md:text-sm text-white/80 font-body font-light leading-snug">
-                        {dish.desc}
+                        {window.tr(dish.desc)}
                       </div>
                     )}
                   </div>
@@ -1452,7 +1528,7 @@
                     }}
                     className="liquid-glass rounded-full px-4 py-2 text-xs font-medium text-white/90 font-body whitespace-nowrap"
                   >
-                    {s.name}
+                    {window.tr(s.name)}
                   </a>
                 ))}
               </div>
@@ -1471,9 +1547,7 @@
                   className="font-heading italic text-white text-4xl md:text-5xl tracking-[-2px] leading-none"
                 />
                 <p className="mt-4 text-sm md:text-base text-white/90 font-body font-light max-w-xl">
-                  Consulta e scarica i menù completi in PDF, in italiano e in inglese. Alle mezze
-                  porzioni viene applicato il 30%. Secondo le condizioni meteo, alcuni prodotti
-                  possono non essere disponibili freschi, ma congelati.
+                  {window.tr("Consulta e scarica i menù completi in PDF, in italiano e in inglese. Alle mezze porzioni viene applicato il 30%. Secondo le condizioni meteo, alcuni prodotti possono non essere disponibili freschi, ma congelati.")}
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-3 mt-8">
                   {[
@@ -1490,7 +1564,7 @@
                       rel="noopener"
                       className="liquid-glass-strong rounded-full px-5 py-2.5 text-sm font-medium text-white font-body flex items-center gap-1.5"
                     >
-                      {m.label}
+                      {window.tr(m.label)}
                       <DownloadIcon className="h-4 w-4" />
                     </a>
                   ))}
@@ -1534,7 +1608,7 @@
             <div className="flex flex-col md:flex-row gap-12 md:items-center">
               <div className="md:w-1/2">
                 <Reveal>
-                  <p className="text-sm font-body text-white/80 mb-4">// La Filosofia</p>
+                  <p className="text-sm font-body text-white/80 mb-4">{window.tr("// La Filosofia")}</p>
                 </Reveal>
                 <BlurText
                   text="Qualità senza compromessi"
@@ -1543,15 +1617,10 @@
                 />
                 <Reveal delay={0.2}>
                   <p className="mt-6 text-sm md:text-base text-white/90 font-body font-light leading-snug max-w-[54ch]">
-                    Il cuore di Classé è una cucina costruita sulla materia prima: dal banco del
-                    pescato fresco e dei crostacei vivi alla raffinata selezione di caviale
-                    Calvisius® e Ars Italica, ogni ingrediente è scelto per offrire
-                    un'esperienza autentica.
+                    {window.tr("Il cuore di Classé è una cucina costruita sulla materia prima: dal banco del pescato fresco e dei crostacei vivi alla raffinata selezione di caviale Calvisius® e Ars Italica, ogni ingrediente è scelto per offrire un'esperienza autentica.")}
                   </p>
                   <p className="mt-4 text-sm md:text-base text-white/90 font-body font-light leading-snug max-w-[54ch]">
-                    Le proposte di mare e di terra guardano alla grande tradizione culinaria
-                    italiana e internazionale, esaltando i sapori con tecniche moderne e
-                    abbinamenti ricercati.
+                    {window.tr("Le proposte di mare e di terra guardano alla grande tradizione culinaria italiana e internazionale, esaltando i sapori con tecniche moderne e abbinamenti ricercati.")}
                   </p>
                 </Reveal>
               </div>
@@ -1565,7 +1634,7 @@
             <div className="flex flex-col md:flex-row-reverse gap-12 md:items-center mt-28">
               <div className="md:w-1/2">
                 <Reveal>
-                  <p className="text-sm font-body text-white/80 mb-4">// Classé & Ittica De Mar</p>
+                  <p className="text-sm font-body text-white/80 mb-4">{window.tr("// Classé & Ittica De Mar")}</p>
                 </Reveal>
                 <BlurText
                   text="Materie prime che raccontano il Mediterraneo"
@@ -1574,18 +1643,14 @@
                 />
                 <Reveal delay={0.2}>
                   <p className="mt-6 text-sm md:text-base text-white/90 font-body font-light leading-snug max-w-[54ch]">
-                    Il brand Classé nasce da Ittica De Mar: la flotta di pescherecci di famiglia
-                    garantisce ogni giorno pesce freschissimo e crostacei vivi, direttamente
-                    dalla pescheria alla cucina del ristorante.
+                    {window.tr("Il brand Classé nasce da Ittica De Mar: la flotta di pescherecci di famiglia garantisce ogni giorno pesce freschissimo e crostacei vivi, direttamente dalla pescheria alla cucina del ristorante.")}
                   </p>
                   <p className="mt-4 text-sm md:text-base text-white/90 font-body font-light leading-snug max-w-[54ch]">
-                    Classé trova la sua casa ideale all'interno de La Dogana, una location
-                    poliedrica e raffinata di Lecce: l'equilibrio tra sapori unici e ambienti
-                    accoglienti rende speciale ogni cena e ogni evento.
+                    {window.tr("Classé trova la sua casa ideale all'interno de La Dogana, una location poliedrica e raffinata di Lecce: l'equilibrio tra sapori unici e ambienti accoglienti rende speciale ogni cena e ogni evento.")}
                   </p>
                   <div className="liquid-glass rounded-[1.25rem] px-6 py-5 mt-8 inline-flex flex-col">
                     <span className="font-heading italic text-white text-2xl leading-none">Simone De Mitri</span>
-                    <span className="text-xs text-white/80 font-body font-light mt-2 uppercase tracking-widest">Gestore</span>
+                    <span className="text-xs text-white/80 font-body font-light mt-2 uppercase tracking-widest">{window.tr("Gestore")}</span>
                   </div>
                 </Reveal>
               </div>
@@ -1598,7 +1663,7 @@
 
             <div className="mt-28">
               <Reveal>
-                <p className="text-sm font-body text-white/80 mb-4">// La Galleria</p>
+                <p className="text-sm font-body text-white/80 mb-4">{window.tr("// La Galleria")}</p>
               </Reveal>
               <BlurText
                 text="Dentro Classé"
@@ -1663,12 +1728,12 @@
                       <WineIcon className="h-6 w-6" />
                     </div>
                     <div className="flex-1" />
-                    <h3 className="font-heading italic text-white text-3xl tracking-[-1px] leading-none mt-6">{h.title}</h3>
-                    <p className="mt-3 text-sm text-white/90 font-body font-light leading-snug">{h.body}</p>
+                    <h3 className="font-heading italic text-white text-3xl tracking-[-1px] leading-none mt-6">{window.tr(h.title)}</h3>
+                    <p className="mt-3 text-sm text-white/90 font-body font-light leading-snug">{window.tr(h.body)}</p>
                     <div className="flex flex-wrap gap-1.5 mt-4">
                       {h.tags.map((tag) => (
                         <span key={tag} className="liquid-glass rounded-full px-3 py-1 text-[11px] text-white/90 font-body whitespace-nowrap">
-                          {tag}
+                          {window.tr(tag)}
                         </span>
                       ))}
                     </div>
@@ -1685,7 +1750,7 @@
               </Reveal>
               <div className="md:w-1/2">
                 <Reveal>
-                  <p className="text-sm font-body text-white/80 mb-4">// Consulta la Carta</p>
+                  <p className="text-sm font-body text-white/80 mb-4">{window.tr("// Consulta la Carta")}</p>
                 </Reveal>
                 <BlurText
                   text="Sfoglia la carta completa"
@@ -1694,8 +1759,7 @@
                 />
                 <Reveal delay={0.2}>
                   <p className="mt-6 text-sm md:text-base text-white/90 font-body font-light leading-snug max-w-[50ch]">
-                    La carta dei vini è sempre aggiornata e consultabile online: sfogliala per
-                    scoprire etichette, annate e formati disponibili in cantina.
+                    {window.tr("La carta dei vini è sempre aggiornata e consultabile online: sfogliala per scoprire etichette, annate e formati disponibili in cantina.")}
                   </p>
                   <div className="flex flex-wrap items-center gap-4 mt-8">
                     <a
@@ -1704,11 +1768,11 @@
                       rel="noopener"
                       className="liquid-glass-strong rounded-full px-5 py-2.5 text-sm font-medium text-white font-body flex items-center gap-1.5"
                     >
-                      Apri la Carta dei Vini
+                      {window.tr("Apri la Carta dei Vini")}
                       <ArrowUpRight className="h-5 w-5" />
                     </a>
                     <a href="#/eventi" className="text-sm font-medium text-white font-body flex items-center gap-2">
-                      Degustazioni & Eventi
+                      {window.tr("Degustazioni & Eventi")}
                       <PlayIcon className="h-4 w-4" />
                     </a>
                   </div>
@@ -1781,7 +1845,7 @@
                   <Reveal>
                     <div className="liquid-glass rounded-full inline-flex items-center gap-3 p-1 mb-5">
                       <span className="bg-white text-black rounded-full px-3 py-1 text-xs font-semibold font-body">{ev.price}</span>
-                      <span className="text-sm text-white/90 font-body pr-3">{ev.date}</span>
+                      <span className="text-sm text-white/90 font-body pr-3">{window.tr(ev.date)}</span>
                     </div>
                   </Reveal>
                   <BlurText
@@ -1791,12 +1855,12 @@
                   />
                   <Reveal delay={0.2}>
                     <p className="mt-5 text-sm md:text-base text-white/90 font-body font-light leading-snug max-w-[48ch]">
-                      {ev.body}
+                      {window.tr(ev.body)}
                     </p>
                     <div className="flex flex-wrap gap-1.5 mt-5">
                       {ev.tags.map((tag) => (
                         <span key={tag} className="liquid-glass rounded-full px-3 py-1 text-[11px] text-white/90 font-body whitespace-nowrap">
-                          {tag}
+                          {window.tr(tag)}
                         </span>
                       ))}
                     </div>
@@ -1804,7 +1868,7 @@
                       href={SITE.phoneHref}
                       className="liquid-glass-strong rounded-full px-5 py-2.5 mt-7 inline-flex items-center gap-1.5 text-sm font-medium text-white font-body"
                     >
-                      Riserva il Tuo Posto
+                      {window.tr("Riserva il Tuo Posto")}
                       <ArrowUpRight className="h-5 w-5" />
                     </a>
                   </Reveal>
@@ -1822,16 +1886,14 @@
                   className="font-heading italic text-white text-4xl md:text-5xl tracking-[-2px] leading-none"
                 />
                 <p className="mt-4 text-sm md:text-base text-white/90 font-body font-light max-w-xl">
-                  Spazi eleganti e personalizzabili, terrazza con vista, sala insonorizzata con
-                  pianoforte Steinway & Sons: per cerimonie, eventi aziendali e cene private
-                  costruiamo la serata insieme a te.
+                  {window.tr("Spazi eleganti e personalizzabili, terrazza con vista, sala insonorizzata con pianoforte Steinway & Sons: per cerimonie, eventi aziendali e cene private costruiamo la serata insieme a te.")}
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
                   <a
                     href={SITE.phoneHref}
                     className="liquid-glass-strong rounded-full px-5 py-2.5 text-sm font-medium text-white font-body flex items-center gap-1.5"
                   >
-                    Richiedi un Preventivo
+                    {window.tr("Richiedi un Preventivo")}
                     <ArrowUpRight className="h-5 w-5" />
                   </a>
                   <a
@@ -1872,7 +1934,7 @@
                 <div className="liquid-glass rounded-[1.25rem] p-8 flex flex-col min-h-[280px]">
                   <MapPinIcon className="h-7 w-7 text-white" />
                   <div className="flex-1" />
-                  <h3 className="font-heading italic text-white text-3xl tracking-[-1px] leading-none mt-6">Posizione</h3>
+                  <h3 className="font-heading italic text-white text-3xl tracking-[-1px] leading-none mt-6">{window.tr("Posizione")}</h3>
                   <p className="mt-3 text-sm text-white/90 font-body font-light leading-snug">{SITE.address}</p>
                   <a
                     href={SITE.mapsHref}
@@ -1880,7 +1942,7 @@
                     rel="noopener"
                     className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-white font-body"
                   >
-                    Indicazioni Stradali
+                    {window.tr("Indicazioni Stradali")}
                     <ArrowUpRight className="h-4 w-4" />
                   </a>
                 </div>
@@ -1890,11 +1952,11 @@
                 <div className="liquid-glass rounded-[1.25rem] p-8 flex flex-col min-h-[280px]">
                   <ClockIcon className="h-7 w-7 text-white" />
                   <div className="flex-1" />
-                  <h3 className="font-heading italic text-white text-3xl tracking-[-1px] leading-none mt-6">Orari di Apertura</h3>
+                  <h3 className="font-heading italic text-white text-3xl tracking-[-1px] leading-none mt-6">{window.tr("Orari di Apertura")}</h3>
                   <div className="mt-3 flex flex-col gap-1.5 text-sm text-white/90 font-body font-light leading-snug">
                     {SITE.hours.map((h) => (
                       <div key={h.days}>
-                        <span className="text-white">{h.days}</span> — {h.time}
+                        <span className="text-white">{window.tr(h.days)}</span> — {h.time}
                       </div>
                     ))}
                   </div>
@@ -1905,7 +1967,7 @@
                 <div className="liquid-glass rounded-[1.25rem] p-8 flex flex-col min-h-[280px]">
                   <PhoneIcon className="h-7 w-7 text-white" />
                   <div className="flex-1" />
-                  <h3 className="font-heading italic text-white text-3xl tracking-[-1px] leading-none mt-6">Prenotazioni</h3>
+                  <h3 className="font-heading italic text-white text-3xl tracking-[-1px] leading-none mt-6">{window.tr("Prenotazioni")}</h3>
                   <a href={SITE.phoneHref} className="mt-3 text-sm text-white font-body font-light">
                     {SITE.phone}
                   </a>
@@ -1919,7 +1981,7 @@
                       rel="noopener"
                       className="inline-flex items-center gap-1.5 text-sm font-medium text-white font-body"
                     >
-                      Prenota Online
+                      {window.tr("Prenota Online")}
                       <ArrowUpRight className="h-4 w-4" />
                     </a>
                     <a
@@ -1955,8 +2017,7 @@
                   className="font-heading italic text-white text-4xl md:text-5xl tracking-[-2px] leading-none"
                 />
                 <p className="mt-4 text-sm md:text-base text-white/90 font-body font-light max-w-xl">
-                  Iscriviti alla newsletter per ricevere news, eventi e degustazioni in
-                  anteprima, oppure seguici sui social.
+                  {window.tr("Iscriviti alla newsletter per ricevere news, eventi e degustazioni in anteprima, oppure seguici sui social.")}
                 </p>
                 <form
                   className="flex flex-col sm:flex-row items-stretch gap-3 mt-8 w-full max-w-md"
@@ -1971,14 +2032,14 @@
                     type="email"
                     name="email"
                     required
-                    placeholder="La tua email"
+                    placeholder={window.tr("La tua email")}
                     className="liquid-glass rounded-full px-5 py-2.5 text-sm text-white font-body font-light bg-transparent placeholder-white/50 flex-1 outline-none"
                   />
                   <button
                     type="submit"
                     className="bg-white text-black rounded-full px-5 py-2.5 text-sm font-medium font-body flex items-center justify-center gap-1.5 whitespace-nowrap"
                   >
-                    Iscriviti
+                    {window.tr("Iscriviti")}
                     <ArrowUpRight className="h-4 w-4" />
                   </button>
                 </form>
@@ -2018,6 +2079,10 @@
 
     function App() {
       const [route, setRoute] = React.useState(getRoute());
+      const [lang, setLangState] = React.useState(window.__LANG || "it");
+
+      // Keep the global in sync before children render so tr() resolves correctly.
+      window.__LANG = lang;
 
       React.useEffect(() => {
         const onHashChange = () => setRoute(getRoute());
@@ -2029,12 +2094,16 @@
         window.scrollTo(0, 0);
       }, [route]);
 
+      React.useEffect(() => {
+        if (window.__setLang) window.__setLang(lang);
+      }, [lang]);
+
       const Page = ROUTES[route];
 
       return (
         <main className="bg-black">
-          <Navbar route={route} />
-          <Page key={route} />
+          <Navbar route={route} lang={lang} setLang={setLangState} />
+          <Page key={route + "-" + lang} />
           <BookingBand />
           <Footer />
         </main>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Ping Pong — Sala Giochi</title>
+<style>
+:root{--bg0:#05010f;--bg1:#0d0524;--bg2:#16093d;--cyan:#00fff0;--magenta:#ff2e97;--yellow:#ffe600;--green:#39ff14;--purple:#9d4edd;--text:#e8e6ff;--dim:#8a86b8}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;background:radial-gradient(circle at 20% 10%,rgba(157,78,221,.25),transparent 40%),radial-gradient(circle at 80% 90%,rgba(255,46,151,.2),transparent 45%),linear-gradient(160deg,var(--bg0),var(--bg1) 60%,var(--bg2));background-attachment:fixed;color:var(--text);font-family:"Courier New",monospace;-webkit-tap-highlight-color:transparent;overflow-x:hidden;touch-action:manipulation}
+.wrap{max-width:560px;margin:0 auto;padding:16px 14px 48px;text-align:center}
+.back{display:inline-block;color:var(--cyan);text-decoration:none;letter-spacing:2px;font-size:13px;margin-bottom:10px;text-transform:uppercase}
+.back:hover{color:var(--magenta)}
+.pixel-title{font-weight:bold;letter-spacing:3px;text-transform:uppercase;font-size:clamp(26px,7vw,42px);text-shadow:2px 2px 0 var(--magenta),-2px -2px 0 var(--cyan),0 0 16px rgba(0,255,240,.5);margin-bottom:12px}
+.adslot{margin:14px auto;min-height:60px;max-width:468px;border:1px dashed rgba(0,255,240,.3);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:11px;letter-spacing:1px;overflow:hidden}
+.hud{display:flex;justify-content:center;gap:22px;margin:8px 0 12px;font-size:15px;letter-spacing:1px}
+.hud b{color:var(--yellow)}.hud .rec b{color:var(--green)}
+.stage{position:relative;width:100%;max-width:480px;margin:0 auto;touch-action:none}
+canvas{background:rgba(5,1,15,.85);border:2px solid rgba(0,255,240,.4);border-radius:10px;box-shadow:0 0 26px rgba(0,255,240,.15);width:100%;height:auto;display:block}
+.controls{margin-top:14px;color:var(--dim);font-size:12px;letter-spacing:1px;line-height:1.7}
+.overlay{position:absolute;inset:0;background:rgba(5,1,15,.88);display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;gap:14px;padding:16px}
+.overlay.hidden{display:none}
+.overlay h2{color:var(--magenta);font-size:26px;letter-spacing:2px;text-transform:uppercase;text-shadow:0 0 12px rgba(255,46,151,.6)}
+.overlay p{color:var(--text);font-size:15px;line-height:1.5}
+.btn{cursor:pointer;background:linear-gradient(180deg,var(--magenta),#c01e70);color:#fff;border:none;border-radius:8px;padding:12px 26px;font-family:inherit;font-weight:bold;letter-spacing:2px;font-size:15px;text-transform:uppercase;box-shadow:0 0 16px rgba(255,46,151,.5)}
+.btn:active{transform:translateY(2px)}
+.dpad{display:grid;grid-template-columns:repeat(2,88px);gap:12px;justify-content:center;margin:18px auto 0}
+.dpad button{background:rgba(0,255,240,.1);border:2px solid rgba(0,255,240,.4);color:var(--cyan);border-radius:10px;font-size:26px;padding:14px 0;font-family:inherit;cursor:pointer}
+.dpad button:active{background:rgba(0,255,240,.3)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">◂ SALA GIOCHI</a>
+  <h1 class="pixel-title">Ping Pong</h1>
+
+  <!-- SOSTITUISCI CON IL TUO ID: cambia ca-pub-XXXXXXXXXXXXXXXX con il tuo Publisher ID AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+  <div class="adslot">
+    <ins class="adsbygoogle" style="display:block;width:100%" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <span>Spazio pubblicitario (AdSense)</span>
+  </div>
+
+  <div class="hud"><span>Tu: <b id="ps">0</b></span><span>CPU: <b id="cs">0</b></span><span class="rec">Serie: <b id="best">0</b></span></div>
+
+  <div class="stage">
+    <canvas id="game" width="480" height="340"></canvas>
+    <div class="overlay" id="ov">
+      <h2 id="ovt">Ping Pong</h2>
+      <p id="ovp">Muovi la racchetta con ▲▼, il dito o il mouse. Primo a 7 vince!</p>
+      <button class="btn" id="start">Gioca</button>
+    </div>
+  </div>
+
+  <div class="controls">▲ ▼ / W S · Trascina col dito o col mouse</div>
+  <div class="dpad">
+    <button data-d="-1">▲</button><button data-d="1">▼</button>
+  </div>
+
+  <!-- SOSTITUISCI CON IL TUO ID: cambia ca-pub-XXXXXXXXXXXXXXXX con il tuo Publisher ID AdSense -->
+  <div class="adslot">
+    <ins class="adsbygoogle" style="display:block;width:100%" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="2222222222" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <span>Spazio pubblicitario (AdSense)</span>
+  </div>
+</div>
+
+<script>
+(function(){
+  try{(adsbygoogle=window.adsbygoogle||[]).push({});(adsbygoogle=window.adsbygoogle||[]).push({});}catch(e){}
+  const cv=document.getElementById('game'),ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
+  const psEl=document.getElementById('ps'),csEl=document.getElementById('cs'),bestEl=document.getElementById('best');
+  const ov=document.getElementById('ov'),ovt=document.getElementById('ovt'),ovp=document.getElementById('ovp'),startBtn=document.getElementById('start');
+  const KEY='sg_pong_streak';
+  const PH=64,PW=10,WIN=7;
+  let best=+(localStorage.getItem(KEY)||0);bestEl.textContent=best;
+  let streak=0,py,cy,ball,ps,cs,running,move;
+  function serve(dir){ball={x:W/2,y:H/2,dx:dir*4,dy:(Math.random()*4-2),sp:4};}
+  function reset(){py=H/2-PH/2;cy=H/2-PH/2;ps=0;cs=0;move=0;running=true;psEl.textContent=0;csEl.textContent=0;serve(Math.random()<.5?-1:1);}
+  function start(){reset();ov.classList.add('hidden');loop();}
+  function endMatch(win){
+    running=false;
+    if(win){streak++;if(streak>best){best=streak;localStorage.setItem(KEY,best);}bestEl.textContent=best;}
+    else{streak=0;}
+    ovt.textContent=win?'Hai Vinto!':'Hai Perso';
+    ovp.innerHTML=(win?'Serie di vittorie: <b>'+streak+'</b>':'Serie azzerata.')+'<br>Record serie: '+best;
+    startBtn.textContent='Rigioca';ov.classList.remove('hidden');
+  }
+  function loop(){if(!running)return;update();draw();requestAnimationFrame(loop);}
+  function update(){
+    py+=move*6;py=Math.max(0,Math.min(H-PH,py));
+    // CPU insegue con reattività limitata
+    const target=ball.y-PH/2;const spd=4.4;
+    if(cy+PH/2<ball.y-6)cy+=spd;else if(cy+PH/2>ball.y+6)cy-=spd;cy=Math.max(0,Math.min(H-PH,cy));
+    ball.x+=ball.dx;ball.y+=ball.dy;
+    if(ball.y<8||ball.y>H-8)ball.dy*=-1;
+    // racchetta giocatore (sinistra)
+    if(ball.x-8<PW&&ball.y>py&&ball.y<py+PH&&ball.dx<0){ball.dx=Math.abs(ball.dx);ball.sp+=0.4;ball.dx=ball.sp;ball.dy+=((ball.y-(py+PH/2))/PH)*4;}
+    // racchetta CPU (destra)
+    if(ball.x+8>W-PW&&ball.y>cy&&ball.y<cy+PH&&ball.dx>0){ball.dx=-Math.abs(ball.sp);ball.sp+=0.4;ball.dy+=((ball.y-(cy+PH/2))/PH)*4;}
+    if(ball.x<0){cs++;csEl.textContent=cs;if(cs>=WIN)return endMatch(false);serve(1);}
+    if(ball.x>W){ps++;psEl.textContent=ps;if(ps>=WIN)return endMatch(true);serve(-1);}
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle='rgba(0,255,240,0.25)';ctx.setLineDash([8,10]);ctx.beginPath();ctx.moveTo(W/2,0);ctx.lineTo(W/2,H);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle='#00fff0';ctx.shadowColor='#00fff0';ctx.shadowBlur=10;ctx.fillRect(2,py,PW,PH);
+    ctx.fillStyle='#ff2e97';ctx.shadowColor='#ff2e97';ctx.fillRect(W-PW-2,cy,PW,PH);
+    ctx.fillStyle='#ffe600';ctx.shadowColor='#ffe600';ctx.beginPath();ctx.arc(ball.x,ball.y,7,0,7);ctx.fill();
+    ctx.shadowBlur=0;
+  }
+  window.addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(k==='arrowup'||k==='w'){move=-1;e.preventDefault();}if(k==='arrowdown'||k==='s'){move=1;e.preventDefault();}});
+  window.addEventListener('keyup',e=>{const k=e.key.toLowerCase();if(['arrowup','w','arrowdown','s'].includes(k))move=0;});
+  document.querySelectorAll('.dpad button').forEach(b=>{const d=+b.dataset.d;const on=()=>move=d,off=()=>move=0;
+    b.addEventListener('touchstart',e=>{e.preventDefault();on();},{passive:false});b.addEventListener('touchend',off);b.addEventListener('mousedown',on);b.addEventListener('mouseup',off);b.addEventListener('mouseleave',off);});
+  function pointAt(clientY){const r=cv.getBoundingClientRect();const y=(clientY-r.top)/r.height*H;if(running)py=Math.max(0,Math.min(H-PH,y-PH/2));}
+  cv.addEventListener('mousemove',e=>pointAt(e.clientY));
+  cv.addEventListener('touchmove',e=>{e.preventDefault();pointAt(e.touches[0].clientY);},{passive:false});
+  startBtn.addEventListener('click',start);
+  reset();running=false;draw();
+})();
+</script>
+</body>
+</html>

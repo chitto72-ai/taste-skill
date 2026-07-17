@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Ali di Pixel — Sala Giochi</title>
+<style>
+:root{--bg0:#05010f;--bg1:#0d0524;--bg2:#16093d;--cyan:#00fff0;--magenta:#ff2e97;--yellow:#ffe600;--green:#39ff14;--purple:#9d4edd;--text:#e8e6ff;--dim:#8a86b8}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;background:radial-gradient(circle at 20% 10%,rgba(157,78,221,.25),transparent 40%),radial-gradient(circle at 80% 90%,rgba(255,46,151,.2),transparent 45%),linear-gradient(160deg,var(--bg0),var(--bg1) 60%,var(--bg2));background-attachment:fixed;color:var(--text);font-family:"Courier New",monospace;-webkit-tap-highlight-color:transparent;overflow-x:hidden;touch-action:manipulation}
+.wrap{max-width:520px;margin:0 auto;padding:16px 14px 48px;text-align:center}
+.back{display:inline-block;color:var(--cyan);text-decoration:none;letter-spacing:2px;font-size:13px;margin-bottom:10px;text-transform:uppercase}
+.back:hover{color:var(--magenta)}
+.pixel-title{font-weight:bold;letter-spacing:3px;text-transform:uppercase;font-size:clamp(24px,6.5vw,40px);text-shadow:2px 2px 0 var(--magenta),-2px -2px 0 var(--cyan),0 0 16px rgba(0,255,240,.5);margin-bottom:12px}
+.adslot{margin:14px auto;min-height:60px;max-width:468px;border:1px dashed rgba(0,255,240,.3);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:11px;letter-spacing:1px;overflow:hidden}
+.hud{display:flex;justify-content:center;gap:22px;margin:8px 0 12px;font-size:15px;letter-spacing:1px}
+.hud b{color:var(--yellow)}.hud .rec b{color:var(--green)}
+.stage{position:relative;width:100%;max-width:400px;margin:0 auto;touch-action:none}
+canvas{background:linear-gradient(180deg,#0a0430,#1a0a45);border:2px solid rgba(0,255,240,.4);border-radius:10px;box-shadow:0 0 26px rgba(0,255,240,.15);width:100%;height:auto;display:block}
+.controls{margin-top:14px;color:var(--dim);font-size:12px;letter-spacing:1px;line-height:1.7}
+.overlay{position:absolute;inset:0;background:rgba(5,1,15,.82);display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;gap:14px;padding:16px}
+.overlay.hidden{display:none}
+.overlay h2{color:var(--magenta);font-size:26px;letter-spacing:2px;text-transform:uppercase;text-shadow:0 0 12px rgba(255,46,151,.6)}
+.overlay p{color:var(--text);font-size:15px;line-height:1.5}
+.btn{cursor:pointer;background:linear-gradient(180deg,var(--magenta),#c01e70);color:#fff;border:none;border-radius:8px;padding:12px 26px;font-family:inherit;font-weight:bold;letter-spacing:2px;font-size:15px;text-transform:uppercase;box-shadow:0 0 16px rgba(255,46,151,.5)}
+.btn:active{transform:translateY(2px)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">◂ SALA GIOCHI</a>
+  <h1 class="pixel-title">Ali di Pixel</h1>
+
+  <!-- SOSTITUISCI CON IL TUO ID: cambia ca-pub-XXXXXXXXXXXXXXXX con il tuo Publisher ID AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+  <div class="adslot">
+    <ins class="adsbygoogle" style="display:block;width:100%" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <span>Spazio pubblicitario (AdSense)</span>
+  </div>
+
+  <div class="hud"><span>Punti: <b id="score">0</b></span><span class="rec">Record: <b id="best">0</b></span></div>
+
+  <div class="stage">
+    <canvas id="game" width="400" height="500"></canvas>
+    <div class="overlay" id="ov">
+      <h2 id="ovt">Ali di Pixel</h2>
+      <p id="ovp">Tocca lo schermo o premi Spazio per volare tra i tubi.</p>
+      <button class="btn" id="start">Vola</button>
+    </div>
+  </div>
+
+  <div class="controls">Spazio / Click / Tocco per battere le ali</div>
+
+  <!-- SOSTITUISCI CON IL TUO ID: cambia ca-pub-XXXXXXXXXXXXXXXX con il tuo Publisher ID AdSense -->
+  <div class="adslot">
+    <ins class="adsbygoogle" style="display:block;width:100%" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="2222222222" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <span>Spazio pubblicitario (AdSense)</span>
+  </div>
+</div>
+
+<script>
+(function(){
+  try{(adsbygoogle=window.adsbygoogle||[]).push({});(adsbygoogle=window.adsbygoogle||[]).push({});}catch(e){}
+  const cv=document.getElementById('game'),ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
+  const scoreEl=document.getElementById('score'),bestEl=document.getElementById('best');
+  const ov=document.getElementById('ov'),ovt=document.getElementById('ovt'),ovp=document.getElementById('ovp'),startBtn=document.getElementById('start');
+  const KEY='sg_flappy_best';
+  let best=+(localStorage.getItem(KEY)||0);bestEl.textContent=best;
+  const GAP=140,PW=58,BR=14;
+  let bird,pipes,score,running,frame;
+  function reset(){bird={x:90,y:H/2,v:0};pipes=[];score=0;frame=0;running=true;scoreEl.textContent=0;}
+  function start(){reset();ov.classList.add('hidden');loop();}
+  function flap(){if(running)bird.v=-6.6;}
+  function over(){running=false;if(score>best){best=score;localStorage.setItem(KEY,best);bestEl.textContent=best;}
+    ovt.textContent='Sei caduto!';ovp.innerHTML='Punteggio: <b>'+score+'</b><br>Record: '+best;startBtn.textContent='Riprova';ov.classList.remove('hidden');}
+  function loop(){if(!running)return;update();draw();requestAnimationFrame(loop);}
+  function update(){
+    frame++;bird.v+=0.42;bird.y+=bird.v;
+    if(frame%92===0)pipes.push({x:W,top:40+Math.random()*(H-GAP-120),passed:false});
+    pipes.forEach(p=>p.x-=2.4);
+    pipes=pipes.filter(p=>p.x+PW>0);
+    for(const p of pipes){
+      if(!p.passed&&p.x+PW<bird.x){p.passed=true;score++;scoreEl.textContent=score;}
+      if(bird.x+BR>p.x&&bird.x-BR<p.x+PW&&(bird.y-BR<p.top||bird.y+BR>p.top+GAP))return over();
+    }
+    if(bird.y+BR>H||bird.y-BR<0)return over();
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#39ff14';ctx.shadowColor='#39ff14';ctx.shadowBlur=8;
+    pipes.forEach(p=>{ctx.fillRect(p.x,0,PW,p.top);ctx.fillRect(p.x,p.top+GAP,PW,H-p.top-GAP);});
+    ctx.shadowBlur=14;ctx.fillStyle='#ffe600';ctx.shadowColor='#ffe600';
+    ctx.beginPath();ctx.arc(bird.x,bird.y,BR,0,7);ctx.fill();
+    ctx.fillStyle='#05010f';ctx.beginPath();ctx.arc(bird.x+5,bird.y-4,3,0,7);ctx.fill();
+    ctx.shadowBlur=0;
+  }
+  window.addEventListener('keydown',e=>{if(e.code==='Space'||e.key===' '){e.preventDefault();if(!running&&ov.classList.contains('hidden')){}flap();}});
+  cv.addEventListener('mousedown',flap);
+  cv.addEventListener('touchstart',e=>{e.preventDefault();flap();},{passive:false});
+  startBtn.addEventListener('click',start);
+  reset();running=false;draw();
+})();
+</script>
+</body>
+</html>

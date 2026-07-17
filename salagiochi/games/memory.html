@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Memoria — Sala Giochi</title>
+<style>
+:root{--bg0:#05010f;--bg1:#0d0524;--bg2:#16093d;--cyan:#00fff0;--magenta:#ff2e97;--yellow:#ffe600;--green:#39ff14;--purple:#9d4edd;--text:#e8e6ff;--dim:#8a86b8}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;background:radial-gradient(circle at 20% 10%,rgba(157,78,221,.25),transparent 40%),radial-gradient(circle at 80% 90%,rgba(255,46,151,.2),transparent 45%),linear-gradient(160deg,var(--bg0),var(--bg1) 60%,var(--bg2));background-attachment:fixed;color:var(--text);font-family:"Courier New",monospace;-webkit-tap-highlight-color:transparent;overflow-x:hidden}
+.wrap{max-width:520px;margin:0 auto;padding:16px 14px 48px;text-align:center}
+.back{display:inline-block;color:var(--cyan);text-decoration:none;letter-spacing:2px;font-size:13px;margin-bottom:10px;text-transform:uppercase}
+.back:hover{color:var(--magenta)}
+.pixel-title{font-weight:bold;letter-spacing:3px;text-transform:uppercase;font-size:clamp(26px,7vw,42px);text-shadow:2px 2px 0 var(--magenta),-2px -2px 0 var(--cyan),0 0 16px rgba(0,255,240,.5);margin-bottom:12px}
+.adslot{margin:14px auto;min-height:60px;max-width:468px;border:1px dashed rgba(0,255,240,.3);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:11px;letter-spacing:1px;overflow:hidden}
+.hud{display:flex;justify-content:center;gap:22px;margin:8px 0 12px;font-size:15px;letter-spacing:1px}
+.hud b{color:var(--yellow)}.hud .rec b{color:var(--green)}
+.stage{position:relative;max-width:420px;margin:0 auto}
+.board{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.tile{aspect-ratio:1;perspective:600px;cursor:pointer}
+.inner{position:relative;width:100%;height:100%;transition:transform .4s;transform-style:preserve-3d}
+.tile.flip .inner,.tile.matched .inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;border-radius:10px;backface-visibility:hidden;font-size:clamp(24px,9vw,40px)}
+.front{background:linear-gradient(135deg,#16093d,#2a1160);border:2px solid rgba(0,255,240,.4);color:var(--cyan)}
+.back{background:rgba(5,1,15,.9);border:2px solid rgba(255,46,151,.5);transform:rotateY(180deg)}
+.tile.matched .back{border-color:var(--green);box-shadow:0 0 14px rgba(57,255,20,.5)}
+.controls{margin-top:14px;color:var(--dim);font-size:12px;letter-spacing:1px;line-height:1.7}
+.overlay{position:absolute;inset:-6px;background:rgba(5,1,15,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:12px;gap:14px;padding:16px}
+.overlay.hidden{display:none}
+.overlay h2{color:var(--magenta);font-size:26px;letter-spacing:2px;text-transform:uppercase;text-shadow:0 0 12px rgba(255,46,151,.6)}
+.overlay p{color:var(--text);font-size:15px;line-height:1.5}
+.btn{cursor:pointer;background:linear-gradient(180deg,var(--magenta),#c01e70);color:#fff;border:none;border-radius:8px;padding:12px 26px;font-family:inherit;font-weight:bold;letter-spacing:2px;font-size:15px;text-transform:uppercase;box-shadow:0 0 16px rgba(255,46,151,.5)}
+.btn:active{transform:translateY(2px)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">◂ SALA GIOCHI</a>
+  <h1 class="pixel-title">Memoria</h1>
+
+  <!-- SOSTITUISCI CON IL TUO ID: cambia ca-pub-XXXXXXXXXXXXXXXX con il tuo Publisher ID AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+  <div class="adslot">
+    <ins class="adsbygoogle" style="display:block;width:100%" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <span>Spazio pubblicitario (AdSense)</span>
+  </div>
+
+  <div class="hud"><span>Mosse: <b id="moves">0</b></span><span>Coppie: <b id="pairs">0/8</b></span><span class="rec">Record: <b id="best">—</b></span></div>
+
+  <div class="stage">
+    <div class="board" id="board"></div>
+    <div class="overlay hidden" id="ov">
+      <h2 id="ovt">Memoria</h2>
+      <p id="ovp"></p>
+      <button class="btn" id="start">Rigioca</button>
+    </div>
+  </div>
+
+  <div class="controls">Tocca le carte e trova tutte le coppie · Meno mosse = record</div>
+
+  <!-- SOSTITUISCI CON IL TUO ID: cambia ca-pub-XXXXXXXXXXXXXXXX con il tuo Publisher ID AdSense -->
+  <div class="adslot">
+    <ins class="adsbygoogle" style="display:block;width:100%" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="2222222222" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <span>Spazio pubblicitario (AdSense)</span>
+  </div>
+</div>
+
+<script>
+(function(){
+  try{(adsbygoogle=window.adsbygoogle||[]).push({});(adsbygoogle=window.adsbygoogle||[]).push({});}catch(e){}
+  const SYM=['🕹️','👾','🎯','🎲','⭐','💎','🔥','⚡'];
+  const board=document.getElementById('board'),movesEl=document.getElementById('moves'),pairsEl=document.getElementById('pairs'),bestEl=document.getElementById('best');
+  const ov=document.getElementById('ov'),ovt=document.getElementById('ovt'),ovp=document.getElementById('ovp'),startBtn=document.getElementById('start');
+  const KEY='sg_memory_best';
+  let best=localStorage.getItem(KEY);bestEl.textContent=best?best+' mosse':'—';
+  let deck,first,lock,moves,matched;
+  function shuffle(a){for(let i=a.length-1;i>0;i--){const j=(Math.random()*(i+1))|0;[a[i],a[j]]=[a[j],a[i]];}return a;}
+  function init(){
+    moves=0;matched=0;first=null;lock=false;movesEl.textContent=0;pairsEl.textContent='0/8';ov.classList.add('hidden');
+    deck=shuffle(SYM.concat(SYM));board.innerHTML='';
+    deck.forEach(sym=>{
+      const t=document.createElement('div');t.className='tile';t.dataset.sym=sym;
+      t.innerHTML='<div class="inner"><div class="face front">?</div><div class="face back">'+sym+'</div></div>';
+      t.addEventListener('click',()=>flip(t));board.appendChild(t);
+    });
+  }
+  function flip(t){
+    if(lock||t.classList.contains('flip')||t.classList.contains('matched'))return;
+    t.classList.add('flip');
+    if(!first){first=t;return;}
+    moves++;movesEl.textContent=moves;
+    if(first.dataset.sym===t.dataset.sym){
+      first.classList.add('matched');t.classList.add('matched');first=null;matched++;pairsEl.textContent=matched+'/8';
+      if(matched===8)win();
+    } else {
+      lock=true;const a=first,b=t;first=null;
+      setTimeout(()=>{a.classList.remove('flip');b.classList.remove('flip');lock=false;},700);
+    }
+  }
+  function win(){
+    let msg='Completato in <b>'+moves+'</b> mosse!';
+    if(!best||moves<+best){best=moves;localStorage.setItem(KEY,best);bestEl.textContent=best+' mosse';msg+='<br>🏆 Nuovo record!';}
+    ovt.textContent='Vittoria!';ovp.innerHTML=msg;setTimeout(()=>ov.classList.remove('hidden'),450);
+  }
+  startBtn.addEventListener('click',init);
+  init();
+})();
+</script>
+</body>
+</html>

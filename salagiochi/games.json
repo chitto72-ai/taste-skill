@@ -106,6 +106,41 @@
       "descrizione": "Sfida il computer imbattibile a tris. Riesci almeno a pareggiare?",
       "data": "2026-07-27",
       "emoji": "❌"
+    },
+    {
+      "slug": "attraversa",
+      "titolo": "Attraversa",
+      "descrizione": "Guida la rana oltre strada e fiume saltando sui tronchi fino al traguardo.",
+      "data": "2026-07-27",
+      "emoji": "🐸"
+    },
+    {
+      "slug": "sudoku",
+      "titolo": "Sudoku",
+      "descrizione": "Riempi la griglia 9x9 senza ripetere i numeri. Puzzle sempre nuovo.",
+      "data": "2026-07-27",
+      "emoji": "🧩"
+    },
+    {
+      "slug": "forza4",
+      "titolo": "Forza 4",
+      "descrizione": "Allinea quattro gettoni prima del computer in questo classico a colonne.",
+      "data": "2026-07-27",
+      "emoji": "🔴"
+    },
+    {
+      "slug": "reazione",
+      "titolo": "Test di Reazione",
+      "descrizione": "Misura i tuoi riflessi: tocca appena lo schermo diventa verde.",
+      "data": "2026-07-27",
+      "emoji": "⚡"
+    },
+    {
+      "slug": "labirinto",
+      "titolo": "Labirinto",
+      "descrizione": "Trova l'uscita del labirinto generato a caso, sempre più grande.",
+      "data": "2026-07-27",
+      "emoji": "🌀"
     }
   ]
 }

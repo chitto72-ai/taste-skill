@@ -71,6 +71,41 @@
       "descrizione": "Colpisci le talpe che spuntano prima che si nascondano di nuovo.",
       "data": "2026-07-17",
       "emoji": "🔨"
+    },
+    {
+      "slug": "simon",
+      "titolo": "Simon",
+      "descrizione": "Osserva e ripeti la sequenza di colori e suoni, sempre più lunga.",
+      "data": "2026-07-27",
+      "emoji": "🎨"
+    },
+    {
+      "slug": "asteroidi",
+      "titolo": "Asteroidi",
+      "descrizione": "Ruota la navicella, spingi e frantuma gli asteroidi nello spazio profondo.",
+      "data": "2026-07-27",
+      "emoji": "☄️"
+    },
+    {
+      "slug": "corsa",
+      "titolo": "Corsa Infinita",
+      "descrizione": "Salta gli ostacoli e corri il più lontano possibile a velocità crescente.",
+      "data": "2026-07-27",
+      "emoji": "🏃"
+    },
+    {
+      "slug": "parola",
+      "titolo": "Indovina la Parola",
+      "descrizione": "Scopri la parola misteriosa una lettera alla volta prima di finire i tentativi.",
+      "data": "2026-07-27",
+      "emoji": "🔤"
+    },
+    {
+      "slug": "tris",
+      "titolo": "Tris",
+      "descrizione": "Sfida il computer imbattibile a tris. Riesci almeno a pareggiare?",
+      "data": "2026-07-27",
+      "emoji": "❌"
     }
   ]
 }

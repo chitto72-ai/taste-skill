@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Simon — Sala Giochi</title>
+<style>
+:root{--bg0:#05010f;--bg1:#0d0524;--bg2:#16093d;--cyan:#00fff0;--magenta:#ff2e97;--yellow:#ffe600;--green:#39ff14;--purple:#9d4edd;--text:#e8e6ff;--dim:#8a86b8}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;background:radial-gradient(circle at 20% 10%,rgba(157,78,221,.25),transparent 40%),radial-gradient(circle at 80% 90%,rgba(255,46,151,.2),transparent 45%),linear-gradient(160deg,var(--bg0),var(--bg1) 60%,var(--bg2));background-attachment:fixed;color:var(--text);font-family:"Courier New",monospace;-webkit-tap-highlight-color:transparent;overflow-x:hidden}
+.wrap{max-width:480px;margin:0 auto;padding:16px 14px 48px;text-align:center}
+.back{display:inline-block;color:var(--cyan);text-decoration:none;letter-spacing:2px;font-size:13px;margin-bottom:10px;text-transform:uppercase}
+.back:hover{color:var(--magenta)}
+.pixel-title{font-weight:bold;letter-spacing:3px;text-transform:uppercase;font-size:clamp(26px,7vw,42px);text-shadow:2px 2px 0 var(--magenta),-2px -2px 0 var(--cyan),0 0 16px rgba(0,255,240,.5);margin-bottom:12px}
+.adslot{margin:14px auto;min-height:60px;max-width:468px;border:1px dashed rgba(0,255,240,.3);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:11px;letter-spacing:1px;overflow:hidden}
+.hud{display:flex;justify-content:center;gap:22px;margin:8px 0 12px;font-size:15px;letter-spacing:1px}
+.hud b{color:var(--yellow)}.hud .rec b{color:var(--green)}
+.stage{position:relative;max-width:340px;margin:0 auto}
+.simon{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;aspect-ratio:1}
+.pad{border-radius:14px;cursor:pointer;opacity:.45;transition:opacity .1s,box-shadow .1s;border:2px solid rgba(255,255,255,.1)}
+.pad.on{opacity:1}
+.pad.g{background:#39ff14;box-shadow:0 0 24px #39ff14}
+.pad.r{background:#ff2e97;box-shadow:0 0 24px #ff2e97}
+.pad.y{background:#ffe600;box-shadow:0 0 24px #ffe600}
+.pad.b{background:#00fff0;box-shadow:0 0 24px #00fff0}
+.status{margin:16px 0 6px;color:var(--dim);letter-spacing:2px;font-size:14px;min-height:20px}
+.controls{margin-top:8px;color:var(--dim);font-size:12px;letter-spacing:1px;line-height:1.7}
+.overlay{position:absolute;inset:-6px;background:rgba(5,1,15,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:14px;gap:14px;padding:16px}
+.overlay.hidden{display:none}
+.overlay h2{color:var(--magenta);font-size:24px;letter-spacing:2px;text-transform:uppercase;text-shadow:0 0 12px rgba(255,46,151,.6)}
+.overlay p{color:var(--text);font-size:15px;line-height:1.5}
+.btn{cursor:pointer;background:linear-gradient(180deg,var(--magenta),#c01e70);color:#fff;border:none;border-radius:8px;padding:12px 26px;font-family:inherit;font-weight:bold;letter-spacing:2px;font-size:15px;text-transform:uppercase;box-shadow:0 0 16px rgba(255,46,151,.5)}
+.btn:active{transform:translateY(2px)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">◂ SALA GIOCHI</a>
+  <h1 class="pixel-title">Simon</h1>
+
+  <!-- SOSTITUISCI CON IL TUO ID: cambia ca-pub-XXXXXXXXXXXXXXXX con il tuo Publisher ID AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+  <div class="adslot">
+    <ins class="adsbygoogle" style="display:block;width:100%" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <span>Spazio pubblicitario (AdSense)</span>
+  </div>
+
+  <div class="hud"><span>Livello: <b id="level">0</b></span><span class="rec">Record: <b id="best">0</b></span></div>
+
+  <div class="stage">
+    <div class="simon">
+      <div class="pad g" data-i="0"></div>
+      <div class="pad r" data-i="1"></div>
+      <div class="pad y" data-i="2"></div>
+      <div class="pad b" data-i="3"></div>
+    </div>
+    <div class="overlay" id="ov">
+      <h2 id="ovt">Simon</h2>
+      <p id="ovp">Osserva la sequenza di colori e ripetila. Ogni turno diventa più lunga!</p>
+      <button class="btn" id="start">Gioca</button>
+    </div>
+  </div>
+
+  <div class="status" id="status"></div>
+  <div class="controls">Tocca / clicca i colori nell'ordine giusto · Tastiera: 1-4</div>
+
+  <!-- SOSTITUISCI CON IL TUO ID: cambia ca-pub-XXXXXXXXXXXXXXXX con il tuo Publisher ID AdSense -->
+  <div class="adslot">
+    <ins class="adsbygoogle" style="display:block;width:100%" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="2222222222" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <span>Spazio pubblicitario (AdSense)</span>
+  </div>
+</div>
+
+<script>
+(function(){
+  try{(adsbygoogle=window.adsbygoogle||[]).push({});(adsbygoogle=window.adsbygoogle||[]).push({});}catch(e){}
+  const pads=[...document.querySelectorAll('.pad')];
+  const levelEl=document.getElementById('level'),bestEl=document.getElementById('best'),statusEl=document.getElementById('status');
+  const ov=document.getElementById('ov'),ovt=document.getElementById('ovt'),ovp=document.getElementById('ovp'),startBtn=document.getElementById('start');
+  const KEY='sg_simon_best';
+  let best=+(localStorage.getItem(KEY)||0);bestEl.textContent=best;
+  let seq,step,playerTurn,busy;
+  const AC=window.AudioContext||window.webkitAudioContext;let actx;
+  const FREQ=[329,262,392,220];
+  function tone(i,dur){try{if(!actx)actx=new AC();const o=actx.createOscillator(),g=actx.createGain();o.frequency.value=FREQ[i];o.type='sine';o.connect(g);g.connect(actx.destination);g.gain.value=.15;o.start();o.stop(actx.currentTime+dur/1000);}catch(e){}}
+  function flash(i,dur=350){pads[i].classList.add('on');tone(i,dur);setTimeout(()=>pads[i].classList.remove('on'),dur-60);}
+  function reset(){seq=[];step=0;playerTurn=false;busy=false;levelEl.textContent=0;statusEl.textContent='';}
+  function start(){reset();ov.classList.add('hidden');next();}
+  function next(){
+    playerTurn=false;busy=true;step=0;
+    seq.push((Math.random()*4)|0);levelEl.textContent=seq.length;
+    statusEl.textContent='Guarda...';
+    let i=0;const iv=setInterval(()=>{
+      if(i>=seq.length){clearInterval(iv);busy=false;playerTurn=true;statusEl.textContent='Tocca a te!';return;}
+      flash(seq[i]);i++;
+    },560);
+  }
+  function press(i){
+    if(!playerTurn||busy)return;
+    flash(i,250);
+    if(i===seq[step]){
+      step++;
+      if(step===seq.length){playerTurn=false;statusEl.textContent='Bravo!';
+        if(seq.length>best){best=seq.length;localStorage.setItem(KEY,best);bestEl.textContent=best;}
+        setTimeout(next,800);}
+    } else over();
+  }
+  function over(){
+    playerTurn=false;
+    statusEl.textContent='';
+    ovt.textContent='Errore!';ovp.innerHTML='Hai raggiunto il livello <b>'+seq.length+'</b>.<br>Record: '+best;
+    startBtn.textContent='Rigioca';ov.classList.remove('hidden');
+  }
+  pads.forEach(p=>p.addEventListener('click',()=>press(+p.dataset.i)));
+  window.addEventListener('keydown',e=>{const n=+e.key;if(n>=1&&n<=4)press(n-1);});
+  startBtn.addEventListener('click',start);
+  reset();
+})();
+</script>
+</body>
+</html>

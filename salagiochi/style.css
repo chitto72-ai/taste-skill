@@ -115,3 +115,38 @@ footer.site a { color: var(--cyan); text-decoration: none; }
 
 .loading, .error { text-align: center; padding: 40px; color: var(--dim); letter-spacing: 2px; }
 .error { color: var(--magenta); }
+
+/* Pagine di testo (privacy, contatti) */
+.back-home {
+  display: inline-block; color: var(--cyan); text-decoration: none;
+  letter-spacing: 2px; font-size: 13px; margin-bottom: 14px; text-transform: uppercase;
+}
+.back-home:hover { color: var(--magenta); }
+.article {
+  background: rgba(10,4,30,0.72);
+  border: 2px solid rgba(0,255,240,0.35);
+  border-radius: 12px;
+  padding: 26px 24px;
+  max-width: 760px; margin: 0 auto;
+  text-align: left; line-height: 1.7;
+}
+.article h2 { color: var(--cyan); text-transform: uppercase; letter-spacing: 1px; font-size: 20px; margin: 26px 0 10px; }
+.article h2:first-child { margin-top: 0; }
+.article p { color: var(--text); font-size: 15px; margin-bottom: 12px; }
+.article ul { margin: 0 0 12px 22px; }
+.article li { color: var(--text); font-size: 15px; margin-bottom: 6px; }
+.article a { color: var(--yellow); text-decoration: underline; word-break: break-word; }
+.article .upd { color: var(--dim); font-size: 12px; letter-spacing: 1px; }
+.field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; text-align: left; }
+.field label { color: var(--purple); font-size: 12px; letter-spacing: 1px; text-transform: uppercase; }
+.field input, .field textarea {
+  font-family: inherit; background: rgba(5,1,15,0.8); color: var(--text);
+  border: 2px solid rgba(0,255,240,0.35); border-radius: 8px; padding: 12px; font-size: 15px;
+}
+.field input:focus, .field textarea:focus { outline: none; border-color: var(--magenta); }
+.send-btn {
+  cursor: pointer; background: linear-gradient(180deg, var(--magenta), #c01e70); color: #fff;
+  border: none; border-radius: 8px; padding: 12px 26px; font-family: inherit; font-weight: bold;
+  letter-spacing: 2px; font-size: 15px; text-transform: uppercase; box-shadow: 0 0 16px rgba(255,46,151,0.5);
+}
+.send-btn:active { transform: translateY(2px); }

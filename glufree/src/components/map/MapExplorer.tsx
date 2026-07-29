@@ -15,6 +15,8 @@ import {
 } from "lucide-react";
 import type { Place } from "@/lib/types";
 import PlaceCard from "@/components/PlaceCard";
+import AdSlot from "@/components/ads/AdSlot";
+import { AD_SLOTS } from "@/lib/ads";
 import { useTranslation } from "@/lib/i18n/LanguageProvider";
 import type { Dict } from "@/lib/i18n/dictionaries";
 
@@ -163,20 +165,22 @@ export default function MapExplorer() {
         <div className="thin-scroll flex-1 space-y-3 overflow-y-auto p-4" role="list">
           <ResultsHeader loading={loading} count={places.length} />
           {places.map((place, i) => (
-            <motion.div
-              key={place.id}
-              role="listitem"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.25, delay: Math.min(i * 0.035, 0.4) }}
-            >
-              <PlaceCard
-                place={place}
-                active={place.id === selectedId}
-                userPosition={userPosition}
-                onClick={() => handleSelect(place.id)}
-              />
-            </motion.div>
+            <div key={place.id}>
+              <motion.div
+                role="listitem"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25, delay: Math.min(i * 0.035, 0.4) }}
+              >
+                <PlaceCard
+                  place={place}
+                  active={place.id === selectedId}
+                  userPosition={userPosition}
+                  onClick={() => handleSelect(place.id)}
+                />
+              </motion.div>
+              {i === 3 && <AdSlot slot={AD_SLOTS.list} />}
+            </div>
           ))}
           {!loading && places.length === 0 && <EmptyState onReset={() => { setQuery(""); setCategory(""); setLevel(""); }} />}
         </div>
@@ -279,14 +283,17 @@ export default function MapExplorer() {
               aria-label={t.map.listAria}
             >
               <ResultsHeader loading={loading} count={places.length} />
-              {places.map((place) => (
-                <div key={place.id} role="listitem">
-                  <PlaceCard
-                    place={place}
-                    active={place.id === selectedId}
-                    userPosition={userPosition}
-                    onClick={() => handleSelect(place.id)}
-                  />
+              {places.map((place, i) => (
+                <div key={place.id}>
+                  <div role="listitem">
+                    <PlaceCard
+                      place={place}
+                      active={place.id === selectedId}
+                      userPosition={userPosition}
+                      onClick={() => handleSelect(place.id)}
+                    />
+                  </div>
+                  {i === 3 && <AdSlot slot={AD_SLOTS.list} />}
                 </div>
               ))}
               {!loading && places.length === 0 && <EmptyState onReset={() => { setQuery(""); setCategory(""); setLevel(""); }} />}

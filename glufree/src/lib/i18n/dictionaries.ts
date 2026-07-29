@@ -4,6 +4,14 @@ import type { Lang } from "./config";
 const it = {
   nav: { home: "Home", map: "Mappa", owner: "Sei un ristoratore?", ownerShort: "Ristoratori" },
   langLabel: "Lingua",
+  consent: {
+    title: "Cookie e pubblicità",
+    message:
+      "Usiamo cookie pubblicitari che ci permettono di offrire Glufree gratuitamente. Puoi accettare o rifiutare gli annunci personalizzati.",
+    accept: "Accetta",
+    reject: "Rifiuta",
+  },
+  ads: { label: "Pubblicità" },
   home: {
     heroBadge: "Mangiare fuori senza pensieri",
     heroTitleA: "Tutti i locali",
@@ -218,6 +226,14 @@ export type Dict = typeof it;
 const en: Dict = {
   nav: { home: "Home", map: "Map", owner: "Are you a restaurateur?", ownerShort: "For owners" },
   langLabel: "Language",
+  consent: {
+    title: "Cookies & ads",
+    message:
+      "We use advertising cookies that let us keep Glufree free. You can accept or reject personalized ads.",
+    accept: "Accept",
+    reject: "Reject",
+  },
+  ads: { label: "Advertisement" },
   home: {
     heroBadge: "Eat out worry-free",
     heroTitleA: "Every",
@@ -430,6 +446,14 @@ const en: Dict = {
 const es: Dict = {
   nav: { home: "Inicio", map: "Mapa", owner: "¿Eres restaurador?", ownerShort: "Restauradores" },
   langLabel: "Idioma",
+  consent: {
+    title: "Cookies y anuncios",
+    message:
+      "Usamos cookies publicitarias que nos permiten ofrecer Glufree gratis. Puedes aceptar o rechazar los anuncios personalizados.",
+    accept: "Aceptar",
+    reject: "Rechazar",
+  },
+  ads: { label: "Publicidad" },
   home: {
     heroBadge: "Come fuera sin preocupaciones",
     heroTitleA: "Todos los locales",
@@ -642,6 +666,14 @@ const es: Dict = {
 const de: Dict = {
   nav: { home: "Start", map: "Karte", owner: "Bist du Gastronom?", ownerShort: "Gastronomen" },
   langLabel: "Sprache",
+  consent: {
+    title: "Cookies & Werbung",
+    message:
+      "Wir verwenden Werbe-Cookies, mit denen Glufree kostenlos bleibt. Du kannst personalisierte Werbung akzeptieren oder ablehnen.",
+    accept: "Akzeptieren",
+    reject: "Ablehnen",
+  },
+  ads: { label: "Werbung" },
   home: {
     heroBadge: "Sorgenfrei auswärts essen",
     heroTitleA: "Alle",
@@ -854,6 +886,14 @@ const de: Dict = {
 const ar: Dict = {
   nav: { home: "الرئيسية", map: "الخريطة", owner: "هل أنت صاحب مطعم؟", ownerShort: "أصحاب المطاعم" },
   langLabel: "اللغة",
+  consent: {
+    title: "ملفات تعريف الارتباط والإعلانات",
+    message:
+      "نستخدم ملفات تعريف الارتباط الإعلانية التي تتيح لنا إبقاء Glufree مجانيًا. يمكنك قبول الإعلانات المخصّصة أو رفضها.",
+    accept: "قبول",
+    reject: "رفض",
+  },
+  ads: { label: "إعلان" },
   home: {
     heroBadge: "تناول الطعام بالخارج دون قلق",
     heroTitleA: "كل الأماكن",
@@ -1066,6 +1106,14 @@ const ar: Dict = {
 const zh: Dict = {
   nav: { home: "首页", map: "地图", owner: "你是餐厅经营者吗？", ownerShort: "餐厅经营者" },
   langLabel: "语言",
+  consent: {
+    title: "Cookie 与广告",
+    message:
+      "我们使用广告 Cookie，让 Glufree 得以免费提供。你可以接受或拒绝个性化广告。",
+    accept: "接受",
+    reject: "拒绝",
+  },
+  ads: { label: "广告" },
   home: {
     heroBadge: "在外用餐，无忧无虑",
     heroTitleA: "所有",
@@ -1278,6 +1326,14 @@ const zh: Dict = {
 const pt: Dict = {
   nav: { home: "Início", map: "Mapa", owner: "É restaurador?", ownerShort: "Restauradores" },
   langLabel: "Idioma",
+  consent: {
+    title: "Cookies e anúncios",
+    message:
+      "Usamos cookies de publicidade que nos permitem manter a Glufree gratuita. Pode aceitar ou rejeitar anúncios personalizados.",
+    accept: "Aceitar",
+    reject: "Rejeitar",
+  },
+  ads: { label: "Publicidade" },
   home: {
     heroBadge: "Comer fora sem preocupações",
     heroTitleA: "Todos os locais",

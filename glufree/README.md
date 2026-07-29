@@ -80,6 +80,44 @@ registro imprese), **documentazione gluten free** (attestato AIC, menu con
 procedure anti-contaminazione o attestato di formazione) ed **email** del
 titolare per l'esito.
 
+## Monetizzazione con Google AdSense
+
+Il sito è gratuito per gli utenti e può sostenersi con la pubblicità. L'integrazione
+AdSense è **opzionale e disattivata di default**: senza configurazione non viene
+caricato alcuno script e non compare alcun annuncio.
+
+Per attivarla:
+
+1. Crea un account su [Google AdSense](https://adsense.google.com) e ottieni l'ID
+   publisher (`ca-pub-…`).
+2. Crea due **unità annuncio** (formato responsive) e prendi i loro ID di slot.
+3. Imposta le variabili d'ambiente (su Netlify: Site settings → Environment):
+
+   ```bash
+   NEXT_PUBLIC_ADSENSE_CLIENT=ca-pub-XXXXXXXXXXXXXXXX
+   NEXT_PUBLIC_ADSENSE_SLOT_HOME=1234567890   # annuncio in-content sulla home
+   NEXT_PUBLIC_ADSENSE_SLOT_LIST=0987654321   # annuncio nella lista della mappa
+   ```
+
+4. Rilancia il deploy (le `NEXT_PUBLIC_*` sono inglobate al build).
+
+Cosa è già gestito per te:
+
+- **Consenso GDPR**: banner tradotto (7 lingue) con Accetta/Rifiuta. Lo script
+  AdSense e gli annunci si caricano **solo dopo un consenso esplicito**; in caso di
+  rifiuto non parte alcuna richiesta a Google. La scelta è memorizzata nel browser.
+- **`ads.txt`**: generato automaticamente su `/ads.txt` dall'ID publisher.
+- **Verifica del sito**: meta tag `google-adsense-account` inserito quando l'ID è
+  configurato (permette la validazione anche prima del consenso).
+- **Posizionamenti conformi**: annunci solo in-content sulla home e all'interno
+  della lista scorrevole dei locali (dopo il 4° risultato), etichettati
+  "Pubblicità". **Mai** sopra la mappa interattiva o su elementi cliccabili, per
+  rispettare le policy AdSense ed evitare clic accidentali.
+
+> Nota policy: AdSense richiede contenuti reali e traffico prima dell'approvazione,
+> e non consente di incentivare i clic. Gli annunci compaiono solo dopo che Google
+> approva il sito.
+
 ## Architettura
 
 ```

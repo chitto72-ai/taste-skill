@@ -4,6 +4,14 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import PwaRegister from "@/components/PwaRegister";
 import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
+import { ConsentProvider } from "@/components/ads/ConsentProvider";
+import AdSenseLoader from "@/components/ads/AdSenseLoader";
+import ConsentBanner from "@/components/ads/ConsentBanner";
+
+const adsenseClientId =
+  process.env.NEXT_PUBLIC_ADSENSE_CLIENT?.startsWith("ca-pub-")
+    ? process.env.NEXT_PUBLIC_ADSENSE_CLIENT
+    : undefined;
 
 const display = Playfair_Display({
   subsets: ["latin"],
@@ -67,6 +75,9 @@ export const metadata: Metadata = {
       "Ristoranti, pizzerie e dolci senza glutine nel mondo, su una mappa interattiva.",
     images: ["/og-image.png"],
   },
+  // Meta di verifica AdSense: consente a Google di validare il sito anche
+  // prima che lo script (subordinato al consenso) venga caricato.
+  ...(adsenseClientId ? { other: { "google-adsense-account": adsenseClientId } } : {}),
 };
 
 export const viewport: Viewport = {
@@ -86,8 +97,12 @@ export default function RootLayout({
         <link rel="preconnect" href="https://b.basemaps.cartocdn.com" />
         <link rel="preconnect" href="https://c.basemaps.cartocdn.com" />
         <LanguageProvider>
-          <Navbar />
-          <main className="flex-1 flex flex-col">{children}</main>
+          <ConsentProvider>
+            <Navbar />
+            <main className="flex-1 flex flex-col">{children}</main>
+            <AdSenseLoader />
+            <ConsentBanner />
+          </ConsentProvider>
         </LanguageProvider>
         <PwaRegister />
       </body>

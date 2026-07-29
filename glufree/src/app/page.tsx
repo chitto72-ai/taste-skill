@@ -16,6 +16,8 @@ import {
 import seed from "@/data/seed-places.json";
 import { InviteActions } from "@/components/ShareButton";
 import { useTranslation } from "@/lib/i18n/LanguageProvider";
+import AdSlot from "@/components/ads/AdSlot";
+import { AD_SLOTS } from "@/lib/ads";
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://glufree-app.netlify.app";
 
@@ -255,6 +257,11 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ---------- Annuncio (in-content, se AdSense è configurato) ---------- */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <AdSlot slot={AD_SLOTS.home} />
+      </div>
 
       {/* ---------- Passaparola / inviti ---------- */}
       <section className="bg-white py-16 lg:py-24" aria-labelledby="passaparola">

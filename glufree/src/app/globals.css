@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #ea580c;
+  --color-accent: #2563eb;
+  --color-safe: #059669;
+  --color-background: #fff7ed;
+  --color-foreground: #0f172a;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* RTL (arabo): la mappa Leaflet resta LTR, ma il testo dell'app va a destra */
+[dir="rtl"] .leaflet-container {
+  direction: ltr;
+}
+
+body {
+  @apply bg-cream text-ink font-body antialiased;
+}
+
+::selection {
+  background: rgba(234, 88, 12, 0.25);
+}
+
+/* ---------- Mappa: pin personalizzati ---------- */
+
+.glufree-pin {
+  background: transparent;
+  border: none;
+}
+
+.glufree-pin svg {
+  filter: drop-shadow(0 6px 10px rgba(15, 23, 42, 0.35));
+  transition: transform 0.2s ease-out;
+  transform-origin: bottom center;
+}
+
+.glufree-pin:hover svg,
+.glufree-pin:focus svg {
+  transform: scale(1.15);
+}
+
+.glufree-pin--active svg {
+  transform: scale(1.25);
+}
+
+/* Popup Leaflet con il design Glufree */
+.leaflet-popup-content-wrapper {
+  border-radius: 1rem;
+  box-shadow: 0 12px 40px -12px rgba(15, 23, 42, 0.35);
+  border: 1px solid #fceae1;
+  padding: 0;
+  overflow: hidden;
+}
+
+.leaflet-popup-content {
+  margin: 0;
+  font-family: var(--font-body), sans-serif;
+  width: 260px !important;
+}
+
+.leaflet-popup-tip {
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+}
+
+.leaflet-container {
+  font-family: var(--font-body), sans-serif;
+  background: #f6efe6;
+}
+
+/* Tile con una leggera tinta calda per uniformarsi al brand */
+.glufree-tiles {
+  filter: saturate(0.82) hue-rotate(-4deg) brightness(1.02);
+}
+
+.leaflet-control-zoom a {
+  border-radius: 0.5rem !important;
+  color: #0f172a !important;
+}
+
+/* ---------- Scrollbar sottile per i pannelli lista ---------- */
+.thin-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #fcd9c4 transparent;
+}
+
+.thin-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.thin-scroll::-webkit-scrollbar-thumb {
+  background: #fcd9c4;
+  border-radius: 9999px;
+}

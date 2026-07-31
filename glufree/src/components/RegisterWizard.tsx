@@ -16,6 +16,7 @@ import {
   ShieldCheck,
   Upload,
   Map,
+  Sparkles,
 } from "lucide-react";
 import type { GlutenFreeLevel, PlaceCategory } from "@/lib/types";
 import { useTranslation } from "@/lib/i18n/LanguageProvider";
@@ -51,6 +52,7 @@ interface FormState {
   proofType: ProofType;
   proofNote: string;
   proofFileName: string;
+  wantsFeatured: boolean;
 }
 
 const initialState: FormState = {
@@ -68,6 +70,7 @@ const initialState: FormState = {
   proofType: "aic",
   proofNote: "",
   proofFileName: "",
+  wantsFeatured: false,
 };
 
 export default function RegisterWizard() {
@@ -152,6 +155,7 @@ export default function RegisterWizard() {
             fileName: form.proofFileName || undefined,
           },
           referral: referral || undefined,
+          wantsFeatured: form.wantsFeatured,
         }),
       });
       const data = await res.json();
@@ -493,6 +497,26 @@ export default function RegisterWizard() {
                   placeholder={r.notesPh}
                 />
               </Field>
+
+              <label
+                className={`flex cursor-pointer items-start gap-3 rounded-2xl border p-4 transition-colors duration-200 ${
+                  form.wantsFeatured ? "border-amber-300 bg-amber-50" : "border-line hover:border-amber-300"
+                }`}
+              >
+                <input
+                  type="checkbox"
+                  className="mt-1 h-4 w-4 accent-amber-500"
+                  checked={form.wantsFeatured}
+                  onChange={(e) => update("wantsFeatured", e.target.checked)}
+                />
+                <span>
+                  <span className="flex items-center gap-1.5 font-bold text-ink">
+                    <Sparkles className="h-4 w-4 text-amber-500" aria-hidden />
+                    {r.wantsFeaturedLabel}
+                  </span>
+                  <span className="mt-0.5 block text-sm text-slate-500">{r.wantsFeaturedHelp}</span>
+                </span>
+              </label>
 
               <div className="flex items-start gap-3 rounded-2xl bg-safe-light/60 p-4 text-sm text-safe">
                 <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0" aria-hidden />

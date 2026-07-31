@@ -118,6 +118,37 @@ Cosa è già gestito per te:
 > e non consente di incentivare i clic. Gli annunci compaiono solo dopo che Google
 > approva il sito.
 
+## Inserzioni "In evidenza" (monetizzazione ristoratori)
+
+Secondo canale di ricavo, nativo e non invasivo: i ristoratori **verificati**
+possono acquistare la messa "In evidenza" del proprio locale.
+
+Come funziona:
+
+- **Solo i locali verificati** possono essere messi in evidenza (la fiducia
+  resta il cuore del prodotto: non si può "pagare per sembrare sicuri").
+- I locali in evidenza compaiono **in cima ai risultati** e con un **badge
+  dorato "In evidenza"**, visivamente distinto dal badge di sicurezza, e con un
+  **pin dorato con stella** sulla mappa — così è sempre chiaro cosa è sponsorizzato.
+- In fase di registrazione il ristoratore può spuntare *"Metti in evidenza il
+  mio locale"* per ricevere informazioni (lead, nessun addebito immediato).
+
+Gestione via API admin (protetta da `GLUFREE_ADMIN_KEY`):
+
+```bash
+# Approva un locale già mettendolo in evidenza
+curl -X POST -H "x-admin-key: $GLUFREE_ADMIN_KEY" -H "Content-Type: application/json" \
+  -d '{"id":"<id-richiesta>","featured":true}' http://localhost:3000/api/admin/approve
+
+# Attiva/disattiva "In evidenza" su un locale già approvato (solo se verificato)
+curl -X PATCH -H "x-admin-key: $GLUFREE_ADMIN_KEY" -H "Content-Type: application/json" \
+  -d '{"placeId":"owner-<id>","featured":true}' http://localhost:3000/api/admin/approve
+```
+
+Il pagamento vero e proprio è gestito esternamente (es. link Stripe/fattura): il
+prodotto implementa la meccanica di visibilità, la raccolta del lead e il
+controllo che solo i verificati possano essere in evidenza.
+
 ## Architettura
 
 ```

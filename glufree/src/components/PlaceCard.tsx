@@ -3,7 +3,7 @@
 import { MapPin, Star, Phone, Globe, Navigation } from "lucide-react";
 import ShareButton from "@/components/ShareButton";
 import type { Place } from "@/lib/types";
-import { LevelBadge, VerificationBadge } from "./VerifiedBadge";
+import { LevelBadge, VerificationBadge, FeaturedBadge } from "./VerifiedBadge";
 import { distanceKm, formatDistance } from "@/lib/geo";
 import { useTranslation } from "@/lib/i18n/LanguageProvider";
 
@@ -30,7 +30,11 @@ export default function PlaceCard({
   return (
     <article
       className={`group rounded-2xl border bg-white p-4 shadow-card transition-all duration-200 ${
-        active ? "border-primary ring-2 ring-primary/30" : "border-line hover:border-primary/40"
+        active
+          ? "border-primary ring-2 ring-primary/30"
+          : place.featured
+            ? "border-amber-300 ring-1 ring-amber-200"
+            : "border-line hover:border-primary/40"
       } ${onClick ? "cursor-pointer" : ""}`}
       onClick={onClick}
       onKeyDown={(e) => {
@@ -78,6 +82,7 @@ export default function PlaceCard({
       </p>
 
       <div className="mt-3 flex flex-wrap items-center gap-2">
+        {place.featured && <FeaturedBadge />}
         <LevelBadge level={place.glutenFreeLevel} />
         <VerificationBadge status={place.verification} />
       </div>

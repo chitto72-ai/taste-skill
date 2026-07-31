@@ -1,8 +1,22 @@
 "use client";
 
-import { BadgeCheck, ShieldCheck, Users, Clock } from "lucide-react";
+import { BadgeCheck, ShieldCheck, Users, Clock, Sparkles } from "lucide-react";
 import type { GlutenFreeLevel, VerificationStatus } from "@/lib/types";
 import { useTranslation } from "@/lib/i18n/LanguageProvider";
+
+/** Inserzione a pagamento: badge deliberatamente distinto da quello di sicurezza. */
+export function FeaturedBadge() {
+  const { t } = useTranslation();
+  return (
+    <span
+      className="inline-flex items-center gap-1 rounded-full bg-amber-400 px-2.5 py-1 text-xs font-bold text-amber-950"
+      title={t.badges.featured}
+    >
+      <Sparkles className="h-3.5 w-3.5" aria-hidden />
+      {t.badges.featured}
+    </span>
+  );
+}
 
 export function LevelBadge({ level }: { level: GlutenFreeLevel }) {
   const { t } = useTranslation();

@@ -118,6 +118,7 @@ const it = {
     verified: "Verificato Glufree",
     pending: "Verifica in corso",
     community: "Segnalato dalla community",
+    featured: "In evidenza",
   },
   card: {
     viaGoogle: "via Google Maps",
@@ -217,6 +218,8 @@ const it = {
     errEmail: "Inserisci un'email valida.",
     errVat: "La Partita IVA deve essere di 11 cifre.",
     errGeneric: "Si è verificato un errore. Riprova.",
+    wantsFeaturedLabel: "Metti in evidenza il mio locale (a pagamento)",
+    wantsFeaturedHelp: "Ricevi info su come apparire in cima ai risultati col badge In evidenza. Nessun addebito ora.",
     errNetwork: "Connessione non riuscita. Controlla la rete e riprova.",
   },
 };
@@ -340,6 +343,7 @@ const en: Dict = {
     verified: "Glufree Verified",
     pending: "Verification pending",
     community: "Community reported",
+    featured: "Featured",
   },
   card: {
     viaGoogle: "via Google Maps",
@@ -439,6 +443,8 @@ const en: Dict = {
     errEmail: "Enter a valid email.",
     errVat: "The VAT number must be 11 digits.",
     errGeneric: "Something went wrong. Try again.",
+    wantsFeaturedLabel: "Feature my venue (paid)",
+    wantsFeaturedHelp: "Get info on appearing at the top of results with the Featured badge. No charge now.",
     errNetwork: "Connection failed. Check your network and try again.",
   },
 };
@@ -560,6 +566,7 @@ const es: Dict = {
     verified: "Verificado por Glufree",
     pending: "Verificación en curso",
     community: "Reportado por la comunidad",
+    featured: "Destacado",
   },
   card: {
     viaGoogle: "vía Google Maps",
@@ -659,6 +666,8 @@ const es: Dict = {
     errEmail: "Introduce un email válido.",
     errVat: "El número fiscal debe tener 11 dígitos.",
     errGeneric: "Ha ocurrido un error. Inténtalo de nuevo.",
+    wantsFeaturedLabel: "Destacar mi local (de pago)",
+    wantsFeaturedHelp: "Recibe información para aparecer arriba en los resultados con el distintivo Destacado. Sin cargo ahora.",
     errNetwork: "Conexión fallida. Comprueba tu red e inténtalo de nuevo.",
   },
 };
@@ -780,6 +789,7 @@ const de: Dict = {
     verified: "Von Glufree verifiziert",
     pending: "Verifizierung läuft",
     community: "Von der Community gemeldet",
+    featured: "Empfohlen",
   },
   card: {
     viaGoogle: "über Google Maps",
@@ -879,6 +889,8 @@ const de: Dict = {
     errEmail: "Gib eine gültige E-Mail ein.",
     errVat: "Die USt-IdNr. muss 11 Ziffern haben.",
     errGeneric: "Etwas ist schiefgelaufen. Versuche es erneut.",
+    wantsFeaturedLabel: "Mein Lokal hervorheben (kostenpflichtig)",
+    wantsFeaturedHelp: "Erhalte Infos, wie du mit dem Empfohlen-Abzeichen oben in den Ergebnissen erscheinst. Jetzt keine Kosten.",
     errNetwork: "Verbindung fehlgeschlagen. Prüfe dein Netzwerk und versuche es erneut.",
   },
 };
@@ -1000,6 +1012,7 @@ const ar: Dict = {
     verified: "موثَّق من Glufree",
     pending: "قيد التحقق",
     community: "مُبلَّغ من المجتمع",
+    featured: "مميّز",
   },
   card: {
     viaGoogle: "عبر خرائط Google",
@@ -1099,6 +1112,8 @@ const ar: Dict = {
     errEmail: "أدخل بريدًا إلكترونيًا صالحًا.",
     errVat: "يجب أن يتكوّن الرقم الضريبي من 11 رقمًا.",
     errGeneric: "حدث خطأ. حاول مرة أخرى.",
+    wantsFeaturedLabel: "إبراز مكاني (مدفوع)",
+    wantsFeaturedHelp: "احصل على معلومات حول الظهور في أعلى النتائج بشارة مميّز. لا رسوم الآن.",
     errNetwork: "فشل الاتصال. تحقق من الشبكة وحاول مرة أخرى.",
   },
 };
@@ -1220,6 +1235,7 @@ const zh: Dict = {
     verified: "Glufree 已验证",
     pending: "验证中",
     community: "社区提交",
+    featured: "推荐",
   },
   card: {
     viaGoogle: "来自 Google 地图",
@@ -1319,6 +1335,8 @@ const zh: Dict = {
     errEmail: "请输入有效的电子邮箱。",
     errVat: "税号必须为 11 位数字。",
     errGeneric: "出错了，请重试。",
+    wantsFeaturedLabel: "推广我的店铺（付费）",
+    wantsFeaturedHelp: "了解如何凭「推荐」标识出现在结果顶部。现在不收费。",
     errNetwork: "连接失败。请检查网络后重试。",
   },
 };
@@ -1440,6 +1458,7 @@ const pt: Dict = {
     verified: "Verificado pela Glufree",
     pending: "Verificação em curso",
     community: "Indicado pela comunidade",
+    featured: "Destaque",
   },
   card: {
     viaGoogle: "via Google Maps",
@@ -1539,6 +1558,8 @@ const pt: Dict = {
     errEmail: "Introduza um email válido.",
     errVat: "O número fiscal deve ter 11 dígitos.",
     errGeneric: "Ocorreu um erro. Tente novamente.",
+    wantsFeaturedLabel: "Destacar o meu local (pago)",
+    wantsFeaturedHelp: "Receba informações para aparecer no topo dos resultados com o selo Destaque. Sem cobrança agora.",
     errNetwork: "Falha na ligação. Verifique a sua rede e tente novamente.",
   },
 };

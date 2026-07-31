@@ -18,12 +18,21 @@ function pinIcon(place: Place, active: boolean): L.DivIcon {
     place.verification === "verified"
       ? `<circle cx="26" cy="8" r="7" fill="#0F172A"/><path d="M22.8 8l2.2 2.2 4-4" stroke="#34D399" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`
       : "";
+  // Pin "In evidenza": bordo dorato più spesso + stellina, per distinguerlo
+  const stroke = place.featured ? "#F59E0B" : "#fff";
+  const strokeW = place.featured ? 3 : 2;
+  const star = place.featured
+    ? `<path d="M18 8.6l1.6 3.3 3.6.5-2.6 2.5.6 3.6-3.2-1.7-3.2 1.7.6-3.6-2.6-2.5 3.6-.5z" fill="#F59E0B"/>`
+    : "";
   return L.divIcon({
-    className: `glufree-pin${active ? " glufree-pin--active" : ""}`,
+    className: `glufree-pin${active ? " glufree-pin--active" : ""}${place.featured ? " glufree-pin--featured" : ""}`,
     html: `<svg width="36" height="46" viewBox="0 0 36 46" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${place.name}">
-      <path d="M18 1C9.2 1 2 8.2 2 17c0 11.5 13.2 25.6 14.7 27.2a1.8 1.8 0 0 0 2.6 0C20.8 42.6 34 28.5 34 17 34 8.2 26.8 1 18 1z" fill="${color}" stroke="#fff" stroke-width="2"/>
+      <path d="M18 1C9.2 1 2 8.2 2 17c0 11.5 13.2 25.6 14.7 27.2a1.8 1.8 0 0 0 2.6 0C20.8 42.6 34 28.5 34 17 34 8.2 26.8 1 18 1z" fill="${color}" stroke="${stroke}" stroke-width="${strokeW}"/>
       <circle cx="18" cy="17" r="7.5" fill="#fff"/>
-      <path d="M14.5 17.5l2.4 2.4 4.6-4.8" stroke="${color}" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      ${
+        star ||
+        `<path d="M14.5 17.5l2.4 2.4 4.6-4.8" stroke="${color}" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`
+      }
       ${check}
     </svg>`,
     iconSize: [36, 46],

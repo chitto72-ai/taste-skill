@@ -89,8 +89,11 @@ async function geocode(address: string, city: string): Promise<[number, number] 
   return CITY_COORDS[city.trim().toLowerCase()] ?? null;
 }
 
-/** Approva una richiesta: il locale entra in mappa con badge "verificato". */
-export async function approveSubmission(id: string): Promise<Place | null> {
+/**
+ * Approva una richiesta: il locale entra in mappa con badge "verificato".
+ * `featured` attiva l'inserzione a pagamento "In evidenza" (solo verificati).
+ */
+export async function approveSubmission(id: string, featured = false): Promise<Place | null> {
   const all = await listSubmissions();
   const sub = all.find((s) => s.id === id);
   if (!sub || sub.status === "approved") return null;
@@ -121,9 +124,23 @@ export async function approveSubmission(id: string): Promise<Place | null> {
     phone: sub.business.phone,
     website: sub.business.website,
     source: "glufree",
+    ...(featured ? { featured: true } : {}),
   };
   const approved = await readJson<Place[]>(APPROVED_FILE, []);
   approved.push(place);
+  await writeJson(APPROVED_FILE, approved);
+  return place;
+}
+
+/**
+ * Imposta o rimuove lo stato "In evidenza" di un locale già approvato.
+ * Solo i locali verificati possono essere messi in evidenza.
+ */
+export async function setFeatured(placeId: string, featured: boolean): Promise<Place | null> {
+  const approved = await readJson<Place[]>(APPROVED_FILE, []);
+  const place = approved.find((p) => p.id === placeId);
+  if (!place || place.verification !== "verified") return null;
+  place.featured = featured;
   await writeJson(APPROVED_FILE, approved);
   return place;
 }

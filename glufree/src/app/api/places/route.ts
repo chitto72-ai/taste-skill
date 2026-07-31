@@ -42,11 +42,25 @@ export async function GET(req: NextRequest) {
     places = places.filter((p) => p.glutenFreeLevel === level);
   }
 
-  if (lat !== undefined && lng !== undefined) {
-    places = places
-      .map((p) => ({ ...p, distanceKm: distanceKm(lat, lng, p.lat, p.lng) }))
-      .sort((a, b) => (a as never as { distanceKm: number }).distanceKm - (b as never as { distanceKm: number }).distanceKm);
-  }
+  const hasLocation = lat !== undefined && lng !== undefined;
+  const withDistance = places.map((p) =>
+    hasLocation ? { ...p, distanceKm: distanceKm(lat!, lng!, p.lat, p.lng) } : p
+  );
+
+  // I locali "In evidenza" (inserzioni a pagamento) vengono mostrati per primi;
+  // a parità di stato si ordina per distanza quando è nota la posizione utente.
+  withDistance.sort((a, b) => {
+    const fa = a.featured ? 1 : 0;
+    const fb = b.featured ? 1 : 0;
+    if (fa !== fb) return fb - fa;
+    if (hasLocation) {
+      const da = (a as { distanceKm: number }).distanceKm;
+      const db = (b as { distanceKm: number }).distanceKm;
+      return da - db;
+    }
+    return 0;
+  });
+  places = withDistance;
 
   return NextResponse.json({
     places,

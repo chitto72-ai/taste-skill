@@ -32,6 +32,8 @@ export interface Place {
   /** id Google Places, presente quando il dato arriva dall'API Google */
   googlePlaceId?: string;
   source: "glufree" | "google";
+  /** Inserzione a pagamento "In evidenza": solo per locali verificati. */
+  featured?: boolean;
 }
 
 export interface OwnerSubmission {
@@ -62,4 +64,6 @@ export interface OwnerSubmission {
   };
   /** Codice invito (?invito=...) con cui il ristoratore è arrivato */
   referral?: string;
+  /** Il ristoratore ha chiesto info sull'inserzione "In evidenza" (a pagamento). */
+  wantsFeatured?: boolean;
 }

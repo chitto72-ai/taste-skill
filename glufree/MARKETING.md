@@ -132,6 +132,27 @@ allarmista. Parla "da celiaco a celiaco".
 
 ---
 
+## 5b. Modello di ricavo (monetizzazione)
+
+Il sito è gratuito per gli utenti; i ricavi arrivano da due canali complementari,
+entrambi già implementati nel prodotto:
+
+1. **Pubblicità (Google AdSense)** — annunci in-content sulla home e nella lista
+   dei risultati, con consenso GDPR. Rende su volume di traffico → cresce con la
+   SEO e la community. Vedi README → *Monetizzazione con Google AdSense*.
+2. **Inserzioni "In evidenza"** (sponsored listings) — i ristoratori **verificati**
+   pagano per apparire in cima ai risultati con badge dedicato. Rende su valore
+   per-cliente e non dipende dal volume. È il canale a margine più alto e il più
+   coerente con una mappa di scoperta. Vedi README → *Inserzioni "In evidenza"*.
+
+Sequenza consigliata: prima costruisci traffico e locali verificati (gratis),
+poi attiva AdSense (serve traffico per l'approvazione) e proponi le inserzioni in
+evidenza ai ristoratori che già ricevono clienti dalla mappa. Terza leva futura:
+affiliazioni (prenotazioni, e-shop di prodotti gluten free) e un piano "Plus".
+
+**Regola d'oro:** la sicurezza non è mai in vendita. Solo i locali verificati
+possono essere sponsorizzati, e i contenuti a pagamento sono sempre etichettati.
+
 ## 6. Metriche da seguire (North Star + supporto)
 
 - **North Star:** ricerche di locali completate / settimana (= valore reale erogato).

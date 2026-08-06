@@ -27,6 +27,14 @@ canvas{background:rgba(5,1,15,.85);border:2px solid rgba(0,255,240,.4);border-ra
 .dpad{display:grid;grid-template-columns:repeat(4,64px);gap:10px;justify-content:center;margin:18px auto 0}
 .dpad button{background:rgba(0,255,240,.1);border:2px solid rgba(0,255,240,.4);color:var(--cyan);border-radius:10px;font-size:22px;padding:14px 0;font-family:inherit;cursor:pointer}
 .dpad button:active{background:rgba(0,255,240,.3)}
+
+.game-info{max-width:600px;margin:24px auto 0;text-align:left;background:rgba(10,4,30,.6);border:2px solid rgba(0,255,240,.25);border-radius:12px;padding:20px 22px}
+.game-info h2{color:var(--cyan);text-transform:uppercase;letter-spacing:1px;font-size:17px;margin:18px 0 8px}
+.game-info h2:first-child{margin-top:0}
+.game-info p{color:var(--text);font-size:14px;line-height:1.7;margin-bottom:10px}
+.game-info ul{margin:0 0 10px 20px}
+.game-info li{color:var(--text);font-size:14px;line-height:1.6;margin-bottom:5px}
+.game-info b{color:var(--yellow)}
 </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1897982289083904" crossorigin="anonymous"></script>
 </head>
@@ -59,6 +67,25 @@ canvas{background:rgba(5,1,15,.85);border:2px solid rgba(0,255,240,.4);border-ra
     <button data-a="down">▼</button>
     <button data-a="right">▶</button>
   </div>
+
+  <section class="game-info">
+    <h2>Come si gioca a Blocchi</h2>
+    <p>Blocchi è un gioco di incastri ispirato al leggendario Tetris: dei tetramini (pezzi formati da quattro quadrati) scendono dall'alto e tu li ruoti e li sposti per comporre righe orizzontali complete. Ogni riga completata sparisce e ti fa guadagnare punti.</p>
+    <p>La velocità di caduta aumenta con i livelli: se i pezzi si accumulano fino in cima, la partita finisce. Completa più righe in una volta per moltiplicare il punteggio.</p>
+    <h2>Comandi</h2>
+    <ul>
+      <li><b>◀ ▶</b> per spostare il pezzo</li>
+      <li><b>▲</b> per ruotare</li>
+      <li><b>▼</b> per accelerare la discesa</li>
+      <li><b>Spazio</b> per la caduta immediata</li>
+    </ul>
+    <h2>Consigli per il punteggio</h2>
+    <ul>
+      <li>Mantieni la superficie il più piatta possibile.</li>
+      <li>Lascia libera una colonna per infilarci il pezzo a I e fare più righe insieme.</li>
+      <li>Ruota i pezzi in anticipo, prima che arrivino in basso.</li>
+    </ul>
+  </section>
 
   <!-- AdSense attivo (Publisher ID ca-pub-1897982289083904) — modifica qui se cambi account -->
   <div class="adslot">

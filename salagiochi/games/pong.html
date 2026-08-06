@@ -27,6 +27,14 @@ canvas{background:rgba(5,1,15,.85);border:2px solid rgba(0,255,240,.4);border-ra
 .dpad{display:grid;grid-template-columns:repeat(2,88px);gap:12px;justify-content:center;margin:18px auto 0}
 .dpad button{background:rgba(0,255,240,.1);border:2px solid rgba(0,255,240,.4);color:var(--cyan);border-radius:10px;font-size:26px;padding:14px 0;font-family:inherit;cursor:pointer}
 .dpad button:active{background:rgba(0,255,240,.3)}
+
+.game-info{max-width:600px;margin:24px auto 0;text-align:left;background:rgba(10,4,30,.6);border:2px solid rgba(0,255,240,.25);border-radius:12px;padding:20px 22px}
+.game-info h2{color:var(--cyan);text-transform:uppercase;letter-spacing:1px;font-size:17px;margin:18px 0 8px}
+.game-info h2:first-child{margin-top:0}
+.game-info p{color:var(--text);font-size:14px;line-height:1.7;margin-bottom:10px}
+.game-info ul{margin:0 0 10px 20px}
+.game-info li{color:var(--text);font-size:14px;line-height:1.6;margin-bottom:5px}
+.game-info b{color:var(--yellow)}
 </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1897982289083904" crossorigin="anonymous"></script>
 </head>
@@ -56,6 +64,23 @@ canvas{background:rgba(5,1,15,.85);border:2px solid rgba(0,255,240,.4);border-ra
   <div class="dpad">
     <button data-d="-1">▲</button><button data-d="1">▼</button>
   </div>
+
+  <section class="game-info">
+    <h2>Come si gioca a Ping Pong</h2>
+    <p>Ping Pong (Pong) è il capostipite di tutti i videogiochi: un duello di riflessi in cui difendi la tua metà campo con una racchetta e cerchi di far passare la pallina oltre quella dell'avversario. Qui sfidi il computer e vince il primo che arriva a 7 punti.</p>
+    <p>La pallina accelera a ogni scambio: più dura il punto, più diventa difficile da controllare.</p>
+    <h2>Comandi</h2>
+    <ul>
+      <li><b>▲ ▼</b> o <b>W / S</b> per muovere la racchetta</li>
+      <li><b>Mouse</b> o <b>dito</b> trascinando in verticale</li>
+    </ul>
+    <h2>Consigli per il punteggio</h2>
+    <ul>
+      <li>Colpisci la pallina con i bordi della racchetta per angolare i tiri.</li>
+      <li>Anticipa la traiettoria invece di rincorrere la pallina.</li>
+      <li>Torna sempre verso il centro dopo ogni colpo.</li>
+    </ul>
+  </section>
 
   <!-- AdSense attivo (Publisher ID ca-pub-1897982289083904) — modifica qui se cambi account -->
   <div class="adslot">

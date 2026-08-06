@@ -27,6 +27,14 @@ canvas{background:rgba(5,1,15,.85);border:2px solid rgba(0,255,240,.4);border-ra
 .dpad{display:grid;grid-template-columns:repeat(2,88px);gap:12px;justify-content:center;margin:18px auto 0}
 .dpad button{background:rgba(0,255,240,.1);border:2px solid rgba(0,255,240,.4);color:var(--cyan);border-radius:10px;font-size:26px;padding:14px 0;font-family:inherit;cursor:pointer}
 .dpad button:active{background:rgba(0,255,240,.3)}
+
+.game-info{max-width:600px;margin:24px auto 0;text-align:left;background:rgba(10,4,30,.6);border:2px solid rgba(0,255,240,.25);border-radius:12px;padding:20px 22px}
+.game-info h2{color:var(--cyan);text-transform:uppercase;letter-spacing:1px;font-size:17px;margin:18px 0 8px}
+.game-info h2:first-child{margin-top:0}
+.game-info p{color:var(--text);font-size:14px;line-height:1.7;margin-bottom:10px}
+.game-info ul{margin:0 0 10px 20px}
+.game-info li{color:var(--text);font-size:14px;line-height:1.6;margin-bottom:5px}
+.game-info b{color:var(--yellow)}
 </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1897982289083904" crossorigin="anonymous"></script>
 </head>
@@ -56,6 +64,24 @@ canvas{background:rgba(5,1,15,.85);border:2px solid rgba(0,255,240,.4);border-ra
   <div class="dpad">
     <button data-d="-1">◀</button><button data-d="1">▶</button>
   </div>
+
+  <section class="game-info">
+    <h2>Come si gioca a Rompimuro</h2>
+    <p>Rompimuro (Breakout) è il classico gioco di racchetta e pallina in cui devi distruggere tutti i mattoni colorati in cima allo schermo. Controlli una racchetta alla base del campo e fai rimbalzare la pallina verso i mattoni, facendo attenzione a non farla cadere.</p>
+    <p>Hai tre vite: ogni volta che la pallina supera la racchetta ne perdi una. Completa il muro per vincere e battere il tuo record.</p>
+    <h2>Comandi</h2>
+    <ul>
+      <li><b>Frecce</b> o <b>A / D</b> per muovere la racchetta</li>
+      <li><b>Mouse</b> o <b>dito</b> per un controllo preciso</li>
+      <li>Tasto <b>P</b> per la pausa</li>
+    </ul>
+    <h2>Consigli per il punteggio</h2>
+    <ul>
+      <li>Colpisci la pallina con i bordi della racchetta per darle angoli diversi.</li>
+      <li>Cerca di aprire un varco laterale per mandare la pallina dietro il muro.</li>
+      <li>Segui la pallina con calma invece di inseguirla all'ultimo momento.</li>
+    </ul>
+  </section>
 
   <!-- AdSense attivo (Publisher ID ca-pub-1897982289083904) — modifica qui se cambi account -->
   <div class="adslot">

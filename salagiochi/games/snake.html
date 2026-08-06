@@ -28,6 +28,14 @@ canvas{background:rgba(5,1,15,.85);border:2px solid rgba(0,255,240,.4);border-ra
 .dpad button{background:rgba(0,255,240,.1);border:2px solid rgba(0,255,240,.4);color:var(--cyan);border-radius:10px;font-size:22px;font-family:inherit;cursor:pointer}
 .dpad button:active{background:rgba(0,255,240,.3)}
 .dpad .up{grid-area:1/2}.dpad .left{grid-area:2/1}.dpad .right{grid-area:2/3}.dpad .down{grid-area:3/2}
+
+.game-info{max-width:600px;margin:24px auto 0;text-align:left;background:rgba(10,4,30,.6);border:2px solid rgba(0,255,240,.25);border-radius:12px;padding:20px 22px}
+.game-info h2{color:var(--cyan);text-transform:uppercase;letter-spacing:1px;font-size:17px;margin:18px 0 8px}
+.game-info h2:first-child{margin-top:0}
+.game-info p{color:var(--text);font-size:14px;line-height:1.7;margin-bottom:10px}
+.game-info ul{margin:0 0 10px 20px}
+.game-info li{color:var(--text);font-size:14px;line-height:1.6;margin-bottom:5px}
+.game-info b{color:var(--yellow)}
 </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1897982289083904" crossorigin="anonymous"></script>
 </head>
@@ -60,6 +68,25 @@ canvas{background:rgba(5,1,15,.85);border:2px solid rgba(0,255,240,.4);border-ra
     <button class="right" data-d="right">▶</button>
     <button class="down" data-d="down">▼</button>
   </div>
+
+  <section class="game-info">
+    <h2>Come si gioca a Serpente</h2>
+    <p>Serpente (Snake) è uno dei videogiochi arcade più celebri di sempre: guidi un serpente che cresce ogni volta che mangia una mela. L'obiettivo è raccogliere più cibo possibile senza mai urtare i bordi del campo né la tua stessa coda, che diventa sempre più lunga e ingombrante a ogni boccone.</p>
+    <p>La difficoltà aumenta in modo naturale: più il serpente si allunga, meno spazio hai per manovrare. Ogni partita è una sfida di pianificazione e sangue freddo.</p>
+    <h2>Comandi</h2>
+    <ul>
+      <li><b>Frecce</b> o <b>WASD</b> per cambiare direzione</li>
+      <li><b>Swipe</b> sul campo da smartphone o tablet</li>
+      <li><b>D-pad</b> a schermo sui dispositivi touch</li>
+      <li>Tasto <b>P</b> per mettere in pausa</li>
+    </ul>
+    <h2>Consigli per il punteggio</h2>
+    <ul>
+      <li>Muoviti in modo ordinato lungo i bordi per lasciare libero il centro.</li>
+      <li>Pianifica due o tre mosse in anticipo quando la coda è lunga.</li>
+      <li>Non chiuderti mai in un angolo senza via d'uscita.</li>
+    </ul>
+  </section>
 
   <!-- AdSense attivo (Publisher ID ca-pub-1897982289083904) — modifica qui se cambi account -->
   <div class="adslot">

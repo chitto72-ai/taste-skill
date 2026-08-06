@@ -27,6 +27,14 @@ canvas{background:radial-gradient(circle at 50% 50%,#0a0430,#05010f);border:2px 
 .pad{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:360px;margin:18px auto 0}
 .pad button{background:rgba(0,255,240,.1);border:2px solid rgba(0,255,240,.4);color:var(--cyan);border-radius:10px;font-size:20px;padding:16px 0;font-family:inherit;cursor:pointer}
 .pad button:active{background:rgba(0,255,240,.3)}
+
+.game-info{max-width:600px;margin:24px auto 0;text-align:left;background:rgba(10,4,30,.6);border:2px solid rgba(0,255,240,.25);border-radius:12px;padding:20px 22px}
+.game-info h2{color:var(--cyan);text-transform:uppercase;letter-spacing:1px;font-size:17px;margin:18px 0 8px}
+.game-info h2:first-child{margin-top:0}
+.game-info p{color:var(--text);font-size:14px;line-height:1.7;margin-bottom:10px}
+.game-info ul{margin:0 0 10px 20px}
+.game-info li{color:var(--text);font-size:14px;line-height:1.6;margin-bottom:5px}
+.game-info b{color:var(--yellow)}
 </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1897982289083904" crossorigin="anonymous"></script>
 </head>
@@ -59,6 +67,25 @@ canvas{background:radial-gradient(circle at 50% 50%,#0a0430,#05010f);border:2px 
     <button data-a="right">↻</button>
     <button data-a="fire">🔫</button>
   </div>
+
+  <section class="game-info">
+    <h2>Come si gioca a Asteroidi</h2>
+    <p>Asteroidi (Asteroids) è un classico arcade a gravità zero: piloti una navicella al centro dello spazio e distruggi gli asteroidi che fluttuano intorno a te. Quando colpisci un asteroide grande, questo si spezza in frammenti più piccoli e veloci.</p>
+    <p>La navicella si muove per inerzia, come nel vuoto: imparare a governare la spinta e la rotazione è tutta l'abilità del gioco.</p>
+    <h2>Comandi</h2>
+    <ul>
+      <li><b>◀ ▶</b> per ruotare la navicella</li>
+      <li><b>▲</b> per la spinta in avanti</li>
+      <li><b>Spazio</b> per sparare</li>
+      <li>Pulsanti a schermo su touch</li>
+    </ul>
+    <h2>Consigli per il punteggio</h2>
+    <ul>
+      <li>Dai piccole spinte: l'inerzia ti fa scivolare a lungo.</li>
+      <li>Distruggi subito i frammenti piccoli, i più veloci e pericolosi.</li>
+      <li>Non restare mai fermo al centro se sei circondato.</li>
+    </ul>
+  </section>
 
   <!-- AdSense attivo (Publisher ID ca-pub-1897982289083904) — modifica qui se cambi account -->
   <div class="adslot">

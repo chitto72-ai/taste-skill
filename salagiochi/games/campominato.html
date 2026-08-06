@@ -32,6 +32,14 @@ html,body{min-height:100%;background:radial-gradient(circle at 20% 10%,rgba(157,
 .overlay p{color:var(--text);font-size:15px;line-height:1.5}
 .btn{cursor:pointer;background:linear-gradient(180deg,var(--magenta),#c01e70);color:#fff;border:none;border-radius:8px;padding:12px 26px;font-family:inherit;font-weight:bold;letter-spacing:2px;font-size:15px;text-transform:uppercase;box-shadow:0 0 16px rgba(255,46,151,.5)}
 .btn:active{transform:translateY(2px)}
+
+.game-info{max-width:600px;margin:24px auto 0;text-align:left;background:rgba(10,4,30,.6);border:2px solid rgba(0,255,240,.25);border-radius:12px;padding:20px 22px}
+.game-info h2{color:var(--cyan);text-transform:uppercase;letter-spacing:1px;font-size:17px;margin:18px 0 8px}
+.game-info h2:first-child{margin-top:0}
+.game-info p{color:var(--text);font-size:14px;line-height:1.7;margin-bottom:10px}
+.game-info ul{margin:0 0 10px 20px}
+.game-info li{color:var(--text);font-size:14px;line-height:1.6;margin-bottom:5px}
+.game-info b{color:var(--yellow)}
 </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1897982289083904" crossorigin="anonymous"></script>
 </head>
@@ -62,6 +70,24 @@ html,body{min-height:100%;background:radial-gradient(circle at 20% 10%,rgba(157,
     <button class="btn" id="newgame" style="padding:10px 18px;font-size:13px">Nuova</button>
   </div>
   <div class="controls">Tocca per scoprire · Attiva la bandierina o tieni premuto per segnalare</div>
+
+  <section class="game-info">
+    <h2>Come si gioca a Campo Minato</h2>
+    <p>Campo Minato (Minesweeper) è il celebre rompicapo di logica: dietro le caselle si nascondono 10 mine e il tuo compito è scoprire tutte le caselle sicure senza mai farne esplodere una. I numeri che compaiono indicano quante mine ci sono nelle otto caselle adiacenti.</p>
+    <p>Usando quei numeri puoi dedurre con certezza dove si trovano le mine e segnalarle con una bandierina. Scopri tutto il campo nel minor tempo possibile.</p>
+    <h2>Comandi</h2>
+    <ul>
+      <li><b>Tocca</b> o <b>clicca</b> una casella per scoprirla</li>
+      <li>Attiva la <b>modalità bandierina</b> o tieni premuto per segnalare una mina</li>
+      <li><b>Clic destro</b> per la bandierina su desktop</li>
+    </ul>
+    <h2>Consigli per il punteggio</h2>
+    <ul>
+      <li>Parti dalle zone che si aprono da sole, senza numeri intorno.</li>
+      <li>Un numero circondato da esattamente quel numero di caselle chiuse indica solo mine.</li>
+      <li>Usa le bandierine per non cliccare per sbaglio dove c'è una mina.</li>
+    </ul>
+  </section>
 
   <!-- AdSense attivo (Publisher ID ca-pub-1897982289083904) — modifica qui se cambi account -->
   <div class="adslot">

@@ -29,6 +29,14 @@ canvas{background:rgba(5,1,15,.85);border:2px solid rgba(0,255,240,.4);border-ra
 .dpad button{background:rgba(0,255,240,.1);border:2px solid rgba(0,255,240,.4);color:var(--cyan);border-radius:10px;font-size:22px;font-family:inherit;cursor:pointer}
 .dpad button:active{background:rgba(0,255,240,.3)}
 .dpad .up{grid-area:1/2}.dpad .left{grid-area:2/1}.dpad .right{grid-area:2/3}.dpad .down{grid-area:3/2}
+
+.game-info{max-width:600px;margin:24px auto 0;text-align:left;background:rgba(10,4,30,.6);border:2px solid rgba(0,255,240,.25);border-radius:12px;padding:20px 22px}
+.game-info h2{color:var(--cyan);text-transform:uppercase;letter-spacing:1px;font-size:17px;margin:18px 0 8px}
+.game-info h2:first-child{margin-top:0}
+.game-info p{color:var(--text);font-size:14px;line-height:1.7;margin-bottom:10px}
+.game-info ul{margin:0 0 10px 20px}
+.game-info li{color:var(--text);font-size:14px;line-height:1.6;margin-bottom:5px}
+.game-info b{color:var(--yellow)}
 </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1897982289083904" crossorigin="anonymous"></script>
 </head>
@@ -62,6 +70,23 @@ canvas{background:rgba(5,1,15,.85);border:2px solid rgba(0,255,240,.4);border-ra
     <button class="down" data-d="down">▼</button>
   </div>
   <button class="btn newbtn" id="newgame">Nuovo Labirinto</button>
+
+  <section class="game-info">
+    <h2>Come si gioca a Labirinto</h2>
+    <p>Labirinto è un gioco di orientamento: parti dall'angolo in alto a sinistra e devi raggiungere l'uscita, il quadrato verde in basso a destra, trovando la strada tra i corridoi. Ogni partita genera un labirinto diverso, sempre più grande a ogni livello superato.</p>
+    <p>Il cronometro misura la tua velocità: memorizza il percorso e battiti il tuo record.</p>
+    <h2>Comandi</h2>
+    <ul>
+      <li><b>Frecce</b> o <b>WASD</b> per spostarti</li>
+      <li><b>Swipe</b> o <b>D-pad</b> sui dispositivi touch</li>
+    </ul>
+    <h2>Consigli per il punteggio</h2>
+    <ul>
+      <li>Prova la "regola della mano destra": segui sempre la parete a destra.</li>
+      <li>Memorizza i bivi già esplorati per non tornare sui tuoi passi.</li>
+      <li>Osserva prima il quadro generale, poi scegli la direzione.</li>
+    </ul>
+  </section>
 
   <!-- AdSense attivo (Publisher ID ca-pub-1897982289083904) — modifica qui se cambi account -->
   <div class="adslot">

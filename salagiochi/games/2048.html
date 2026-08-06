@@ -26,6 +26,14 @@ html,body{min-height:100%;background:radial-gradient(circle at 20% 10%,rgba(157,
 .btn{cursor:pointer;background:linear-gradient(180deg,var(--magenta),#c01e70);color:#fff;border:none;border-radius:8px;padding:12px 26px;font-family:inherit;font-weight:bold;letter-spacing:2px;font-size:15px;text-transform:uppercase;box-shadow:0 0 16px rgba(255,46,151,.5)}
 .btn:active{transform:translateY(2px)}
 .newbtn{margin-top:16px}
+
+.game-info{max-width:600px;margin:24px auto 0;text-align:left;background:rgba(10,4,30,.6);border:2px solid rgba(0,255,240,.25);border-radius:12px;padding:20px 22px}
+.game-info h2{color:var(--cyan);text-transform:uppercase;letter-spacing:1px;font-size:17px;margin:18px 0 8px}
+.game-info h2:first-child{margin-top:0}
+.game-info p{color:var(--text);font-size:14px;line-height:1.7;margin-bottom:10px}
+.game-info ul{margin:0 0 10px 20px}
+.game-info li{color:var(--text);font-size:14px;line-height:1.6;margin-bottom:5px}
+.game-info b{color:var(--yellow)}
 </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1897982289083904" crossorigin="anonymous"></script>
 </head>
@@ -53,6 +61,23 @@ html,body{min-height:100%;background:radial-gradient(circle at 20% 10%,rgba(157,
 
   <div class="controls">Frecce / WASD · Scorri col dito per unire le tessere</div>
   <button class="btn newbtn" id="newgame">Nuova Partita</button>
+
+  <section class="game-info">
+    <h2>Come si gioca a 2048</h2>
+    <p>2048 è un rompicapo con i numeri: sposti le tessere sulla griglia e, quando due tessere con lo stesso valore si toccano, si fondono in una sola dal valore doppio. Da 2 e 2 nasce 4, da 4 e 4 nasce 8, e così via fino al mitico 2048.</p>
+    <p>Ogni mossa fa comparire una nuova tessera: se la griglia si riempie e non ci sono più fusioni possibili, la partita finisce. Semplice da imparare, difficilissimo da smettere.</p>
+    <h2>Comandi</h2>
+    <ul>
+      <li><b>Frecce</b> o <b>WASD</b> per spostare tutte le tessere</li>
+      <li><b>Swipe</b> nelle quattro direzioni su touch</li>
+    </ul>
+    <h2>Consigli per il punteggio</h2>
+    <ul>
+      <li>Tieni la tessera con il valore più alto sempre in un angolo.</li>
+      <li>Muovi prevalentemente in due direzioni per mantenere l'ordine.</li>
+      <li>Evita di sparpagliare i numeri grandi al centro della griglia.</li>
+    </ul>
+  </section>
 
   <!-- AdSense attivo (Publisher ID ca-pub-1897982289083904) — modifica qui se cambi account -->
   <div class="adslot">

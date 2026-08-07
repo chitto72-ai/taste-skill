@@ -1,0 +1,57 @@
+# Configurazione di esempio — copiala in config.yaml e adattala al tuo broker.
+# Ogni valore assente usa il default del codice (bot/config.py).
+
+data:
+  provider: yahoo          # yahoo | twelvedata | csv | synthetic
+  symbol: XAUUSD
+  entry_timeframe: 15m     # timeframe su cui cerca il trigger
+  trend_timeframe: 1h      # timeframe che decide la direzione
+  bars: 800                # storico scaricato a ogni ciclo
+  # csv_path: dati/xauusd_m15.csv
+  # api_key_env: MARKET_DATA_API_KEY   # per twelvedata
+
+strategy:
+  ema_fast: 20
+  ema_mid: 50
+  ema_slow: 200
+  adx_min: 18.0            # sotto questa soglia il trend è troppo debole
+  min_atr_pct: 0.03        # volatilità minima (ATR in % del prezzo)
+  max_atr_pct: 1.20        # oltre: mercato in panico, niente segnali
+  atr_sl_mult: 1.5         # stop minimo in multipli di ATR
+  atr_sl_buffer: 0.25      # cuscinetto oltre lo swing di struttura
+  take_profit_r: [1.0, 2.0, 3.0]
+  min_confidence: 55.0     # alza a 65-70 per meno segnali ma più selettivi
+  sessions_utc:            # sessione Londra + apertura New York
+    - ["07:00", "16:00"]
+
+risk:
+  account_balance: 2000.0
+  account_currency: USD
+  risk_pct: 1.0            # % di capitale a rischio per trade (max consigliato: 1)
+  leverage: 100.0          # leva usata, deve stare tra min_leverage e max_leverage
+  min_leverage: 100.0
+  max_leverage: 250.0
+  contract_size: 100.0     # 1 lotto XAUUSD = 100 once (standard MT4/MT5)
+  min_lot: 0.01            # 0.01 lotti = 1 oncia = 1 USD per dollaro di movimento
+  lot_step: 0.01
+  stop_out_level_pct: 50.0 # livello di stop-out del tuo broker
+  max_margin_pct: 30.0     # margine massimo impegnabile in % del conto
+  liquidation_buffer: 2.0  # la liquidazione deve stare almeno 2x oltre lo stop
+  reject_if_stop_beyond_liquidation: true
+  spread_usd: 0.30         # spread tipico del tuo broker, in dollari sull'oro
+  commission_per_lot: 0.0
+
+notifier:
+  console: true
+  jsonl_path: signals.jsonl
+  telegram_enabled: false
+  telegram_token_env: TELEGRAM_BOT_TOKEN   # esporta il token nell'ambiente
+  telegram_chat_id_env: TELEGRAM_CHAT_ID
+  # webhook_url: https://example.com/hook
+
+engine:
+  poll_seconds: 60
+  cooldown_bars: 4         # barre di attesa prima di un altro segnale sullo stesso lato
+  max_signals_per_day: 6
+  state_path: .bot_state.json
+  dry_run: true            # il bot non invia ordini in nessun caso

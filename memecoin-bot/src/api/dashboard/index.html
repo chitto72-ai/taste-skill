@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Memecoin Bot — Control Room</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0b0e14;
+        --panel: #131822;
+        --panel-2: #1a2130;
+        --line: #232c3d;
+        --text: #e6edf7;
+        --muted: #8b98ad;
+        --green: #35d07f;
+        --red: #ff5c72;
+        --amber: #ffb454;
+        --blue: #59a5ff;
+        --purple: #b78bff;
+        font-family: ui-sans-serif, -apple-system, "Segoe UI", Roboto, Inter, sans-serif;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-size: 14px;
+        line-height: 1.45;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 14px 20px;
+        border-bottom: 1px solid var(--line);
+        background: linear-gradient(180deg, #121722, #0d1119);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+      header h1 { font-size: 15px; margin: 0; letter-spacing: 0.3px; font-weight: 650; }
+      .pill {
+        font-size: 11px;
+        padding: 3px 9px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: var(--panel-2);
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+      }
+      .pill.live { color: var(--green); border-color: #1d5f3f; }
+      .pill.paper { color: var(--blue); border-color: #1d3f5f; }
+      .pill.halted { color: var(--red); border-color: #5f1d2a; }
+      .spacer { flex: 1; }
+      button {
+        font: inherit;
+        font-size: 12px;
+        padding: 6px 12px;
+        border-radius: 7px;
+        border: 1px solid var(--line);
+        background: var(--panel-2);
+        color: var(--text);
+        cursor: pointer;
+      }
+      button:hover { border-color: #35415a; }
+      button.danger { color: var(--red); border-color: #4a2029; }
+      main { padding: 18px 20px 40px; display: grid; gap: 16px; max-width: 1500px; margin: 0 auto; }
+      .grid { display: grid; gap: 14px; }
+      .cards { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+      .two { grid-template-columns: 2fr 1fr; }
+      @media (max-width: 1050px) { .two { grid-template-columns: 1fr; } }
+      .card, .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 14px 16px;
+      }
+      .card .label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.7px; }
+      .card .value { font-size: 22px; font-weight: 600; margin-top: 6px; font-variant-numeric: tabular-nums; }
+      .card .sub { color: var(--muted); font-size: 12px; margin-top: 2px; font-variant-numeric: tabular-nums; }
+      .panel h2 {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        color: var(--muted);
+        margin: 0 0 12px;
+        font-weight: 600;
+      }
+      table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+      th {
+        text-align: left;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        color: var(--muted);
+        font-weight: 600;
+        padding: 6px 8px;
+        border-bottom: 1px solid var(--line);
+      }
+      td { padding: 7px 8px; border-bottom: 1px solid #1b2231; font-size: 13px; }
+      tr:last-child td { border-bottom: none; }
+      td.num, th.num { text-align: right; }
+      .pos { color: var(--green); }
+      .neg { color: var(--red); }
+      .dim { color: var(--muted); }
+      .tag {
+        font-size: 10px;
+        padding: 2px 6px;
+        border-radius: 5px;
+        background: var(--panel-2);
+        border: 1px solid var(--line);
+        color: var(--muted);
+      }
+      .bar { height: 5px; border-radius: 3px; background: var(--panel-2); overflow: hidden; }
+      .bar > span { display: block; height: 100%; background: var(--blue); }
+      .scroll { max-height: 340px; overflow: auto; }
+      .log { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 11.5px; }
+      .log .t { color: var(--muted); }
+      .empty { color: var(--muted); padding: 18px 8px; text-align: center; font-size: 13px; }
+      .feed li { list-style: none; padding: 6px 0; border-bottom: 1px solid #1b2231; font-size: 12.5px; }
+      .feed { margin: 0; padding: 0; max-height: 340px; overflow: auto; }
+      svg text { fill: var(--muted); font-size: 10px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Memecoin Bot</h1>
+      <span class="pill" id="mode">—</span>
+      <span class="pill" id="conn">connecting…</span>
+      <span class="pill" id="haltPill" hidden>halted</span>
+      <div class="spacer"></div>
+      <button id="btnHalt">Halt</button>
+      <button id="btnResume">Resume</button>
+      <button id="btnCloseAll" class="danger">Close all</button>
+    </header>
+
+    <main>
+      <section class="grid cards">
+        <div class="card"><div class="label">Equity</div><div class="value" id="equity">—</div><div class="sub" id="equitySub">—</div></div>
+        <div class="card"><div class="label">Net PnL</div><div class="value" id="pnl">—</div><div class="sub" id="pnlSub">—</div></div>
+        <div class="card"><div class="label">Win rate</div><div class="value" id="winRate">—</div><div class="sub" id="winSub">—</div></div>
+        <div class="card"><div class="label">Profit factor</div><div class="value" id="pf">—</div><div class="sub" id="pfSub">—</div></div>
+        <div class="card"><div class="label">Open positions</div><div class="value" id="openPos">—</div><div class="sub" id="openSub">—</div></div>
+        <div class="card"><div class="label">Drawdown</div><div class="value" id="dd">—</div><div class="sub" id="ddSub">—</div></div>
+      </section>
+
+      <section class="grid two">
+        <div class="panel">
+          <h2>Equity curve</h2>
+          <div id="chart"></div>
+        </div>
+        <div class="panel">
+          <h2>Risk</h2>
+          <table id="riskTable"></table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Open positions</h2>
+        <div class="scroll"><table id="positions"></table></div>
+      </section>
+
+      <section class="grid two">
+        <div class="panel">
+          <h2>Trade history</h2>
+          <div class="scroll"><table id="trades"></table></div>
+        </div>
+        <div class="panel">
+          <h2>Live feed</h2>
+          <ul class="feed" id="feed"></ul>
+        </div>
+      </section>
+
+      <section class="grid two">
+        <div class="panel">
+          <h2>Top candidates</h2>
+          <div class="scroll"><table id="candidates"></table></div>
+        </div>
+        <div class="panel">
+          <h2>Wallet monitor</h2>
+          <div class="scroll"><table id="wallets"></table></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Logs</h2>
+        <div class="scroll log"><table id="logs"></table></div>
+      </section>
+    </main>
+
+    <script>
+      const token = new URLSearchParams(location.search).get('token') || '';
+      const headers = token ? { authorization: 'Bearer ' + token } : {};
+
+      const usd = (v) =>
+        (v < 0 ? '-$' : '$') + Math.abs(Number(v || 0)).toLocaleString('en-US', { maximumFractionDigits: 2 });
+      const pct = (v, d = 1) => (Number(v || 0) * 100).toFixed(d) + '%';
+      const cls = (v) => (Number(v) > 0 ? 'pos' : Number(v) < 0 ? 'neg' : 'dim');
+      const ago = (t) => {
+        const s = Math.max(0, (Date.now() - t) / 1000);
+        if (s < 60) return Math.round(s) + 's';
+        if (s < 3600) return Math.round(s / 60) + 'm';
+        return (s / 3600).toFixed(1) + 'h';
+      };
+      const short = (a) => (a ? a.slice(0, 5) + '…' + a.slice(-4) : '—');
+
+      async function api(path, options) {
+        const res = await fetch(path, { ...options, headers: { ...headers, 'content-type': 'application/json' } });
+        if (!res.ok) throw new Error(path + ' -> ' + res.status);
+        return res.json();
+      }
+
+      function table(el, columns, rows, emptyText) {
+        if (!rows.length) {
+          el.innerHTML = '<tr><td class="empty">' + emptyText + '</td></tr>';
+          return;
+        }
+        const head = '<tr>' + columns.map((c) => '<th class="' + (c.num ? 'num' : '') + '">' + c.title + '</th>').join('') + '</tr>';
+        const body = rows
+          .map((r) => '<tr>' + columns.map((c) => '<td class="' + (c.num ? 'num ' : '') + (c.cls ? c.cls(r) : '') + '">' + c.render(r) + '</td>').join('') + '</tr>')
+          .join('');
+        el.innerHTML = head + body;
+      }
+
+      function drawChart(points) {
+        const el = document.getElementById('chart');
+        if (!points.length) {
+          el.innerHTML = '<div class="empty">No equity samples yet</div>';
+          return;
+        }
+        const w = el.clientWidth || 800;
+        const h = 240;
+        const pad = { l: 52, r: 12, t: 12, b: 22 };
+        const xs = points.map((p) => p.t);
+        const ys = points.map((p) => p.equity);
+        const minX = Math.min(...xs);
+        const maxX = Math.max(...xs);
+        const minY = Math.min(...ys);
+        const maxY = Math.max(...ys);
+        const spanY = maxY - minY || Math.max(1, maxY * 0.02);
+        const x = (v) => pad.l + ((v - minX) / (maxX - minX || 1)) * (w - pad.l - pad.r);
+        const y = (v) => h - pad.b - ((v - minY) / spanY) * (h - pad.t - pad.b);
+
+        const line = points.map((p, i) => (i ? 'L' : 'M') + x(p.t).toFixed(1) + ',' + y(p.equity).toFixed(1)).join(' ');
+        const area = line + ' L' + x(maxX).toFixed(1) + ',' + (h - pad.b) + ' L' + x(minX).toFixed(1) + ',' + (h - pad.b) + ' Z';
+        const up = points[points.length - 1].equity >= points[0].equity;
+        const color = up ? 'var(--green)' : 'var(--red)';
+
+        const ticks = [0, 0.25, 0.5, 0.75, 1]
+          .map((f) => {
+            const value = minY + spanY * f;
+            const yy = y(value).toFixed(1);
+            return (
+              '<line x1="' + pad.l + '" x2="' + (w - pad.r) + '" y1="' + yy + '" y2="' + yy + '" stroke="#1e2735"/>' +
+              '<text x="6" y="' + (Number(yy) + 3) + '">' + usd(value) + '</text>'
+            );
+          })
+          .join('');
+
+        el.innerHTML =
+          '<svg width="100%" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '">' +
+          '<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="' + color + '" stop-opacity="0.28"/>' +
+          '<stop offset="100%" stop-color="' + color + '" stop-opacity="0"/></linearGradient></defs>' +
+          ticks +
+          '<path d="' + area + '" fill="url(#g)"/>' +
+          '<path d="' + line + '" fill="none" stroke="' + color + '" stroke-width="1.8"/>' +
+          '</svg>';
+      }
+
+      async function refresh() {
+        try {
+          const [status, perf, positions, trades, equity, candidates, wallets, logs] = await Promise.all([
+            api('/api/status'),
+            api('/api/performance'),
+            api('/api/positions'),
+            api('/api/trades?limit=40'),
+            api('/api/equity'),
+            api('/api/candidates'),
+            api('/api/wallets'),
+            api('/api/logs?limit=60'),
+          ]);
+
+          const m = perf.metrics;
+          document.getElementById('mode').textContent = status.config.mode;
+          document.getElementById('mode').className = 'pill ' + (status.config.mode === 'live' ? 'live' : 'paper');
+          document.getElementById('haltPill').hidden = !status.risk.halted;
+          document.getElementById('haltPill').textContent = status.risk.halted ? 'halted: ' + (status.risk.haltReason || '') : 'halted';
+
+          document.getElementById('equity').textContent = usd(perf.equity);
+          document.getElementById('equitySub').textContent = 'start ' + usd(perf.startingCapital) + ' · unrealized ' + usd(status.engine.unrealizedPnl);
+          document.getElementById('pnl').textContent = usd(m.netPnl);
+          document.getElementById('pnl').className = 'value ' + cls(m.netPnl);
+          document.getElementById('pnlSub').textContent = 'return ' + pct(m.totalReturnPct, 2) + ' · fees ' + usd(m.fees + m.gas);
+          document.getElementById('winRate').textContent = pct(m.winRate);
+          document.getElementById('winSub').textContent = m.wins + 'W / ' + m.losses + 'L over ' + m.trades + ' trades';
+          document.getElementById('pf').textContent = (m.profitFactor || 0).toFixed(2);
+          document.getElementById('pfSub').textContent = 'expectancy ' + usd(m.expectancy) + ' · payoff ' + (m.payoffRatio || 0).toFixed(2) + 'x';
+          document.getElementById('openPos').textContent = positions.count + ' / ' + status.config.maxPositions;
+          document.getElementById('openSub').textContent = status.discovery.trackedTokens + ' tokens tracked · ' + status.discovery.scans + ' scans';
+          document.getElementById('dd').textContent = (status.risk.totalDrawdownPct || 0).toFixed(2) + '%';
+          document.getElementById('dd').className = 'value ' + (status.risk.totalDrawdownPct > 0 ? 'neg' : 'dim');
+          document.getElementById('ddSub').textContent = 'daily ' + (status.risk.dailyDrawdownPct || 0).toFixed(2) + '% · stops ' + status.risk.consecutiveStops;
+
+          drawChart(equity.points);
+
+          table(
+            document.getElementById('riskTable'),
+            [
+              { title: 'Metric', render: (r) => r.k },
+              { title: 'Value', num: true, render: (r) => r.v },
+            ],
+            [
+              { k: 'Equity', v: usd(status.risk.equity) },
+              { k: 'Peak equity', v: usd(status.risk.peakEquity) },
+              { k: 'Daily PnL', v: usd(status.risk.dailyPnl) },
+              { k: 'Daily drawdown', v: (status.risk.dailyDrawdownPct || 0).toFixed(2) + '%' },
+              { k: 'Equity volatility', v: pct(status.risk.equityVolatility, 2) },
+              { k: 'Consecutive stops', v: status.risk.consecutiveStops },
+              { k: 'Trades today', v: status.risk.dailyTrades },
+              { k: 'Risk / trade', v: status.config.riskPerTradePct + '%' },
+              { k: 'Score threshold', v: status.config.minScore },
+              { k: 'Uptime', v: ago(status.engine.startedAt) },
+            ],
+            'no risk data',
+          );
+
+          table(
+            document.getElementById('positions'),
+            [
+              { title: 'Token', render: (p) => '<b>' + p.symbol + '</b> <span class="tag">' + p.chain + '</span>' },
+              { title: 'Strategy', render: (p) => '<span class="dim">' + p.strategy + '</span>' },
+              { title: 'Score', num: true, render: (p) => p.entryScore },
+              { title: 'Entry', num: true, render: (p) => p.entryPrice.toPrecision(4) },
+              { title: 'Last', num: true, render: (p) => p.currentPrice.toPrecision(4) },
+              { title: 'PnL %', num: true, cls: (p) => cls(p.pnlPct), render: (p) => p.pnlPct.toFixed(1) + '%' },
+              { title: 'Unrealized', num: true, cls: (p) => cls(p.unrealizedPnl), render: (p) => usd(p.unrealizedPnl) },
+              { title: 'Realized', num: true, cls: (p) => cls(p.realizedPnl), render: (p) => usd(p.realizedPnl) },
+              { title: 'Stop', num: true, render: (p) => p.stopPrice.toPrecision(4) + (p.trailingArmed ? ' <span class="tag">trail</span>' : p.breakEvenArmed ? ' <span class="tag">be</span>' : '') },
+              { title: 'TP', num: true, render: (p) => p.takeProfits.filter((t) => t.executed).length + '/' + p.takeProfits.length },
+              { title: 'Age', num: true, render: (p) => ago(p.openedAt) },
+              { title: '', num: true, render: (p) => '<button onclick="closeOne(\\'' + p.id + '\\')">Close</button>' },
+            ],
+            positions.open,
+            'no open positions',
+          );
+
+          table(
+            document.getElementById('trades'),
+            [
+              { title: 'Token', render: (t) => '<b>' + t.symbol + '</b>' },
+              { title: 'Reason', render: (t) => '<span class="tag">' + t.closeReason + '</span>' },
+              { title: 'PnL', num: true, cls: (t) => cls(t.pnl), render: (t) => usd(t.pnl) },
+              { title: '%', num: true, cls: (t) => cls(t.pnlPct), render: (t) => pct(t.pnlPct) },
+              { title: 'Hold', num: true, render: (t) => ago(Date.now() - t.holdMs) },
+              { title: 'Closed', num: true, render: (t) => ago(t.closedAt) + ' ago' },
+            ],
+            trades.trades,
+            'no closed trades yet',
+          );
+
+          table(
+            document.getElementById('candidates'),
+            [
+              { title: 'Token', render: (c) => '<b>' + c.symbol + '</b> <span class="tag">' + c.chain + '</span>' },
+              { title: 'Score', num: true, render: (c) => '<b>' + c.score + '</b>' },
+              { title: 'Rug', num: true, cls: () => 'neg', render: (c) => pct(c.probabilities.rug, 0) },
+              { title: 'Pump', num: true, cls: () => 'pos', render: (c) => pct(c.probabilities.pump, 0) },
+              { title: 'Liq', num: true, render: (c) => usd(c.liquidityUsd) },
+              { title: 'Holders', num: true, render: (c) => c.holders },
+              { title: 'Conf', num: true, render: (c) => pct(c.confidence, 0) },
+            ],
+            candidates.candidates.slice(0, 20),
+            'no candidates above the score threshold',
+          );
+
+          table(
+            document.getElementById('wallets'),
+            [
+              { title: 'Wallet', render: (w) => short(w.address) + ' <span class="tag">' + w.chain + '</span>' },
+              { title: 'Tags', render: (w) => (w.tags || []).map((t) => '<span class="tag">' + t + '</span>').join(' ') || '<span class="dim">—</span>' },
+              { title: 'Trades', num: true, render: (w) => w.stats.trades },
+              { title: 'Win', num: true, render: (w) => pct(w.stats.winRate) },
+              { title: 'PnL', num: true, cls: (w) => cls(w.stats.pnlUsd), render: (w) => usd(w.stats.pnlUsd) },
+              { title: 'Copy', num: true, render: (w) => (w.copyEnabled ? '<span class="pos">yes</span>' : '<span class="dim">no</span>') },
+            ],
+            wallets.wallets.slice(0, 20),
+            'no tracked wallets',
+          );
+
+          table(
+            document.getElementById('logs'),
+            [
+              { title: 'Time', render: (l) => '<span class="t">' + new Date(l.time).toISOString().slice(11, 19) + '</span>' },
+              { title: 'Level', render: (l) => '<span class="' + (l.level === 'error' || l.level === 'fatal' ? 'neg' : l.level === 'warn' ? 'dim' : '') + '">' + l.level + '</span>' },
+              { title: 'Component', render: (l) => '<span class="dim">' + l.component + '</span>' },
+              { title: 'Message', render: (l) => l.msg },
+            ],
+            logs.logs.slice().reverse(),
+            'no log records',
+          );
+        } catch (error) {
+          document.getElementById('conn').textContent = 'error';
+          document.getElementById('conn').className = 'pill halted';
+        }
+      }
+
+      function pushFeed(text, tone) {
+        const feed = document.getElementById('feed');
+        const li = document.createElement('li');
+        li.innerHTML = '<span class="dim">' + new Date().toISOString().slice(11, 19) + '</span> <span class="' + (tone || '') + '">' + text + '</span>';
+        feed.prepend(li);
+        while (feed.children.length > 60) feed.lastChild.remove();
+      }
+
+      function connect() {
+        const proto = location.protocol === 'https:' ? 'wss' : 'ws';
+        const ws = new WebSocket(proto + '://' + location.host + '/ws');
+        const conn = document.getElementById('conn');
+
+        ws.onopen = () => {
+          conn.textContent = 'live';
+          conn.className = 'pill live';
+        };
+        ws.onclose = () => {
+          conn.textContent = 'reconnecting';
+          conn.className = 'pill halted';
+          setTimeout(connect, 2000);
+        };
+        ws.onmessage = (event) => {
+          const msg = JSON.parse(event.data);
+          const p = msg.payload || {};
+          if (msg.type === 'position.opened') pushFeed('opened ' + p.symbol + ' for ' + usd(p.costBasis), 'pos');
+          else if (msg.type === 'position.closed') pushFeed('closed ' + p.symbol + ' ' + usd(p.pnl) + ' (' + p.reason + ')', cls(p.pnl));
+          else if (msg.type === 'position.partial_exit') pushFeed('partial exit ' + p.symbol, 'dim');
+          else if (msg.type === 'token.scored') pushFeed('scored ' + p.symbol + ' at ' + p.score, 'dim');
+          else if (msg.type === 'signal.entry') pushFeed('entry signal from ' + p.strategy, 'pos');
+          else if (msg.type === 'signal.exit') pushFeed('exit signal: ' + p.reason, 'dim');
+          else if (msg.type === 'risk.halted') pushFeed('TRADING HALTED: ' + p.reason, 'neg');
+          else if (msg.type === 'risk.resumed') pushFeed('trading resumed', 'pos');
+          else if (msg.type === 'order.rejected') pushFeed('order rejected', 'neg');
+        };
+      }
+
+      async function closeOne(id) {
+        if (!confirm('Close this position at market?')) return;
+        await api('/api/control/close/' + id, { method: 'POST', body: '{}' });
+        refresh();
+      }
+      window.closeOne = closeOne;
+
+      document.getElementById('btnHalt').onclick = async () => {
+        await api('/api/control/halt', { method: 'POST', body: JSON.stringify({ reason: 'manual halt' }) });
+        refresh();
+      };
+      document.getElementById('btnResume').onclick = async () => {
+        await api('/api/control/resume', { method: 'POST', body: JSON.stringify({ force: true }) });
+        refresh();
+      };
+      document.getElementById('btnCloseAll').onclick = async () => {
+        if (!confirm('Close every open position at market?')) return;
+        await api('/api/control/close-all', { method: 'POST', body: '{}' });
+        refresh();
+      };
+
+      refresh();
+      setInterval(refresh, 5000);
+      connect();
+    </script>
+  </body>
+</html>

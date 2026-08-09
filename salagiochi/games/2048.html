@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>2048 — Sala Giochi</title>
+<style>
+:root{--bg0:#05010f;--bg1:#0d0524;--bg2:#16093d;--cyan:#00fff0;--magenta:#ff2e97;--yellow:#ffe600;--green:#39ff14;--purple:#9d4edd;--text:#e8e6ff;--dim:#8a86b8}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;background:radial-gradient(circle at 20% 10%,rgba(157,78,221,.25),transparent 40%),radial-gradient(circle at 80% 90%,rgba(255,46,151,.2),transparent 45%),linear-gradient(160deg,var(--bg0),var(--bg1) 60%,var(--bg2));background-attachment:fixed;color:var(--text);font-family:"Courier New",monospace;-webkit-tap-highlight-color:transparent;overflow-x:hidden}
+.wrap{max-width:480px;margin:0 auto;padding:16px 14px 48px;text-align:center}
+.back{display:inline-block;color:var(--cyan);text-decoration:none;letter-spacing:2px;font-size:13px;margin-bottom:10px;text-transform:uppercase}
+.back:hover{color:var(--magenta)}
+.pixel-title{font-weight:bold;letter-spacing:3px;text-transform:uppercase;font-size:clamp(26px,7vw,42px);text-shadow:2px 2px 0 var(--magenta),-2px -2px 0 var(--cyan),0 0 16px rgba(0,255,240,.5);margin-bottom:12px}
+.adslot{margin:14px auto;min-height:60px;max-width:468px;border:1px dashed rgba(0,255,240,.3);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:11px;letter-spacing:1px;overflow:hidden}
+.hud{display:flex;justify-content:center;gap:22px;margin:8px 0 12px;font-size:15px;letter-spacing:1px}
+.hud b{color:var(--yellow)}.hud .rec b{color:var(--green)}
+.stage{position:relative;width:100%;max-width:400px;margin:0 auto;touch-action:none}
+.grid{background:rgba(5,1,15,.85);border:2px solid rgba(0,255,240,.4);border-radius:12px;box-shadow:0 0 26px rgba(0,255,240,.15);padding:10px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;aspect-ratio:1}
+.cell{background:rgba(157,78,221,.12);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:clamp(18px,6vw,30px);transition:transform .1s}
+.controls{margin-top:14px;color:var(--dim);font-size:12px;letter-spacing:1px;line-height:1.7}
+.overlay{position:absolute;inset:0;background:rgba(5,1,15,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:12px;gap:14px;padding:16px}
+.overlay.hidden{display:none}
+.overlay h2{color:var(--magenta);font-size:26px;letter-spacing:2px;text-transform:uppercase;text-shadow:0 0 12px rgba(255,46,151,.6)}
+.overlay p{color:var(--text);font-size:15px;line-height:1.5}
+.btn{cursor:pointer;background:linear-gradient(180deg,var(--magenta),#c01e70);color:#fff;border:none;border-radius:8px;padding:12px 26px;font-family:inherit;font-weight:bold;letter-spacing:2px;font-size:15px;text-transform:uppercase;box-shadow:0 0 16px rgba(255,46,151,.5)}
+.btn:active{transform:translateY(2px)}
+.newbtn{margin-top:16px}
+
+.game-info{max-width:600px;margin:24px auto 0;text-align:left;background:rgba(10,4,30,.6);border:2px solid rgba(0,255,240,.25);border-radius:12px;padding:20px 22px}
+.game-info h2{color:var(--cyan);text-transform:uppercase;letter-spacing:1px;font-size:17px;margin:18px 0 8px}
+.game-info h2:first-child{margin-top:0}
+.game-info p{color:var(--text);font-size:14px;line-height:1.7;margin-bottom:10px}
+.game-info ul{margin:0 0 10px 20px}
+.game-info li{color:var(--text);font-size:14px;line-height:1.6;margin-bottom:5px}
+.game-info b{color:var(--yellow)}
+</style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1897982289083904" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">◂ SALA GIOCHI</a>
+  <h1 class="pixel-title">2048</h1>
+
+  <!-- AdSense attivo (Publisher ID ca-pub-1897982289083904) — modifica qui se cambi account -->
+  <div class="adslot">
+    <ins class="adsbygoogle" style="display:block;width:100%" data-ad-client="ca-pub-1897982289083904" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <span>Spazio pubblicitario (AdSense)</span>
+  </div>
+
+  <div class="hud"><span>Punti: <b id="score">0</b></span><span class="rec">Record: <b id="best">0</b></span></div>
+
+  <div class="stage">
+    <div class="grid" id="grid"></div>
+    <div class="overlay hidden" id="ov">
+      <h2 id="ovt">Fine</h2>
+      <p id="ovp"></p>
+      <button class="btn" id="restart">Rigioca</button>
+    </div>
+  </div>
+
+  <div class="controls">Frecce / WASD · Scorri col dito per unire le tessere</div>
+  <button class="btn newbtn" id="newgame">Nuova Partita</button>
+
+  <section class="game-info">
+    <h2>Come si gioca a 2048</h2>
+    <p>2048 è un rompicapo con i numeri: sposti le tessere sulla griglia e, quando due tessere con lo stesso valore si toccano, si fondono in una sola dal valore doppio. Da 2 e 2 nasce 4, da 4 e 4 nasce 8, e così via fino al mitico 2048.</p>
+    <p>Ogni mossa fa comparire una nuova tessera: se la griglia si riempie e non ci sono più fusioni possibili, la partita finisce. Semplice da imparare, difficilissimo da smettere.</p>
+    <h2>Comandi</h2>
+    <ul>
+      <li><b>Frecce</b> o <b>WASD</b> per spostare tutte le tessere</li>
+      <li><b>Swipe</b> nelle quattro direzioni su touch</li>
+    </ul>
+    <h2>Consigli per il punteggio</h2>
+    <ul>
+      <li>Tieni la tessera con il valore più alto sempre in un angolo.</li>
+      <li>Muovi prevalentemente in due direzioni per mantenere l'ordine.</li>
+      <li>Evita di sparpagliare i numeri grandi al centro della griglia.</li>
+    </ul>
+  </section>
+
+  <!-- AdSense attivo (Publisher ID ca-pub-1897982289083904) — modifica qui se cambi account -->
+  <div class="adslot">
+    <ins class="adsbygoogle" style="display:block;width:100%" data-ad-client="ca-pub-1897982289083904" data-ad-slot="2222222222" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <span>Spazio pubblicitario (AdSense)</span>
+  </div>
+</div>
+
+<script>
+(function(){
+  try{(adsbygoogle=window.adsbygoogle||[]).push({});(adsbygoogle=window.adsbygoogle||[]).push({});}catch(e){}
+  const gridEl=document.getElementById('grid'),scoreEl=document.getElementById('score'),bestEl=document.getElementById('best');
+  const ov=document.getElementById('ov'),ovt=document.getElementById('ovt'),ovp=document.getElementById('ovp');
+  const KEY='sg_2048_best';
+  const COLORS={2:'#00fff0',4:'#39ff14',8:'#ffe600',16:'#ffab00',32:'#ff6d00',64:'#ff2e97',128:'#e91e8c',256:'#c026d3',512:'#9d4edd',1024:'#7c3aed',2048:'#f0f'};
+  let best=+(localStorage.getItem(KEY)||0);bestEl.textContent=best;
+  let g,score,cells=[],won;
+  for(let i=0;i<16;i++){const c=document.createElement('div');c.className='cell';gridEl.appendChild(c);cells.push(c);}
+  function empty(){const e=[];for(let i=0;i<16;i++)if(!g[i])e.push(i);return e;}
+  function addTile(){const e=empty();if(!e.length)return;g[e[(Math.random()*e.length)|0]]=Math.random()<.9?2:4;}
+  function reset(){g=new Array(16).fill(0);score=0;won=false;ov.classList.add('hidden');addTile();addTile();render();}
+  function render(){
+    for(let i=0;i<16;i++){const v=g[i],c=cells[i];c.textContent=v||'';
+      if(v){const col=COLORS[v]||'#fff';c.style.color='#05010f';c.style.background=col;c.style.boxShadow='0 0 12px '+col;}
+      else{c.style.background='rgba(157,78,221,.12)';c.style.boxShadow='none';}
+    }
+    scoreEl.textContent=score;
+    if(score>best){best=score;localStorage.setItem(KEY,best);bestEl.textContent=best;}
+  }
+  function slide(row){
+    let a=row.filter(x=>x);
+    for(let i=0;i<a.length-1;i++){if(a[i]===a[i+1]){a[i]*=2;score+=a[i];if(a[i]===2048&&!won){won=true;setTimeout(()=>msg('2048!','Hai raggiunto 2048! Continua a giocare.'),50);}a[i+1]=0;}}
+    a=a.filter(x=>x);while(a.length<4)a.push(0);return a;
+  }
+  function move(dir){
+    const before=g.join(',');let ng=g.slice();
+    const idx=(r,c)=>r*4+c;
+    for(let i=0;i<4;i++){
+      let line=[];
+      for(let j=0;j<4;j++){
+        if(dir==='left')line.push(ng[idx(i,j)]);
+        else if(dir==='right')line.push(ng[idx(i,3-j)]);
+        else if(dir==='up')line.push(ng[idx(j,i)]);
+        else line.push(ng[idx(3-j,i)]);
+      }
+      line=slide(line);
+      for(let j=0;j<4;j++){
+        if(dir==='left')ng[idx(i,j)]=line[j];
+        else if(dir==='right')ng[idx(i,3-j)]=line[j];
+        else if(dir==='up')ng[idx(j,i)]=line[j];
+        else ng[idx(3-j,i)]=line[j];
+      }
+    }
+    g=ng;
+    if(g.join(',')!==before){addTile();render();checkOver();}
+  }
+  function canMove(){if(empty().length)return true;
+    for(let r=0;r<4;r++)for(let c=0;c<4;c++){const v=g[r*4+c];if(c<3&&v===g[r*4+c+1])return true;if(r<3&&v===g[(r+1)*4+c])return true;}return false;}
+  function checkOver(){if(!canMove())msg('Game Over','Nessuna mossa disponibile.<br>Punteggio: <b>'+score+'</b>');}
+  function msg(t,p){ovt.textContent=t;ovp.innerHTML=p;ov.classList.remove('hidden');}
+  window.addEventListener('keydown',e=>{
+    const m={arrowleft:'left',a:'left',arrowright:'right',d:'right',arrowup:'up',w:'up',arrowdown:'down',s:'down'}[e.key.toLowerCase()];
+    if(m){e.preventDefault();move(m);}
+  });
+  let tx,ty;const st=document.getElementById('grid');
+  st.addEventListener('touchstart',e=>{const t=e.touches[0];tx=t.clientX;ty=t.clientY;},{passive:true});
+  st.addEventListener('touchmove',e=>e.preventDefault(),{passive:false});
+  st.addEventListener('touchend',e=>{if(tx==null)return;const t=e.changedTouches[0],dx=t.clientX-tx,dy=t.clientY-ty;
+    if(Math.abs(dx)<24&&Math.abs(dy)<24)return;
+    if(Math.abs(dx)>Math.abs(dy))move(dx>0?'right':'left');else move(dy>0?'down':'up');tx=ty=null;},{passive:true});
+  document.getElementById('restart').addEventListener('click',reset);
+  document.getElementById('newgame').addEventListener('click',reset);
+  reset();
+})();
+</script>
+</body>
+</html>

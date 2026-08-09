@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Labirinto — Sala Giochi</title>
+<style>
+:root{--bg0:#05010f;--bg1:#0d0524;--bg2:#16093d;--cyan:#00fff0;--magenta:#ff2e97;--yellow:#ffe600;--green:#39ff14;--purple:#9d4edd;--text:#e8e6ff;--dim:#8a86b8}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;background:radial-gradient(circle at 20% 10%,rgba(157,78,221,.25),transparent 40%),radial-gradient(circle at 80% 90%,rgba(255,46,151,.2),transparent 45%),linear-gradient(160deg,var(--bg0),var(--bg1) 60%,var(--bg2));background-attachment:fixed;color:var(--text);font-family:"Courier New",monospace;-webkit-tap-highlight-color:transparent;overflow-x:hidden;touch-action:manipulation}
+.wrap{max-width:480px;margin:0 auto;padding:16px 14px 48px;text-align:center}
+.back{display:inline-block;color:var(--cyan);text-decoration:none;letter-spacing:2px;font-size:13px;margin-bottom:10px;text-transform:uppercase}
+.back:hover{color:var(--magenta)}
+.pixel-title{font-weight:bold;letter-spacing:3px;text-transform:uppercase;font-size:clamp(26px,7vw,42px);text-shadow:2px 2px 0 var(--magenta),-2px -2px 0 var(--cyan),0 0 16px rgba(0,255,240,.5);margin-bottom:12px}
+.adslot{margin:14px auto;min-height:60px;max-width:468px;border:1px dashed rgba(0,255,240,.3);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:11px;letter-spacing:1px;overflow:hidden}
+.hud{display:flex;justify-content:center;gap:22px;margin:8px 0 12px;font-size:15px;letter-spacing:1px}
+.hud b{color:var(--yellow)}.hud .rec b{color:var(--green)}
+.stage{position:relative;width:100%;max-width:380px;margin:0 auto;touch-action:none}
+canvas{background:rgba(5,1,15,.85);border:2px solid rgba(0,255,240,.4);border-radius:10px;box-shadow:0 0 26px rgba(0,255,240,.15);width:100%;height:auto;display:block}
+.controls{margin-top:14px;color:var(--dim);font-size:12px;letter-spacing:1px;line-height:1.7}
+.newbtn{margin-top:12px}
+.overlay{position:absolute;inset:0;background:rgba(5,1,15,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;gap:14px;padding:16px}
+.overlay.hidden{display:none}
+.overlay h2{color:var(--magenta);font-size:24px;letter-spacing:2px;text-transform:uppercase;text-shadow:0 0 12px rgba(255,46,151,.6)}
+.overlay p{color:var(--text);font-size:15px;line-height:1.5}
+.btn{cursor:pointer;background:linear-gradient(180deg,var(--magenta),#c01e70);color:#fff;border:none;border-radius:8px;padding:12px 26px;font-family:inherit;font-weight:bold;letter-spacing:2px;font-size:15px;text-transform:uppercase;box-shadow:0 0 16px rgba(255,46,151,.5)}
+.btn:active{transform:translateY(2px)}
+.dpad{display:grid;grid-template-columns:repeat(3,60px);grid-template-rows:repeat(3,60px);gap:8px;justify-content:center;margin:18px auto 0}
+.dpad button{background:rgba(0,255,240,.1);border:2px solid rgba(0,255,240,.4);color:var(--cyan);border-radius:10px;font-size:22px;font-family:inherit;cursor:pointer}
+.dpad button:active{background:rgba(0,255,240,.3)}
+.dpad .up{grid-area:1/2}.dpad .left{grid-area:2/1}.dpad .right{grid-area:2/3}.dpad .down{grid-area:3/2}
+
+.game-info{max-width:600px;margin:24px auto 0;text-align:left;background:rgba(10,4,30,.6);border:2px solid rgba(0,255,240,.25);border-radius:12px;padding:20px 22px}
+.game-info h2{color:var(--cyan);text-transform:uppercase;letter-spacing:1px;font-size:17px;margin:18px 0 8px}
+.game-info h2:first-child{margin-top:0}
+.game-info p{color:var(--text);font-size:14px;line-height:1.7;margin-bottom:10px}
+.game-info ul{margin:0 0 10px 20px}
+.game-info li{color:var(--text);font-size:14px;line-height:1.6;margin-bottom:5px}
+.game-info b{color:var(--yellow)}
+</style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1897982289083904" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">◂ SALA GIOCHI</a>
+  <h1 class="pixel-title">Labirinto</h1>
+
+  <!-- AdSense attivo (Publisher ID ca-pub-1897982289083904) — modifica qui se cambi account -->
+  <div class="adslot">
+    <ins class="adsbygoogle" style="display:block;width:100%" data-ad-client="ca-pub-1897982289083904" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <span>Spazio pubblicitario (AdSense)</span>
+  </div>
+
+  <div class="hud"><span>Tempo: <b id="time">0</b>s</span><span>Livello: <b id="level">1</b></span><span class="rec">Record: <b id="best">—</b></span></div>
+
+  <div class="stage">
+    <canvas id="game" width="380" height="380"></canvas>
+    <div class="overlay hidden" id="ov">
+      <h2 id="ovt"></h2>
+      <p id="ovp"></p>
+      <button class="btn" id="next">Continua</button>
+    </div>
+  </div>
+
+  <div class="controls">Frecce / WASD · Swipe · D-pad · Raggiungi il quadrato verde</div>
+  <div class="dpad">
+    <button class="up" data-d="up">▲</button>
+    <button class="left" data-d="left">◀</button>
+    <button class="right" data-d="right">▶</button>
+    <button class="down" data-d="down">▼</button>
+  </div>
+  <button class="btn newbtn" id="newgame">Nuovo Labirinto</button>
+
+  <section class="game-info">
+    <h2>Come si gioca a Labirinto</h2>
+    <p>Labirinto è un gioco di orientamento: parti dall'angolo in alto a sinistra e devi raggiungere l'uscita, il quadrato verde in basso a destra, trovando la strada tra i corridoi. Ogni partita genera un labirinto diverso, sempre più grande a ogni livello superato.</p>
+    <p>Il cronometro misura la tua velocità: memorizza il percorso e battiti il tuo record.</p>
+    <h2>Comandi</h2>
+    <ul>
+      <li><b>Frecce</b> o <b>WASD</b> per spostarti</li>
+      <li><b>Swipe</b> o <b>D-pad</b> sui dispositivi touch</li>
+    </ul>
+    <h2>Consigli per il punteggio</h2>
+    <ul>
+      <li>Prova la "regola della mano destra": segui sempre la parete a destra.</li>
+      <li>Memorizza i bivi già esplorati per non tornare sui tuoi passi.</li>
+      <li>Osserva prima il quadro generale, poi scegli la direzione.</li>
+    </ul>
+  </section>
+
+  <!-- AdSense attivo (Publisher ID ca-pub-1897982289083904) — modifica qui se cambi account -->
+  <div class="adslot">
+    <ins class="adsbygoogle" style="display:block;width:100%" data-ad-client="ca-pub-1897982289083904" data-ad-slot="2222222222" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <span>Spazio pubblicitario (AdSense)</span>
+  </div>
+</div>
+
+<script>
+(function(){
+  try{(adsbygoogle=window.adsbygoogle||[]).push({});(adsbygoogle=window.adsbygoogle||[]).push({});}catch(e){}
+  const cv=document.getElementById('game'),ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
+  const timeEl=document.getElementById('time'),levelEl=document.getElementById('level'),bestEl=document.getElementById('best');
+  const ov=document.getElementById('ov'),ovt=document.getElementById('ovt'),ovp=document.getElementById('ovp');
+  const KEY='sg_labirinto_best';
+  let best=localStorage.getItem(KEY);bestEl.textContent=best?best+'s':'—';
+  let N,cells,player,secs,timer,level=1,S,margin=6,solved;
+  function gen(n){
+    N=n;S=(W-margin*2)/N;
+    cells=[];for(let i=0;i<N*N;i++)cells.push({N:true,E:true,S:true,W:true,v:false});
+    const stack=[0];cells[0].v=true;
+    while(stack.length){
+      const cur=stack[stack.length-1],cx=cur%N,cy=(cur/N)|0;
+      const nb=[];
+      if(cy>0&&!cells[cur-N].v)nb.push(['N',cur-N]);
+      if(cx<N-1&&!cells[cur+1].v)nb.push(['E',cur+1]);
+      if(cy<N-1&&!cells[cur+N].v)nb.push(['S',cur+N]);
+      if(cx>0&&!cells[cur-1].v)nb.push(['W',cur-1]);
+      if(!nb.length){stack.pop();continue;}
+      const [dir,nx]=nb[(Math.random()*nb.length)|0];
+      cells[cur][dir]=false;
+      const opp={N:'S',S:'N',E:'W',W:'E'}[dir];cells[nx][opp]=false;
+      cells[nx].v=true;stack.push(nx);
+    }
+  }
+  function reset(){
+    gen(8+Math.min(6,level-1));player={x:0,y:0};secs=0;solved=false;
+    timeEl.textContent=0;levelEl.textContent=level;ov.classList.add('hidden');
+    clearInterval(timer);timer=setInterval(()=>{secs++;timeEl.textContent=secs;},1000);
+    draw();
+  }
+  function move(d){
+    if(solved)return;const i=player.y*N+player.x,c=cells[i];
+    if(d==='up'&&!c.N)player.y--;
+    else if(d==='down'&&!c.S)player.y++;
+    else if(d==='left'&&!c.W)player.x--;
+    else if(d==='right'&&!c.E)player.x++;
+    draw();
+    if(player.x===N-1&&player.y===N-1)win();
+  }
+  function win(){
+    solved=true;clearInterval(timer);level++;
+    let msg='Uscita trovata in <b>'+secs+'</b> secondi!';
+    if(!best||secs<+best){best=secs;localStorage.setItem(KEY,best);bestEl.textContent=best+'s';msg+='<br>🏆 Nuovo record!';}
+    ovt.textContent='Uscito!';ovp.innerHTML=msg+'<br>Prossimo livello: '+level;ov.classList.remove('hidden');
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // uscita
+    ctx.fillStyle='rgba(57,255,20,.25)';ctx.fillRect(margin+(N-1)*S+2,margin+(N-1)*S+2,S-4,S-4);
+    ctx.strokeStyle='#00fff0';ctx.lineWidth=2;ctx.shadowColor='#00fff0';ctx.shadowBlur=6;
+    for(let y=0;y<N;y++)for(let x=0;x<N;x++){
+      const c=cells[y*N+x],px=margin+x*S,py=margin+y*S;
+      ctx.beginPath();
+      if(c.N){ctx.moveTo(px,py);ctx.lineTo(px+S,py);}
+      if(c.S){ctx.moveTo(px,py+S);ctx.lineTo(px+S,py+S);}
+      if(c.W){ctx.moveTo(px,py);ctx.lineTo(px,py+S);}
+      if(c.E){ctx.moveTo(px+S,py);ctx.lineTo(px+S,py+S);}
+      ctx.stroke();
+    }
+    ctx.shadowBlur=0;
+    // giocatore
+    ctx.fillStyle='#ffe600';ctx.shadowColor='#ffe600';ctx.shadowBlur=10;
+    ctx.beginPath();ctx.arc(margin+player.x*S+S/2,margin+player.y*S+S/2,S/2-4,0,7);ctx.fill();
+    ctx.shadowBlur=0;
+  }
+  const km={arrowup:'up',w:'up',arrowdown:'down',s:'down',arrowleft:'left',a:'left',arrowright:'right',d:'right'};
+  window.addEventListener('keydown',e=>{const m=km[e.key.toLowerCase()];if(m){e.preventDefault();move(m);}});
+  document.querySelectorAll('.dpad button').forEach(b=>b.addEventListener('click',()=>move(b.dataset.d)));
+  let tx,ty;
+  cv.addEventListener('touchstart',e=>{const t=e.touches[0];tx=t.clientX;ty=t.clientY;},{passive:true});
+  cv.addEventListener('touchmove',e=>e.preventDefault(),{passive:false});
+  cv.addEventListener('touchend',e=>{if(tx==null)return;const t=e.changedTouches[0],dx=t.clientX-tx,dy=t.clientY-ty;
+    if(Math.abs(dx)<16&&Math.abs(dy)<16)return;
+    if(Math.abs(dx)>Math.abs(dy))move(dx>0?'right':'left');else move(dy>0?'down':'up');tx=ty=null;},{passive:true});
+  document.getElementById('next').addEventListener('click',reset);
+  document.getElementById('newgame').addEventListener('click',()=>{level=1;reset();});
+  reset();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Sala Giochi — Retro Arcade nel Browser</title>
+  <meta name="description" content="Sala Giochi: una collezione di mini-giochi arcade retro giocabili gratis nel browser, da tastiera o touch. Snake, Rompimuro, 2048, Tetris e altro.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%2305010f'/><rect x='3' y='3' width='4' height='4' fill='%2300fff0'/><rect x='9' y='9' width='4' height='4' fill='%23ff2e97'/></svg>">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1897982289083904" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <h1 class="pixel-title">SALA <span>GIOCHI</span></h1>
+      <p class="sub">Retro arcade nel browser · Inserisci un gettone <span class="blink">▮</span></p>
+    </header>
+
+    <div class="marquee-line" aria-hidden="true"></div>
+
+    <section class="intro">
+      <p>Benvenuto in <b>Sala Giochi</b>, la raccolta gratuita di mini-giochi arcade retro da giocare
+        direttamente nel browser, dal computer o dallo smartphone. Nessuna registrazione, nessun download:
+        scegli un gioco dalla griglia qui sotto e inizia subito a divertirti.</p>
+    </section>
+
+    <main id="catalogo" class="grid" aria-live="polite">
+      <p class="loading">Caricamento giochi…</p>
+    </main>
+
+    <section class="intro how">
+      <h2>Come funziona</h2>
+      <p>Ogni titolo si apre nella sua pagina ed è pronto in un istante. Tutti i giochi si controllano sia
+        da <b>tastiera</b> (frecce, WASD, spazio) sia da <b>touch</b> (tocco, swipe e pulsanti a schermo),
+        così funzionano perfettamente anche su telefono e tablet. Punteggi e record vengono salvati sul tuo
+        dispositivo, quindi puoi sempre provare a battere il tuo primato.</p>
+      <p>La collezione spazia dai grandi classici arcade come <b>Serpente</b>, <b>Rompimuro</b> e
+        <b>Asteroidi</b>, ai rompicapi come <b>2048</b>, <b>Sudoku</b> e <b>Blocchi</b>, fino ai giochi di
+        riflessi e di logica come <b>Ali di Pixel</b>, <b>Forza 4</b> e <b>Tris</b>. Scopri chi siamo nella
+        pagina <a href="chi-siamo.html">Chi siamo</a>.</p>
+    </section>
+
+    <footer class="site">
+      <p><a href="chi-siamo.html">Chi siamo</a> · <a href="privacy.html">Privacy Policy</a> · <a href="termini.html">Termini</a> · <a href="contatti.html">Contatti</a></p>
+      <p>SALA GIOCHI · Costruita con HTML/CSS/JS puro · Nessun tracciamento, solo divertimento.</p>
+      <p>Fatta con ❤ e tanti pixel · <span id="conteggio"></span></p>
+    </footer>
+  </div>
+
+  <script>
+    const catalogo = document.getElementById('catalogo');
+    const conteggio = document.getElementById('conteggio');
+
+    function card(g) {
+      const a = document.createElement('a');
+      a.className = 'card';
+      a.href = 'games/' + g.slug + '.html';
+      const data = new Date(g.data).toLocaleDateString('it-IT', { day: '2-digit', month: 'short', year: 'numeric' });
+      a.innerHTML = `
+        <div class="icon">${g.emoji || '🎮'}</div>
+        <h2>${g.titolo}</h2>
+        <p>${g.descrizione}</p>
+        <div class="meta"><span>${data}</span><span class="play">GIOCA ▸</span></div>`;
+      return a;
+    }
+
+    function render(giochi) {
+      catalogo.innerHTML = '';
+      giochi.forEach(g => catalogo.appendChild(card(g)));
+      conteggio.textContent = giochi.length + ' giochi disponibili';
+    }
+
+    fetch('games.json')
+      .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(data => render(data.giochi || []))
+      .catch(err => {
+        catalogo.innerHTML = '<p class="error">Impossibile caricare il catalogo (' + err.message +
+          ').<br>Avvia il sito da un server web per leggere games.json.</p>';
+        console.error(err);
+      });
+  </script>
+</body>
+</html>

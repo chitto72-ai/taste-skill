@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contatti — Sala Giochi</title>
+  <meta name="description" content="Contatta Sala Giochi: scrivici per domande, segnalazioni di bug o proposte di nuovi giochi.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%2305010f'/><rect x='3' y='3' width='4' height='4' fill='%2300fff0'/><rect x='9' y='9' width='4' height='4' fill='%23ff2e97'/></svg>">
+  <!-- AdSense attivo (Publisher ID ca-pub-1897982289083904) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1897982289083904" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back-home" href="index.html">◂ SALA GIOCHI</a>
+    <header class="hero" style="padding:10px 0 22px">
+      <h1 class="pixel-title" style="font-size:clamp(28px,7vw,52px)">CONTATTI</h1>
+    </header>
+
+    <article class="article">
+      <h2>Scrivici</h2>
+      <p>Hai trovato un bug, vuoi proporre un nuovo gioco o hai una domanda? Siamo felici di leggerti.
+        Puoi contattarci direttamente via email:</p>
+      <p style="font-size:18px"><a href="mailto:chitto72@gmail.com">chitto72@gmail.com</a></p>
+
+      <h2>Modulo rapido</h2>
+      <p>Compila i campi qui sotto: si aprirà il tuo programma di posta con il messaggio già pronto da inviare.</p>
+      <form id="form">
+        <div class="field">
+          <label for="nome">Il tuo nome</label>
+          <input id="nome" type="text" placeholder="Come ti chiami?" required>
+        </div>
+        <div class="field">
+          <label for="msg">Messaggio</label>
+          <textarea id="msg" rows="5" placeholder="Scrivi qui il tuo messaggio..." required></textarea>
+        </div>
+        <button class="send-btn" type="submit">Invia email ▸</button>
+      </form>
+
+      <h2>Informazioni</h2>
+      <p>Sala Giochi è un progetto amatoriale di mini-giochi arcade gratuiti, realizzato in HTML, CSS e JavaScript
+        puri. Consulta anche la nostra <a href="privacy.html">Privacy Policy</a>.</p>
+    </article>
+
+    <footer class="site">
+      <p><a href="index.html">Home</a> · <a href="privacy.html">Privacy</a> · <a href="termini.html">Termini</a></p>
+      <p>SALA GIOCHI · Fatta con ❤ e tanti pixel.</p>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('form').addEventListener('submit', function(e){
+      e.preventDefault();
+      var nome = encodeURIComponent(document.getElementById('nome').value);
+      var msg = encodeURIComponent(document.getElementById('msg').value);
+      var corpo = 'Nome: ' + decodeURIComponent(nome) + '%0D%0A%0D%0A' + msg;
+      window.location.href = 'mailto:chitto72@gmail.com?subject=' +
+        encodeURIComponent('Contatto da Sala Giochi') + '&body=' + corpo;
+    });
+  </script>
+</body>
+</html>

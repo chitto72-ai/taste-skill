@@ -1,0 +1,4 @@
+# Deploy statico di Sala Giochi: pubblica la cartella salagiochi/
+[build]
+  publish = "salagiochi"
+  command = ""

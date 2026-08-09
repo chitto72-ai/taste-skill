@@ -1,0 +1,146 @@
+{
+  "titolo": "Sala Giochi",
+  "descrizione": "Retro arcade a portata di browser. Gioca gratis da tastiera o touch.",
+  "giochi": [
+    {
+      "slug": "snake",
+      "titolo": "Serpente",
+      "descrizione": "Mangia le mele, cresci e non morderti la coda. Il classico intramontabile.",
+      "data": "2026-07-17",
+      "emoji": "🐍"
+    },
+    {
+      "slug": "breakout",
+      "titolo": "Rompimuro",
+      "descrizione": "Distruggi tutti i mattoni rimbalzando la pallina con la racchetta.",
+      "data": "2026-07-17",
+      "emoji": "🧱"
+    },
+    {
+      "slug": "memory",
+      "titolo": "Memoria",
+      "descrizione": "Trova tutte le coppie di carte nel minor numero di mosse.",
+      "data": "2026-07-17",
+      "emoji": "🃏"
+    },
+    {
+      "slug": "2048",
+      "titolo": "2048",
+      "descrizione": "Unisci le tessere e raggiungi 2048. Facile da imparare, difficile da lasciare.",
+      "data": "2026-07-17",
+      "emoji": "🔢"
+    },
+    {
+      "slug": "flappy",
+      "titolo": "Ali di Pixel",
+      "descrizione": "Vola tra i tubi con un tocco. Quanto lontano riesci ad arrivare?",
+      "data": "2026-07-17",
+      "emoji": "🐦"
+    },
+    {
+      "slug": "blocchi",
+      "titolo": "Blocchi",
+      "descrizione": "Incastra i tetramini, completa le righe e sopravvivi il più a lungo possibile.",
+      "data": "2026-07-17",
+      "emoji": "🟦"
+    },
+    {
+      "slug": "pong",
+      "titolo": "Ping Pong",
+      "descrizione": "Sfida il computer in un duello di riflessi. Primo a 7 vince.",
+      "data": "2026-07-17",
+      "emoji": "🏓"
+    },
+    {
+      "slug": "difensore",
+      "titolo": "Difensore Stellare",
+      "descrizione": "Abbatti le ondate di alieni e proteggi la galassia con la tua astronave.",
+      "data": "2026-07-17",
+      "emoji": "🚀"
+    },
+    {
+      "slug": "campominato",
+      "titolo": "Campo Minato",
+      "descrizione": "Scopri le caselle sicure e segnala le mine con la bandierina.",
+      "data": "2026-07-17",
+      "emoji": "💣"
+    },
+    {
+      "slug": "talpe",
+      "titolo": "Acchiappa la Talpa",
+      "descrizione": "Colpisci le talpe che spuntano prima che si nascondano di nuovo.",
+      "data": "2026-07-17",
+      "emoji": "🔨"
+    },
+    {
+      "slug": "simon",
+      "titolo": "Simon",
+      "descrizione": "Osserva e ripeti la sequenza di colori e suoni, sempre più lunga.",
+      "data": "2026-07-27",
+      "emoji": "🎨"
+    },
+    {
+      "slug": "asteroidi",
+      "titolo": "Asteroidi",
+      "descrizione": "Ruota la navicella, spingi e frantuma gli asteroidi nello spazio profondo.",
+      "data": "2026-07-27",
+      "emoji": "☄️"
+    },
+    {
+      "slug": "corsa",
+      "titolo": "Corsa Infinita",
+      "descrizione": "Salta gli ostacoli e corri il più lontano possibile a velocità crescente.",
+      "data": "2026-07-27",
+      "emoji": "🏃"
+    },
+    {
+      "slug": "parola",
+      "titolo": "Indovina la Parola",
+      "descrizione": "Scopri la parola misteriosa una lettera alla volta prima di finire i tentativi.",
+      "data": "2026-07-27",
+      "emoji": "🔤"
+    },
+    {
+      "slug": "tris",
+      "titolo": "Tris",
+      "descrizione": "Sfida il computer imbattibile a tris. Riesci almeno a pareggiare?",
+      "data": "2026-07-27",
+      "emoji": "❌"
+    },
+    {
+      "slug": "attraversa",
+      "titolo": "Attraversa",
+      "descrizione": "Guida la rana oltre strada e fiume saltando sui tronchi fino al traguardo.",
+      "data": "2026-07-27",
+      "emoji": "🐸"
+    },
+    {
+      "slug": "sudoku",
+      "titolo": "Sudoku",
+      "descrizione": "Riempi la griglia 9x9 senza ripetere i numeri. Puzzle sempre nuovo.",
+      "data": "2026-07-27",
+      "emoji": "🧩"
+    },
+    {
+      "slug": "forza4",
+      "titolo": "Forza 4",
+      "descrizione": "Allinea quattro gettoni prima del computer in questo classico a colonne.",
+      "data": "2026-07-27",
+      "emoji": "🔴"
+    },
+    {
+      "slug": "reazione",
+      "titolo": "Test di Reazione",
+      "descrizione": "Misura i tuoi riflessi: tocca appena lo schermo diventa verde.",
+      "data": "2026-07-27",
+      "emoji": "⚡"
+    },
+    {
+      "slug": "labirinto",
+      "titolo": "Labirinto",
+      "descrizione": "Trova l'uscita del labirinto generato a caso, sempre più grande.",
+      "data": "2026-07-27",
+      "emoji": "🌀"
+    }
+  ]
+}
